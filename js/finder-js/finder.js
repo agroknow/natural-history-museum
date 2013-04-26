@@ -395,6 +395,7 @@ function parseQueryString(initUpdate){
     //var spq = $F('context').split('context:');
     var plainText = spq[0];
     var clauses = [];
+    
     if(!plainText.blank()){
         clauses.push({language:'VSQL',expression:plainText});
         // add the below to github
@@ -402,14 +403,18 @@ function parseQueryString(initUpdate){
         var key = getUrlVars()["keyword"];
         var context = getUrlVars()["context"];
         if (lrt) {
+            lrt = lrt.replace("#","").replace("%20", " ");
             clauses.push({language:'anyOf',expression:'lrt:'+ lrt});
         }
         if (key) {
+            key = key.replace("#","").replace("%20", " ");
             clauses.push({language:'anyOf',expression:'keyword:' + key});
         }
         if (context) {
+            context = context.replace("#","").replace("%20", " ");
             clauses.push({language:'anyOf',expression:'context:' + context});
         }
+
         //clauses.push({language:'anyOf',expression:'keyword:' + key});
         //clauses.push({language:'anyOf',expression:'lrt:image'});
         // add the below to code @ github. It is to limit the results only for OE collection //
