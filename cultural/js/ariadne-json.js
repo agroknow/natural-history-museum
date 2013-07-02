@@ -60,20 +60,10 @@ function getItemJSONP(itemID)
                 
                 //-//Spatial Coverage
                 if(record.spatial!=undefined){
-                var tempSpatial = Object.keys(record.spatial);
-                for(var i=0; i <tempSpatial.length; i++)
-                {
-                var tempInSpatial =  Object.keys(record.spatial[i]);
-                for(var j=0; j<tempInSpatial.length;j++){
-                if(record.spatial[tempSpatial[i]][tempInSpatial[j]]!=undefined){
-                jQuery('#spatial_coverage').append(record.spatial[tempSpatial[i]][tempInSpatial[j]]);
-                if(j!=tempInSpatial.length-1){ jQuery('#spatial_coverage').append(", "); }
-                }
-                
-                }
-                
-                }
-                
+                              for(var j=0; j<record.spatial.length;j++){
+                               jQuery('#spatial_coverage').append(record.spatial[j].value);
+                                if(j!=record.spatial.length-1){ jQuery('#spatial_coverage').append(", "); }
+                                }                
                 }
                 
                 //-//date created

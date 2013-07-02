@@ -1268,6 +1268,11 @@ a.setrightbottom {
 .review-line {
 	font-size:12px;
 }
+
+.item_label{
+    color:#124E62;
+    font-size:14px;
+}
 /* flags */
 span.flag {
 	text-indent:-9999px;
