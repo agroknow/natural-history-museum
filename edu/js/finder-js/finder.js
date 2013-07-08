@@ -402,6 +402,8 @@ function parseQueryString(initUpdate){
         var lrt = getUrlVars()["lrt"];
         var key = getUrlVars()["keyword"];
         var context = getUrlVars()["context"];
+        var iur = getUrlVars()["iur"]; //iur : intented user role
+        
         if (lrt) {
             lrt = lrt.replace("#","").replace("%20", " ");
             clauses.push({language:'anyOf',expression:'lrt:'+ lrt});
@@ -415,6 +417,10 @@ function parseQueryString(initUpdate){
             clauses.push({language:'anyOf',expression:'context:' + context});
         }
 
+        if (iur) {
+            iur = iur.replace("#","").replace("%20", " ");
+            clauses.push({language:'anyOf',expression:'iur:'+ iur});//iur : intented user role
+        }
         //clauses.push({language:'anyOf',expression:'keyword:' + key});
         //clauses.push({language:'anyOf',expression:'lrt:image'});
         // add the below to code @ github. It is to limit the results only for OE collection //
@@ -465,12 +471,16 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
     
     var facetExpressions = $H();
     selectedFacets.each(function(item,index){
+                       
                         var pos = item.id.indexOf(':');
                         var facet = item.id.substring(0,pos);
                         var facetValue = item.id.substring(pos+1);
                         facetValue = facetValue.replace(/\"/g,"'");
+                            //alert(facet+" "+facetValue);
             facetExpressions.set(facet,(facetExpressions.get(facet) == undefined) ? facetValue : facetExpressions.get(facet) + "," + facetValue);
             });
+                        
+                         
                         
                         var clauses = parseQueryString(initUpdate);
                         

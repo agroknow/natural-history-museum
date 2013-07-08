@@ -1363,6 +1363,35 @@ a.grflag {
 	background-position:0 -23px;
 }
 
+
+/*TEACHERS PATHWAYS*/
+.teachers-pathways{
+    height:200px;
+    background-color:none;
+    margin:auto;
+    padding:0px;
+}
+
+.teachers-pathways h3{
+    font-size: 18px;
+    padding:0px;
+    margin:0px 0px 7px 0px;
+}
+
+
+.teachers-pathways a img{
+    float:left;
+    padding: 0px;
+    margin:0px 20px;
+    
+    border: solid 1px #CCC;
+	-moz-box-shadow: 2px 2px 0px #999;
+	-webkit-box-shadow: 2px 2px 0px #999;
+    box-shadow: 2px 2px 0px #999;
+}
+
+
+
 /* SLIDER */
 .slider_block {
 	margin-bottom:80px;
@@ -1377,17 +1406,18 @@ h2.centerheader{
     min-height:60px;
 }
 
-.immersive-exp
+.edu-pathways
 {
-  background:url(images/immersive-exp.png) left 60% repeat-x;
+  background:url(images/edu-pathways.png) left 60% repeat-x;
 }
 
-.hot-themes
+.resources
 {
-  background:url(images/hot-themes.png) left 60% repeat-x;
+  background:url(images/resources.png) left 60% repeat-x;
+  padding-top:30px;
 }
 
-.hot-themes-back
+.resources-back
 {
     padding:0px;
     margin:0px;
