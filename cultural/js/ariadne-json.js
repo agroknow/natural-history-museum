@@ -20,7 +20,7 @@ function getItemJSONP(itemID)
                 var tmp = JSON.parse(thisJson);
                 var record = tmp.result.metadata[0];
                 
-                //alert(thisJson);
+                alert(thisJson);
                 
                 //left_sidebar
                 
@@ -47,15 +47,10 @@ function getItemJSONP(itemID)
                 
                 //-//Scientific Name
                 if(record.scientificName!=undefined){
-                var tempScienName = Object.keys(record.scientificName);
-                for(var i=0; i <tempScienName.length; i++)
-                {
-                if(record.classification[tempClassif[i]]!=undefined){
-                jQuery('#scientific_name').append(record.scientificName[tempScienName[i]].value);
-                if(i!=tempScienName.length-1){ jQuery('#scientific_name').append(", "); }
-                }
-                }
-                
+               // for(var j=0; j<record.scientificName.length;j++){
+                jQuery('#scientific_name').append(record.scientificName);
+                //if(j!=record.scientificName.length-1){ jQuery('#scientific_name').append(", "); }
+                //}
                 }
                 
                 //-//Spatial Coverage

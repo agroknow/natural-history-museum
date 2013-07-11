@@ -549,7 +549,8 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                                                   
                                                                   //alert(JSON.stringify(item));
                                                                   
-                                                                  if(item.format[0]!=undefined){
+                                                                  if(item.format!=undefined && item.format[0]!=undefined)
+                                                                  {
                                                                   if (item.format[0].indexOf('pdf') != -1)
                                                                   item.format='images/icons/pdf.png';
                                                                   else if (item.format[0].indexOf('powerpoint') != -1)
@@ -574,7 +575,9 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                                                   item.format='images/icons/application.png';
                                                                   else
                                                                   item.format='images/icons/application.png';
-                                                                  
+                                                                  }
+                                                                  else{ //item.format == undefined
+                                                                   item.format='images/icons/application.png';
                                                                   }
                                                                   
                                                                   
