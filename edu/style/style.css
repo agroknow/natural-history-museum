@@ -1383,6 +1383,7 @@ a.grflag {
     float:left;
     padding: 0px;
     margin:0px 20px;
+    height:120px;
     
     border: solid 1px #CCC;
 	-moz-box-shadow: 2px 2px 0px #999;
@@ -1468,6 +1469,11 @@ h2.centerheader span {
 .rowOfThree div
 {
     width:780px;
+}
+
+.rowOfTwo div
+{
+    width:680px;
 }
 
 

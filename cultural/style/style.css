@@ -1578,7 +1578,9 @@ a.disabled {
 	background-image:url(images/reportaproblem.png);
 }
 
-
+#item_title{
+    font-size:18px;
+}
 
 /*Left Sidebar in item*/
 .leftSidebarInfo {
@@ -1613,6 +1615,7 @@ a.disabled {
     float:left;
     width:550px;
     min-height: 200px;
+    margin-top: 5px;
 }
 
 .itemKeywords
