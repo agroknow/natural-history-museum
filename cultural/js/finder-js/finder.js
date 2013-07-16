@@ -1116,6 +1116,9 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                                            //alert(data.val);
                                                            
                                                            var label = data.val;
+                                                           if(data.val.indexOf("NHMC ")!=-1){
+                                                           label = data.val.split("NHMC ")[1];
+                                                           }
                                                            
                                                            a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick:"toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})}, span(label), span({cls:'total'}, data.count));
                                                            
