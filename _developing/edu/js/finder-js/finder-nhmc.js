@@ -547,9 +547,9 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                                                   oddCtr++;
                                                                   item.isOdd = oddCtr;
                                                                   
-                                                                // alert(JSON.stringify(item));
+                                                                //alert(JSON.stringify(item));
                                                                   
-                                                                  if(item.format[0]!=undefined){
+                                                                  if(item.format!=undefined && item.format[0]!=undefined ){
                                                                   if (item.format[0].indexOf('pdf') != -1)
                                                                   item.format='images/icons/pdf.png';
                                                                   else if (item.format[0].indexOf('powerpoint') != -1)
@@ -579,10 +579,12 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                                                   
                                                                   
                                                                  
+                                                                  if(item.descriptions!=undefined){
                                                                   for(i=0,tmpSize=item.descriptions.length;i<tmpSize;i++)
                                                                   {
                                                                     if(item.descriptions[i].lang==SELECTED_LANGUAGE)
-                                                                    item.thisDescription=item.descriptions[i];
+                                                                    item.thisDescription=item.descriptions[i].value;
+                                                                  }
                                                                   }
                                                                   
                                                                   if(item.thisDescription==undefined){item.thisDescription = " There is no defined description for this language";}
@@ -592,7 +594,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                                                   for(i=0,tmpSize=item.title.length;i<tmpSize;i++)
                                                                   {
                                                                   if(item.title[i].lang==SELECTED_LANGUAGE)
-                                                                  item.thisTitle=item.title[i];
+                                                                  item.thisTitle=item.title[i].value;
                                                                   }
                                                                   
                                                                   if(item.thisTitle==undefined){item.thisTitle = " There is no defined title for this language";}
@@ -608,24 +610,8 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                                                   
                                                                   try {item.keywords = item.keywords.split("&#044; ");} catch(e) {}
                                                                   
-                                                                  var spt = item.title.split(",",1);
-                                                                  item.title = spt[0];
-                                                                  var length = spt[0].length;
-                                                                  
-                                                                  if (item.title[0] == '[')
-                                                                  item.title = item.title.substring(1,length);
-                                                                  else
-                                                                  item.title = item.title.substring(0,length);
-                                                                  
-                                                                  spt = item.description.split(",",1);
-                                                                  item.description=spt[0];
-                                                                  length = spt[0].length;
-                                                                  
-                                                                  if (item.description[0] == '[')
-                                                                  item.description = item.description.substring(1,length);
-                                                                  else
-                                                                  item.description =item.description.substring(0,length);
-                                                                  
+                                                               
+                                                                
                                                                    item.isOdd = oddCtr;
                                                                   
                                                                   $('search_results').insert(Jaml.render('result',item));
@@ -988,12 +974,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                                            }//end if
                                                            
                                                            
-                                                           /*---------------------SECOND CHANGE*/
-                                                           //var imgThumb = data.format;
-//                                                           if(data.contentType[0].toUpperCase() == 'IMAGE')
-//                                                           {
-//                                                           imgThumb = data.objectUri;
-//                                                           }
+                       
                                                            
                                                            
                                                            
@@ -1006,8 +987,8 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                                            article({class:'item-intro '+odd},
                                                                    header(
                                                                           h2(//img({src:imgThumb}),
-                                                                             a({href:data.location,title: data.title, target: '_blank'},data.title)),
-                                                                          section(p({cls:'item-intro-desc'}, data.description),
+                                                                             a({href:data.location,title: data.thisTitle, target: '_blank'},data.thisTitle)),
+                                                                          section(p({cls:'item-intro-desc'}, data.thisDescription),
                                                                                   aside({cls:'clearfix'},
                                                                                         div({cls:'floatleft'},
                                                                                             div({cls:'line keywords'}, span("Keywords:"), keywordsToEmbed)),
@@ -1067,8 +1048,8 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                                            article({class:'item-intro ' +odd },
                                                                    header(
                                                                           h2(img({src:imgThumb}),
-                                                                             a({href:data.location[0], title: data.title[0].value, target: '_blank'},data.title[0].value)),
-                                                                          section(p({cls:'item-intro-desc'}, data.descriptions[0].value),
+                                                                             a({href:data.location[0], title: data.thisTitle, target: '_blank'},data.thisTitle)),
+                                                                          section(p({cls:'item-intro-desc'}, data.thisDescription),
                                                                                   aside({cls:'clearfix'},
 //                                                                                        div({cls:'language'}, span("Creative commons licence:"), thisRights),
 //                                                                                        div({cls:'language'}, span("Rights:"), thisRights2),
