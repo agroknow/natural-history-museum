@@ -470,280 +470,281 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
 	var selectedFacets = $('insert_facets').select('a.facet-selected');
 	
 	var facetExpressions = $H();
-	selectedFacets.each(function(item,index){
-                        var pos = item.id.indexOf(':');
-                        var facet = item.id.substring(0,pos);
-                        var facetValue = item.id.substring(pos+1);
-                        facetValue = facetValue.replace(/\"/g,"'");
-                                                        facetExpressions.set(facet,(facetExpressions.get(facet) == undefined) ? facetValue : facetExpressions.get(facet) + "," + facetValue);
-                                                        });
+	selectedFacets.each(function(item,index)
+	{
+        var pos = item.id.indexOf(':');
+        var facet = item.id.substring(0,pos);
+        var facetValue = item.id.substring(pos+1);
+        facetValue = facetValue.replace(/\"/g,"'");
+		facetExpressions.set(facet,(facetExpressions.get(facet) == undefined) ? facetValue : facetExpressions.get(facet) + "," + facetValue);
+	});
                         
-                        var clauses = parseQueryString(initUpdate);
-                        
-                        facetExpressions.each(function(pair) {
-                                              clauses.push({language:'anyOfFacet',expression:pair.key + ":" + pair.value});
-                                              
-                                              });
-                        FACET_INCLUDES.each(function(exp) {
-                                            clauses.push({language:'anyOfFacet',expression:exp});
-                                            
-                                            });
-                        
-                        // alert(JSON.stringify(clauses));
-                        
-                        var request = {
-                        clause: clauses,
-                        resultInfo:'display',
-                        resultListOffset:start,
-                        resultListSize:numberResults,
-                        idListOffset:start,
-                        uiLanguage: 'en',
-                        facets: FACET_TOKENS,
-                        idListSize:numberResults,
-                        resultFormat:'json',
-                        resultSortkey:''
-                        };
-                        
-                        //alert(JSON.stringify(request));
-                        
-                        
-                        if(!$F('query').blank())
-                        $('search_terms').update($F('query'));
-                        
-                        /*$('search_status').update('Searching...');*/
-                        $('noResults').hide();
-                        
-    new Ajax.JSONRequest(SERVICE_URL, {
-                         callbackParamName: "callback",
-                         method: 'get',
-                         parameters: {
-                         json: Object.toJSON(request),
-                         engine: 'InMemory'
-                         },
-                         onSuccess: function(transport) {
-                         var result = transport.responseText.evalJSON(true).result;
-                         
-                         // alert(JSON.stringify(result));
-                         
-                         $('search_results').update('');
-                         $('noResults').hide();
-                         
-                         /*$('search_status').update('Processing time: ' + (result.processingTime/1000).toFixed(3) + ' seconds');*/
-                         
-                         if(initUpdate) {
-                         $('searchMessage').insert('<h3 align="center">Available: '+formatInteger(result.nrOfResults,',')+' learning resources</h3>');
-                         } else {
-                         $('search_terms').update('Results: ');
-                         $('searchMessage').update('');
-                         if(result.metadata.size() == 0){
-                         $('noResults').show();
-                         }
-                         
-                         /*----------------------------------------------------------------------------------------------*/
-                         /*--------------------CREATE EVERY ITEM BEFORE CALL RENDERING WITH JAML-------------------------*/
-                         var oddCtr = 0; /*counter to add the odd style in listing*/
-		             result.metadata.each(function(item,index)
-		             {
-                                  
-                                  oddCtr++;
-                                  item.isOdd = oddCtr;
-                                  
-                                //alert(JSON.stringify(item));
-                                  
-                                  if(item.format!=undefined && item.format[0]!=undefined ){
-                                  if (item.format[0].indexOf('pdf') != -1)
-                                  item.format='images/icons/pdf.png';
-                                  else if (item.format[0].indexOf('powerpoint') != -1)
-                                  item.format='images/icons/ppt.png';
-                                  else if (item.format[0].indexOf('video') != -1)
-                                  item.format='images/icons/video.png';
-                                  else if (item.format[0].indexOf('zip') != -1)
-                                  item.format='images/icons/zip.png';
-                                  else if (item.format[0].indexOf('audio') != -1)
-                                  item.format='images/icons/audio.png';
-                                  else if ((item.format[0].indexOf('text') != -1) ||(item.format[0].indexOf('multipart') != -1) )
-                                  item.format='images/icons/text.png';
-                                  else if ((item.format[0].indexOf('xml') != -1) )
-                                  item.format='images/icons/xml.png';
-                                  else if (item.format[0].indexOf('image') != -1)
-                                  item.format='images/icons/image.png';
-                                  //item.format=item.thumbnailUri;
-                                  //item.format=item.location;
-                                  else if ((item.format[0].indexOf('word')!= -1) || (item.format[0].indexOf('wordprocessingml')!= -1))
-                                  item.format='images/icons/word.png';
-                                  else if ((item.format[0].indexOf('application')!= -1))
-                                  item.format='images/icons/application.png';
-                                  else
-                                  item.format='images/icons/application.png';
-                                  
-                                  }
-                                  
-                                  
-                                 
-                                  if(item.descriptions!=undefined){
-                                  for(i=0,tmpSize=item.descriptions.length;i<tmpSize;i++)
-                                  {
-                                    if(item.descriptions[i].lang==SELECTED_LANGUAGE)
-                                    item.thisDescription=item.descriptions[i].value;
-                                  }
-                                  }
-                                  
-                                  if(item.thisDescription==undefined){item.thisDescription = " There is no defined description for this language";}
-                                  
-                                  
-                                  
-                                  for(i=0,tmpSize=item.title.length;i<tmpSize;i++)
-                                  {
-                                  if(item.title[i].lang==SELECTED_LANGUAGE)
-                                  item.thisTitle=item.title[i].value;
-                                  }
-                                  
-                                  if(item.thisTitle==undefined){item.thisTitle = " There is no defined title for this language";}
-                                  
-                                  
-                                  
-                                  if(item.keywords == undefined || item.keywords == '')
-                                  {
-                                    $('search_results').insert(Jaml.render('resultwithoutkeywords',item));
-                                  }
-                                  else
-                                  {
-                                  
-                                  try {item.keywords = item.keywords.split("&#044; ");} catch(e) {}
-                                  
-                               
-                                
-                                   item.isOdd = oddCtr;
-                                  
-                                  $('search_results').insert(Jaml.render('result',item));
-                                  // alert("metaid:" +item.metaMetadataId);
-                                  iter++;
-                                  }
-
-
-                                  });
-                         
-                         $('search_results_index').show();
-                         
-                         var finalNumberResults = ((start + numberResults) < result.nrOfResults)?(start + numberResults):result.nrOfResults;
-                         if(result.nrOfResults > 0) {
-                         $('search_results_index').update(' (#{start} - #{end} of #{total})'.interpolate({start: formatInteger(start + 1,THOUSAND_SEP), end: formatInteger(finalNumberResults,THOUSAND_SEP), total: formatInteger(result.nrOfResults,THOUSAND_SEP)}));
-                         pagination_show();
-                         }
-                         else {
-                         $('search_results_index').update('(No Results Found)');
-                         pagination_hide();
-                         }
-
-                         
-                         }
-                         
-                         
-                         
-                         if(needsUpdate){
-                         updatePaginator(result.nrOfResults);
-                         result.facets.each(function(item,index)
-						 {
-                            var fld = item.field;
-                            //rbkey = facetKeys[fld];
-                            var facetHasNoLimit = true;
-                            var limitValues = [];
-                            if (LIMIT_FACET_DISPLAY[fld]) {
-                            limitValues = LIMIT_FACET_DISPLAY[fld];
-                            facetHasNoLimit = false;
-                            }
-                            var rbkey = fld;
-                            var element = $(rbkey + '_rbo');
-                            if(element && facetExpressions.get(fld) == undefined){
-                            element.update('');
-                            if(item.numbers != undefined){
-                            item.numbers.each(function(it2,idx2)
-            				{
-                              if (facetHasNoLimit || limitValues.indexOf(it2.val) >= 0) {
-                              
-                              
-                              it2.field = fld;
-                              
-                              it2.val=it2.val.replace(/\'/g, "&#34;");
-                              it2.count = formatInteger(it2.count,THOUSAND_SEP);
-                              //element.insert(Jaml.render('rbcriteria',it2));
-                              if (fld!= "language")
-                              element.insert(Jaml.render('rbcriteria',it2));
-                              
-                              else
-                              // check first if langName[it2.val] exists already in rbList
-                              {
-                              checkLang(it2.val,it2.count);
-                              
-                              if (CHECK==0)
-                              element.insert(Jaml.render('rbcriteria2',it2));
-                              
-                              } 
-                              }
-                             });
-                          }
-                          }
-                          });
-                                            
-                                            
-	                        facetSlide();
+	    var clauses = parseQueryString(initUpdate);
+	    
+	    facetExpressions.each(function(pair) {
+	                          clauses.push({language:'anyOfFacet',expression:pair.key + ":" + pair.value});
+	                          
+	                          });
+	    FACET_INCLUDES.each(function(exp) {
+	                        clauses.push({language:'anyOfFacet',expression:exp});
 	                        
-	                        selectedFacets.each(function(item,index){
-	                                            $(item.id).addClassName('facet-selected');
-	                                            
-	                                            });
-	                        }
-	                        //webSnapr.init();
-	                        //$('header').scrollTo();
-	                        //loadTranslator();
-	                        
-	                        
-	                        },
-	                        onComplete: function(transport){
-	                        // $('search_status').update('');
-	                        },
-	                        onLoading: function(){
-	                        $('search_results').update('');
-	                        $('search_terms').update('');
-	                        $('search_results_index').update('');
-	                        }
 	                        });
+	    
+	    // console.log(JSON.stringify(clauses));
+	    
+	    var request = {
+	    clause: clauses,
+	    resultInfo:'display',
+	    resultListOffset:start,
+	    resultListSize:numberResults,
+	    idListOffset:start,
+	    uiLanguage: 'en',
+	    facets: FACET_TOKENS,
+	    idListSize:numberResults,
+	    resultFormat:'json',
+	    resultSortkey:''
+	    };
+	    
+	    //console.log(JSON.stringify(request));
+	    
+	    
+	    if(!$F('query').blank())
+	    $('search_terms').update($F('query'));
+	    
+	    /*$('search_status').update('Searching...');*/
+	    $('noResults').hide();
+                        
+	new Ajax.JSONRequest(SERVICE_URL, 
+		{
+             callbackParamName: "callback",
+             method: 'get',
+             parameters: {
+             json: Object.toJSON(request),
+             engine: 'InMemory'
+             },
+             onSuccess: function(transport) {
+             var result = transport.responseText.evalJSON(true).result;
+             
+             // alert(JSON.stringify(result));
+             
+             $('search_results').update('');
+             $('noResults').hide();
+             
+             /*$('search_status').update('Processing time: ' + (result.processingTime/1000).toFixed(3) + ' seconds');*/
+             
+             if(initUpdate) {
+             $('searchMessage').insert('<h3 align="center">Available: '+formatInteger(result.nrOfResults,',')+' learning resources</h3>');
+             } else {
+             $('search_terms').update('Results: ');
+             $('searchMessage').update('');
+             if(result.metadata.size() == 0){
+             $('noResults').show();
+             }
+             
+             /*----------------------------------------------------------------------------------------------*/
+             /*--------------------CREATE EVERY ITEM BEFORE CALL RENDERING WITH JAML-------------------------*/
+             var oddCtr = 0; /*counter to add the odd style in listing*/
+         result.metadata.each(function(item,index)
+         {
+                      
+                      oddCtr++;
+                      item.isOdd = oddCtr;
+                      
+                    //alert(JSON.stringify(item));
+                      
+                      if(item.format!=undefined && item.format[0]!=undefined ){
+                      if (item.format[0].indexOf('pdf') != -1)
+                      item.format='images/icons/pdf.png';
+                      else if (item.format[0].indexOf('powerpoint') != -1)
+                      item.format='images/icons/ppt.png';
+                      else if (item.format[0].indexOf('video') != -1)
+                      item.format='images/icons/video.png';
+                      else if (item.format[0].indexOf('zip') != -1)
+                      item.format='images/icons/zip.png';
+                      else if (item.format[0].indexOf('audio') != -1)
+                      item.format='images/icons/audio.png';
+                      else if ((item.format[0].indexOf('text') != -1) ||(item.format[0].indexOf('multipart') != -1) )
+                      item.format='images/icons/text.png';
+                      else if ((item.format[0].indexOf('xml') != -1) )
+                      item.format='images/icons/xml.png';
+                      else if (item.format[0].indexOf('image') != -1)
+                      item.format='images/icons/image.png';
+                      //item.format=item.thumbnailUri;
+                      //item.format=item.location;
+                      else if ((item.format[0].indexOf('word')!= -1) || (item.format[0].indexOf('wordprocessingml')!= -1))
+                      item.format='images/icons/word.png';
+                      else if ((item.format[0].indexOf('application')!= -1))
+                      item.format='images/icons/application.png';
+                      else
+                      item.format='images/icons/application.png';
+                      
+                      }
+                      
+                      
+                     
+                      if(item.descriptions!=undefined){
+                      for(i=0,tmpSize=item.descriptions.length;i<tmpSize;i++)
+                      {
+                        if(item.descriptions[i].lang==SELECTED_LANGUAGE)
+                        item.thisDescription=item.descriptions[i].value;
+                      }
+                      }
+                      
+                      if(item.thisDescription==undefined){item.thisDescription = " There is no defined description for this language";}
+                      
+                      
+                      
+                      for(i=0,tmpSize=item.title.length;i<tmpSize;i++)
+                      {
+                      if(item.title[i].lang==SELECTED_LANGUAGE)
+                      item.thisTitle=item.title[i].value;
+                      }
+                      
+                      if(item.thisTitle==undefined){item.thisTitle = " There is no defined title for this language";}
+                      
+                      
+                      
+                      if(item.keywords == undefined || item.keywords == '')
+                      {
+                        $('search_results').insert(Jaml.render('resultwithoutkeywords',item));
+                      }
+                      else
+                      {
+                      
+                      try {item.keywords = item.keywords.split("&#044; ");} catch(e) {}
+                      
+                   
+                    
+                       item.isOdd = oddCtr;
+                      
+                      $('search_results').insert(Jaml.render('result',item));
+                      // alert("metaid:" +item.metaMetadataId);
+                      iter++;
+                      }
+
+
+                      });
+             
+             $('search_results_index').show();
+             
+             var finalNumberResults = ((start + numberResults) < result.nrOfResults)?(start + numberResults):result.nrOfResults;
+             if(result.nrOfResults > 0) {
+             $('search_results_index').update(' (#{start} - #{end} of #{total})'.interpolate({start: formatInteger(start + 1,THOUSAND_SEP), end: formatInteger(finalNumberResults,THOUSAND_SEP), total: formatInteger(result.nrOfResults,THOUSAND_SEP)}));
+             pagination_show();
+             }
+             else {
+             $('search_results_index').update('(No Results Found)');
+             pagination_hide();
+             }
+
+             
+             }
+             
+             
+             
+             if(needsUpdate){
+             updatePaginator(result.nrOfResults);
+             result.facets.each(function(item,index)
+			 {
+                var fld = item.field;
+                //rbkey = facetKeys[fld];
+                var facetHasNoLimit = true;
+                var limitValues = [];
+                if (LIMIT_FACET_DISPLAY[fld]) {
+                limitValues = LIMIT_FACET_DISPLAY[fld];
+                facetHasNoLimit = false;
+                }
+                var rbkey = fld;
+                var element = $(rbkey + '_rbo');
+                if(element && facetExpressions.get(fld) == undefined){
+                element.update('');
+                if(item.numbers != undefined){
+                item.numbers.each(function(it2,idx2)
+				{
+                  if (facetHasNoLimit || limitValues.indexOf(it2.val) >= 0) {
+                  
+                  
+                  it2.field = fld;
+                  
+                  it2.val=it2.val.replace(/\'/g, "&#34;");
+                  it2.count = formatInteger(it2.count,THOUSAND_SEP);
+                  //element.insert(Jaml.render('rbcriteria',it2));
+                  if (fld!= "language")
+                  element.insert(Jaml.render('rbcriteria',it2));
+                  
+                  else
+                  // check first if langName[it2.val] exists already in rbList
+                  {
+                  checkLang(it2.val,it2.count);
+                  
+                  if (CHECK==0)
+                  element.insert(Jaml.render('rbcriteria2',it2));
+                  
+                  } 
+                  }
+                 });
+              }
+              }
+              });
+                                
+                                
+                facetSlide();
+                
+                selectedFacets.each(function(item,index){
+                                    $(item.id).addClassName('facet-selected');
+                                    
+                                    });
+                }
+                //webSnapr.init();
+                //$('header').scrollTo();
+                //loadTranslator();
+                
+                
+                },
+                onComplete: function(transport){
+                // $('search_status').update('');
+                },
+                onLoading: function(){
+                $('search_results').update('');
+                $('search_terms').update('');
+                $('search_results_index').update('');
+                }
+                });
 	                         }
 	                         
-	                         function checkLang(name,counter){
-	                         
-	                         CHECK=0;
-	                         $$('#language_rbo li').each(function(item) 
-     						{
-                                 
-                                 //  alert(item.innerHTML);
-                                 
-                                 var pos = item.id.indexOf(':');
-                                 
-                                 var langValue = item.id.substring(pos+1);
-                                 
-                                 if (langName[langValue]== langName[name])
-                                 {
-                                 //   pos = item.name.indexOf('/a');
-                                 var count = item.innerHTML;
-                                 pos = count.indexOf('/a');
-                                 var length = count.length;
-                                 count = item.innerHTML.substring(pos+5,length-1);
-                                 
-                                 count=count.replace("," ,"");
-                                 var num = count*1;
-                                 
-                                 num = Number(num) + Number(counter);
-                                 num = formatInteger(num,THOUSAND_SEP);
-                                 
-                                 item.update(item.innerHTML.substring(0,pos+4) + '(#{count})'.interpolate({count: num}));
-                                 CHECK=1;
-                                 
-                                 return;
-                                 }
-                                 
-                                 });
-                                 }
+	 function checkLang(name,counter)
+	 {
+		 CHECK=0;
+		 $$('#language_rbo li').each(function(item) 
+			{
+		     //console.log(item.innerHTML);
+		     
+		     var pos = item.id.indexOf(':');
+		     
+		     var langValue = item.id.substring(pos+1);
+		     
+		     if (langName[langValue]== langName[name])
+		     {
+		     //   pos = item.name.indexOf('/a');
+		     var count = item.innerHTML;
+		     pos = count.indexOf('/a');
+		     var length = count.length;
+		     count = item.innerHTML.substring(pos+5,length-1);
+		     
+		     count=count.replace("," ,"");
+		     var num = count*1;
+		     
+		     num = Number(num) + Number(counter);
+		     num = formatInteger(num,THOUSAND_SEP);
+		     
+		     item.update(item.innerHTML.substring(0,pos+4) + '(#{count})'.interpolate({count: num}));
+		     CHECK=1;
+		     
+		     return;
+		     }
+		     
+		     });
+		     }
           	
           	
           	function addEndingDescription(data){
@@ -771,121 +772,121 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                              
                                              
                                              
-function initializeJamlTemplates(){
-
-Jaml.register('thumb_pres', function(data) {
+	function initializeJamlTemplates()
+		{
+		
+		Jaml.register('thumb_pres', function(data) 
+		{
            a({href: data.location,title: data.title , target: '_blank'}, img({src:data.format, height:"90", width:"80" }))
            });
-
-
-Jaml.register('keyword', function(data) {
+		
+		
+		Jaml.register('keyword', function(data) 
+		{
            a({href:'javascript:void(0);', onclick: "searchByKeyword('#{key}')".interpolate({key: data})}, data);
            });
-                                             
-                                               
-/*-----------------------------RENDER RESULT LISTING ITEMS--------------------------------*/
-                                             
-                                             
- Jaml.register('result', function(data){
-               
-               var keywordsToEmbed = "no keywords available";
-               
-               
-               var odd = "";
-               if(data.isOdd%2===1){odd="odd"}
-               
-               //keywords
-               if(data.keywords!=undefined){
-               keywordsToEmbed="";
-               for(var i=0 , length=data.keywords.length; i<length;i++)
-               {
-               if(data.keywords[i].lang=='en'){
-               if(i!==length-1)
-               {
-               keywordsToEmbed +="<a class=\"secondary\" href=\"listing.html?query="+data.keywords[i].value+"\">&nbsp"+data.keywords[i].value+"</a>"
-               }
-               else
-               {
-               keywordsToEmbed +="<a class=\"secondary last\" href=\"listing.html?query="+data.keywords[i].value.split(" ")[0]+"\">&nbsp"+data.keywords[i].value+"</a>"
-               }
-               }//end lang check
-               
-               }//end for
-               }//end if
-               
-               
-               var thisRights = data.licenseUri;
-               if(data.licenseUri==undefined){thisRights = "isn't defined yet";}
-               
-               var thisRights2 = data.rights;
-               if(data.rights==undefined){thisRights2 = "isn't defined yet";}
-               
-               console.log(data);
-               article({class:'item-intro '+odd},
-                       header(
-                              h2(//img({src:imgThumb}),
-                                 a({href:data.location,title: data.thisTitle, target: '_blank'},data.thisTitle)),
-                              section(p({cls:'item-intro-desc'}, data.thisDescription),
-                                      aside({cls:'clearfix'},
-                                            div({cls:'floatleft'},
-                                                div({cls:'line keywords'}, span("Keywords:"), keywordsToEmbed)),
-/*
-                                            div({cls:'language'}, span("Creative commons licence:"), thisRights),
-                                            div({cls:'language'}, span("Rights:"), thisRights2),
-*/
-                                            div({cls:'floatright'},
-                                                div({cls:'line alignright'}, a({href:"item.html?id="+data.identifier[0], cls:'moreinfo'}, "More Info")))))))
-               });
-                                             
-                                             
-                                             
-                                             
-Jaml.register('resultwithoutkeywords', function(data){
-       
-       //               odd++;
-       //               var backgroundClass = ""
-       //               if(odd%2===0){backgroundClass = "odd";}
-       
-       var odd = "";
-       if(data.isOdd%2===1){odd="odd"}
-     
-      var imgThumb = data.format;
+		                                             
+		                                               
+		/*-----------------------------RENDER RESULT LISTING ITEMS--------------------------------*/
+		                                             
+		                                             
+		 Jaml.register('result', function(data)
+			{
+	           
+	           var keywordsToEmbed = "no keywords available";
+	           
+	           
+	           var odd = "";
+	           if(data.isOdd%2===1){odd="odd"}
+	           
+	           //keywords
+	           if(data.keywords!=undefined){
+	           keywordsToEmbed="";
+	           for(var i=0 , length=data.keywords.length; i<length;i++)
+	           {
+	           if(data.keywords[i].lang=='en'){
+	           if(i!==length-1)
+	           {
+	           keywordsToEmbed +="<a class=\"secondary\" href=\"listing.html?query="+data.keywords[i].value+"\">&nbsp"+data.keywords[i].value+"</a>"
+	           }
+	           else
+	           {
+	           keywordsToEmbed +="<a class=\"secondary last\" href=\"listing.html?query="+data.keywords[i].value.split(" ")[0]+"\">&nbsp"+data.keywords[i].value+"</a>"
+	           }
+	           }//end lang check
+	           
+	           }//end for
+	           }//end if
+	           
+	           
+	           var thisRights = data.licenseUri;
+	           if(data.licenseUri==undefined){thisRights = "isn't defined yet";}
+	           
+	           var thisRights2 = data.rights;
+	           if(data.rights==undefined){thisRights2 = "isn't defined yet";}
+	           
+	           console.log(data);
+	           article({class:'item-intro '+odd},
+	                   header(
+	                          h2(//img({src:imgThumb}),
+	                             a({href:data.location,title: data.thisTitle, target: '_blank'},data.thisTitle)),
+	                          section(p({cls:'item-intro-desc'}, data.thisDescription),
+	                                  aside({cls:'clearfix'},
+	                                        div({cls:'floatleft'},
+	                                            div({cls:'line keywords'}, span("Keywords:"), keywordsToEmbed)),
+	/*
+	                                        div({cls:'language'}, span("Creative commons licence:"), thisRights),
+	                                        div({cls:'language'}, span("Rights:"), thisRights2),
+	*/
+	                                        div({cls:'floatright'},
+	                                            div({cls:'line alignright'}, a({href:"item.html?id="+data.identifier[0], cls:'moreinfo'}, "More Info")))))))
+	           });
+		                                             
+		                                             
+		                                             
+		                                             
+		Jaml.register('resultwithoutkeywords', function(data){
 
-       article({class:'item-intro ' +odd },
-               header(
-                      h2(img({src:imgThumb}),
-                         a({href:data.location[0], title: data.thisTitle, target: '_blank'},data.thisTitle)),
-                      section(p({cls:'item-intro-desc'}, data.thisDescription),
-                              aside({cls:'clearfix'},
-//                                                                                        div({cls:'language'}, span("Creative commons licence:"), thisRights),
-//                                                                                        div({cls:'language'}, span("Rights:"), thisRights2),
-                                    div({cls:'floatright'},
-                                        div({cls:'line alignright'}, a({href:"item.html?id="+data.identifier[0], cls:'moreinfo'}, "More Info")))))))});
-                                             
-
-                                             
-/*-----------------------------RENDER FACETS--------------------------------*/
-/* rest facets  */
-Jaml.register('rbcriteria', function(data){ 
-               
-               
-          
-               var label = data.val;
-               
-               a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick:"toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})}, span(label), span({cls:'total'}, data.count));
-               
-               
-               });
- 
- /* language facet */
-Jaml.register('rbcriteria2', function(data){   
-               a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val, parent: data.field})}, span(langName[data.val]), span({cls:'total'}, data.count ));
-               
-               });
- 
- 
- /*------------------------------*/
- }
+		       var odd = "";
+		       if(data.isOdd%2===1){odd="odd"}
+		     
+		      var imgThumb = data.format;
+		
+		       article({class:'item-intro ' +odd },
+		               header(
+		                      h2(img({src:imgThumb}),
+		                         a({href:data.location[0], title: data.thisTitle, target: '_blank'},data.thisTitle)),
+		                      section(p({cls:'item-intro-desc'}, data.thisDescription),
+		                              aside({cls:'clearfix'},
+		//                                                                                        div({cls:'language'}, span("Creative commons licence:"), thisRights),
+		//                                                                                        div({cls:'language'}, span("Rights:"), thisRights2),
+		                                    div({cls:'floatright'},
+		                                        div({cls:'line alignright'}, a({href:"item.html?id="+data.identifier[0], cls:'moreinfo'}, "More Info")))))))});
+		                                             
+		
+		                                             
+		/*-----------------------------RENDER FACETS--------------------------------*/
+		/* rest facets  */
+		Jaml.register('rbcriteria', function(data){ 
+		               
+		               
+		          
+		               var label = data.val;
+		               
+		               a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick:"toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})}, span(label), span({cls:'total'}, data.count));
+		               
+		               
+		               });
+		 
+		 /* language facet */
+		Jaml.register('rbcriteria2', function(data){   
+		               a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val, parent: data.field})}, span(langName[data.val]), span({cls:'total'}, data.count ));
+		               
+		               });
+		 
+		 
+		 /*------------------------------*/
+		 }
  
  
  
