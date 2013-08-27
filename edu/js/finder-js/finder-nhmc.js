@@ -642,153 +642,145 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                          
                          if(needsUpdate){
                          updatePaginator(result.nrOfResults);
-                         result.facets.each(function(item,index){
-                                            var fld = item.field;
-                                            //rbkey = facetKeys[fld];
-                                            var facetHasNoLimit = true;
-                                            var limitValues = [];
-                                            if (LIMIT_FACET_DISPLAY[fld]) {
-                                            limitValues = LIMIT_FACET_DISPLAY[fld];
-                                            facetHasNoLimit = false;
-                                            }
-                                            var rbkey = fld;
-                                            var element = $(rbkey + '_rbo');
-                                            if(element && facetExpressions.get(fld) == undefined){
-                                            element.update('');
-                                            if(item.numbers != undefined){
-                                            item.numbers.each(function(it2,idx2){
-                                                              if (facetHasNoLimit || limitValues.indexOf(it2.val) >= 0) {
-                                                              
-                                                              
-                                                              it2.field = fld;
-                                                              
-                                                              it2.val=it2.val.replace(/\'/g, "&#34;");
-                                                                                      it2.count = formatInteger(it2.count,THOUSAND_SEP);
-                                                                                      //element.insert(Jaml.render('rbcriteria',it2));
-                                                                                      if (fld!= "language")
-                                                                                      element.insert(Jaml.render('rbcriteria',it2));
-                                                                                      
-                                                                                      else
-                                                                                      // check first if langName[it2.val] exists already in rbList
-                                                                                      {
-                                                                                      checkLang(it2.val,it2.count);
-                                                                                      
-                                                                                      if (CHECK==0)
-                                                                                      element.insert(Jaml.render('rbcriteria2',it2));
-                                                                                      
-                                                                                      } 
-                                                                                      }
-                                                                                      });
-                                                              }
-                                                              }
-                                                              });
+                         result.facets.each(function(item,index)
+						 {
+                            var fld = item.field;
+                            //rbkey = facetKeys[fld];
+                            var facetHasNoLimit = true;
+                            var limitValues = [];
+                            if (LIMIT_FACET_DISPLAY[fld]) {
+                            limitValues = LIMIT_FACET_DISPLAY[fld];
+                            facetHasNoLimit = false;
+                            }
+                            var rbkey = fld;
+                            var element = $(rbkey + '_rbo');
+                            if(element && facetExpressions.get(fld) == undefined){
+                            element.update('');
+                            if(item.numbers != undefined){
+                            item.numbers.each(function(it2,idx2)
+            				{
+                              if (facetHasNoLimit || limitValues.indexOf(it2.val) >= 0) {
+                              
+                              
+                              it2.field = fld;
+                              
+                              it2.val=it2.val.replace(/\'/g, "&#34;");
+                              it2.count = formatInteger(it2.count,THOUSAND_SEP);
+                              //element.insert(Jaml.render('rbcriteria',it2));
+                              if (fld!= "language")
+                              element.insert(Jaml.render('rbcriteria',it2));
+                              
+                              else
+                              // check first if langName[it2.val] exists already in rbList
+                              {
+                              checkLang(it2.val,it2.count);
+                              
+                              if (CHECK==0)
+                              element.insert(Jaml.render('rbcriteria2',it2));
+                              
+                              } 
+                              }
+                             });
+                          }
+                          }
+                          });
                                             
                                             
-                                            facetSlide();
-                                            
-                                            selectedFacets.each(function(item,index){
-                                                                $(item.id).addClassName('facet-selected');
-                                                                
-                                                                });
-                                            }
-                                            //webSnapr.init();
-                                            //$('header').scrollTo();
-                                            //loadTranslator();
-                                            
-                                            
-                                            },
-                                            onComplete: function(transport){
-                                            // $('search_status').update('');
-                                            },
-                                            onLoading: function(){
-                                            $('search_results').update('');
-                                            $('search_terms').update('');
-                                            $('search_results_index').update('');
-                                            }
-                                            });
-                                             }
-                                             
-                                             function checkLang(name,counter){
-                                             
-                                             CHECK=0;
-                                             $$('#language_rbo li').each(function(item) {
-                                                                         
-                                                                         //  alert(item.innerHTML);
-                                                                         
-                                                                         var pos = item.id.indexOf(':');
-                                                                         
-                                                                         var langValue = item.id.substring(pos+1);
-                                                                         
-                                                                         if (langName[langValue]== langName[name])
-                                                                         {
-                                                                         //   pos = item.name.indexOf('/a');
-                                                                         var count = item.innerHTML;
-                                                                         pos = count.indexOf('/a');
-                                                                         var length = count.length;
-                                                                         count = item.innerHTML.substring(pos+5,length-1);
-                                                                         
-                                                                         count=count.replace("," ,"");
-                                                                         var num = count*1;
-                                                                         
-                                                                         num = Number(num) + Number(counter);
-                                                                         num = formatInteger(num,THOUSAND_SEP);
-                                                                         
-                                                                         item.update(item.innerHTML.substring(0,pos+4) + '(#{count})'.interpolate({count: num}));
-                                                                         CHECK=1;
-                                                                         
-                                                                         return;
-                                                                         }
-                                                                         
-                                                                         });
-                             
-                                             
-                                             
-                                             }
-                                             
-                                             
-                             
-                                             
-                                             
-                                             
-                                             
-                                             
-                                             
-                                             
-                                             function addEndingDescription(data){
-                                             if(data.length ==  0 )
-                                             return "";
-                                             return (data.length<END_DESCRIPTION)?data:(data.substr(START_DESCRIPTION,END_DESCRIPTION)).concat(""," <span class='suspension-points'>...</span>");
-                                             }
-                                             
-                                             function removeHtmlTags(data) {
-                                             var strInputCode = data.replace(/&(lt|gt);/g, function (strMatch, p1){
-                                                                             return (p1 == "lt")? "<" : ">";
-                                                                             });
-                                             var strTagStrippedText = strInputCode.replace(/<\/?[^>]+(>|$)/g, " ");
-                                             return strTagStrippedText;
-                                             }
-                                             
-                                             function stripUrl(data) {
-                                             
-                                             var strTagStrippedText = data.replace(/<\/?[^>]:+(>|$)/g, "_");
-                                             return strTagStrippedText;
-                                             
-                                             
-                                             }
+	                        facetSlide();
+	                        
+	                        selectedFacets.each(function(item,index){
+	                                            $(item.id).addClassName('facet-selected');
+	                                            
+	                                            });
+	                        }
+	                        //webSnapr.init();
+	                        //$('header').scrollTo();
+	                        //loadTranslator();
+	                        
+	                        
+	                        },
+	                        onComplete: function(transport){
+	                        // $('search_status').update('');
+	                        },
+	                        onLoading: function(){
+	                        $('search_results').update('');
+	                        $('search_terms').update('');
+	                        $('search_results_index').update('');
+	                        }
+	                        });
+	                         }
+	                         
+	                         function checkLang(name,counter){
+	                         
+	                         CHECK=0;
+	                         $$('#language_rbo li').each(function(item) 
+     						{
+                                 
+                                 //  alert(item.innerHTML);
+                                 
+                                 var pos = item.id.indexOf(':');
+                                 
+                                 var langValue = item.id.substring(pos+1);
+                                 
+                                 if (langName[langValue]== langName[name])
+                                 {
+                                 //   pos = item.name.indexOf('/a');
+                                 var count = item.innerHTML;
+                                 pos = count.indexOf('/a');
+                                 var length = count.length;
+                                 count = item.innerHTML.substring(pos+5,length-1);
+                                 
+                                 count=count.replace("," ,"");
+                                 var num = count*1;
+                                 
+                                 num = Number(num) + Number(counter);
+                                 num = formatInteger(num,THOUSAND_SEP);
+                                 
+                                 item.update(item.innerHTML.substring(0,pos+4) + '(#{count})'.interpolate({count: num}));
+                                 CHECK=1;
+                                 
+                                 return;
+                                 }
+                                 
+                                 });
+                                 }
+          	
+          	
+          	function addEndingDescription(data){
+             if(data.length ==  0 )
+             return "";
+             return (data.length<END_DESCRIPTION)?data:(data.substr(START_DESCRIPTION,END_DESCRIPTION)).concat(""," <span class='suspension-points'>...</span>");
+             }
+             
+             function removeHtmlTags(data) {
+             var strInputCode = data.replace(/&(lt|gt);/g, function (strMatch, p1){
+                                             return (p1 == "lt")? "<" : ">";
+                                             });
+             var strTagStrippedText = strInputCode.replace(/<\/?[^>]+(>|$)/g, " ");
+             return strTagStrippedText;
+             }
+             
+             function stripUrl(data) {
+             
+             var strTagStrippedText = data.replace(/<\/?[^>]:+(>|$)/g, "_");
+             return strTagStrippedText;
+             
+             
+             }
                                              
                                              
                                              
                                              
-                                             function initializeJamlTemplates(){
-                                             
-                                             Jaml.register('thumb_pres', function(data) {
-                                                           a({href: data.location,title: data.title , target: '_blank'}, img({src:data.format, height:"90", width:"80" }))
-                                                           });
-                                             
-                                             
-                                             Jaml.register('keyword', function(data) {
-                                                           a({href:'javascript:void(0);', onclick: "searchByKeyword('#{key}')".interpolate({key: data})}, data);
-                                                           });
+function initializeJamlTemplates(){
+
+Jaml.register('thumb_pres', function(data) {
+           a({href: data.location,title: data.title , target: '_blank'}, img({src:data.format, height:"90", width:"80" }))
+           });
+
+
+Jaml.register('keyword', function(data) {
+           a({href:'javascript:void(0);', onclick: "searchByKeyword('#{key}')".interpolate({key: data})}, data);
+           });
                                              
                                                
 /*-----------------------------RENDER RESULT LISTING ITEMS--------------------------------*/
@@ -842,7 +834,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                             div({cls:'language'}, span("Rights:"), thisRights2),
 */
                                             div({cls:'floatright'},
-                                                div({cls:'line alignright'}, a({href:"item.html?id="+data.id, cls:'moreinfo'}, "More Info")))))))
+                                                div({cls:'line alignright'}, a({href:"item.html?id="+data.identifier[0], cls:'moreinfo'}, "More Info")))))))
                });
                                              
                                              
@@ -868,7 +860,7 @@ Jaml.register('resultwithoutkeywords', function(data){
 //                                                                                        div({cls:'language'}, span("Creative commons licence:"), thisRights),
 //                                                                                        div({cls:'language'}, span("Rights:"), thisRights2),
                                     div({cls:'floatright'},
-                                        div({cls:'line alignright'}, a({href:"item.html?id="+data.identifier, cls:'moreinfo'}, "More Info")))))))});
+                                        div({cls:'line alignright'}, a({href:"item.html?id="+data.identifier[0], cls:'moreinfo'}, "More Info")))))))});
                                              
 
                                              
