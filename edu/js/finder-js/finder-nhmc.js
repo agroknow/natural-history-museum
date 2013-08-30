@@ -505,7 +505,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
 	    resultSortkey:''
 	    };
 	    
-	    //console.log(JSON.stringify(request));
+	    console.log(JSON.stringify(request));
 	    
 	    
 	    if(!$F('query').blank())
