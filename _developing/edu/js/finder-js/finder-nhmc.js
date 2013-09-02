@@ -828,7 +828,11 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                var thisRights2 = data.rights;
                if(data.rights==undefined){thisRights2 = "isn't defined yet";}
                
-               console.log(data);
+               /*get id from mdPath*/
+				var mdPath = data.mdPath[0].split('/');
+				var id = mdPath[mdPath.length-1].split('.')[0];
+               //console.log(id); 
+
                article({class:'item-intro '+odd},
                        header(
                               h2(//img({src:imgThumb}),
@@ -842,7 +846,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                             div({cls:'language'}, span("Rights:"), thisRights2),
 */
                                             div({cls:'floatright'},
-                                                div({cls:'line alignright'}, a({href:"item.html?id="+data.id, cls:'moreinfo'}, "More Info")))))))
+                                                div({cls:'line alignright'}, a({href:"item.html?id="+id, cls:'moreinfo'}, "More Info")))))))
                });
                                              
                                              
@@ -859,6 +863,11 @@ Jaml.register('resultwithoutkeywords', function(data){
      
       var imgThumb = data.format;
 
+       	/*get id from mdPath*/
+		var mdPath = data.mdPath[0].split('/');
+		var id = mdPath[mdPath.length-1].split('.')[0];
+       //console.log(id); 
+
        article({class:'item-intro ' +odd },
                header(
                       h2(img({src:imgThumb}),
@@ -868,7 +877,7 @@ Jaml.register('resultwithoutkeywords', function(data){
 //                                                                                        div({cls:'language'}, span("Creative commons licence:"), thisRights),
 //                                                                                        div({cls:'language'}, span("Rights:"), thisRights2),
                                     div({cls:'floatright'},
-                                        div({cls:'line alignright'}, a({href:"item.html?id="+data.identifier, cls:'moreinfo'}, "More Info")))))))});
+                                        div({cls:'line alignright'}, a({href:"item.html?id="+id, cls:'moreinfo'}, "More Info")))))))});
                                              
 
                                              
