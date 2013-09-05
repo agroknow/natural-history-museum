@@ -20,7 +20,7 @@ function getItemJSONP(itemID)
                 var tmp = JSON.parse(thisJson);
                 var record = tmp.result.metadata[0];
                 
-                //alert(thisJson);
+                //console.log(thisJson);
                 
                 //left_sidebar
                 
