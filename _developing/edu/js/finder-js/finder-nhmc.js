@@ -55,7 +55,7 @@ FACET_LABELS['collection'] = 'Collections';
 FACET_LABELS['language'] = 'Language';
 FACET_LABELS['format'] = 'Media type';
 FACET_LABELS['keyword'] = 'By Tags';
-FACET_LABELS['context'] = 'Educational level';
+FACET_LABELS['context'] = 'Educational Context';
 FACET_LABELS['lrt'] = 'Resource Type';
 FACET_LABELS['rights'] = 'Rights';
 FACET_LABELS['lom.rights.copyrightandotherrestrictions.string'] = 'Licences';
@@ -112,6 +112,7 @@ langName['sv']= 'Swedish';
 langName['ell']= 'Greek';
 langName ['lat'] = 'Latin';
 langName['rus'] = 'Russian';
+langName['none'] = 'None';
 
 
 google.load("language", "1");
@@ -643,152 +644,148 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                          if(needsUpdate){
                          updatePaginator(result.nrOfResults);
                          result.facets.each(function(item,index){
-                                            var fld = item.field;
-                                            //rbkey = facetKeys[fld];
-                                            var facetHasNoLimit = true;
-                                            var limitValues = [];
-                                            if (LIMIT_FACET_DISPLAY[fld]) {
-                                            limitValues = LIMIT_FACET_DISPLAY[fld];
-                                            facetHasNoLimit = false;
-                                            }
-                                            var rbkey = fld;
-                                            var element = $(rbkey + '_rbo');
-                                            if(element && facetExpressions.get(fld) == undefined){
-                                            element.update('');
-                                            if(item.numbers != undefined){
-                                            item.numbers.each(function(it2,idx2){
-                                                              if (facetHasNoLimit || limitValues.indexOf(it2.val) >= 0) {
-                                                              
-                                                              
-                                                              it2.field = fld;
-                                                              
-                                                              it2.val=it2.val.replace(/\'/g, "&#34;");
-                                                                                      it2.count = formatInteger(it2.count,THOUSAND_SEP);
-                                                                                      //element.insert(Jaml.render('rbcriteria',it2));
-                                                                                      if (fld!= "language")
-                                                                                      element.insert(Jaml.render('rbcriteria',it2));
-                                                                                      
-                                                                                      else
-                                                                                      // check first if langName[it2.val] exists already in rbList
-                                                                                      {
-                                                                                      checkLang(it2.val,it2.count);
-                                                                                      
-                                                                                      if (CHECK==0)
-                                                                                      element.insert(Jaml.render('rbcriteria2',it2));
-                                                                                      
-                                                                                      } 
-                                                                                      }
-                                                                                      });
-                                                              }
-                                                              }
-                                                              });
-                                            
-                                            
-                                            facetSlide();
-                                            
-                                            selectedFacets.each(function(item,index){
-                                                                $(item.id).addClassName('facet-selected');
-                                                                
-                                                                });
-                                            }
-                                            //webSnapr.init();
-                                            //$('header').scrollTo();
-                                            //loadTranslator();
-                                            
-                                            
-                                            },
-                                            onComplete: function(transport){
-                                            // $('search_status').update('');
-                                            },
-                                            onLoading: function(){
-                                            $('search_results').update('');
-                                            $('search_terms').update('');
-                                            $('search_results_index').update('');
-                                            }
-                                            });
-                                             }
-                                             
-                                             function checkLang(name,counter){
-                                             
-                                             CHECK=0;
-                                             $$('#language_rbo li').each(function(item) {
-                                                                         
-                                                                         //  alert(item.innerHTML);
-                                                                         
-                                                                         var pos = item.id.indexOf(':');
-                                                                         
-                                                                         var langValue = item.id.substring(pos+1);
-                                                                         
-                                                                         if (langName[langValue]== langName[name])
-                                                                         {
-                                                                         //   pos = item.name.indexOf('/a');
-                                                                         var count = item.innerHTML;
-                                                                         pos = count.indexOf('/a');
-                                                                         var length = count.length;
-                                                                         count = item.innerHTML.substring(pos+5,length-1);
-                                                                         
-                                                                         count=count.replace("," ,"");
-                                                                         var num = count*1;
-                                                                         
-                                                                         num = Number(num) + Number(counter);
-                                                                         num = formatInteger(num,THOUSAND_SEP);
-                                                                         
-                                                                         item.update(item.innerHTML.substring(0,pos+4) + '(#{count})'.interpolate({count: num}));
-                                                                         CHECK=1;
-                                                                         
-                                                                         return;
-                                                                         }
-                                                                         
-                                                                         });
+                            var fld = item.field;
+                            //rbkey = facetKeys[fld];
+                            var facetHasNoLimit = true;
+                            var limitValues = [];
+                            if (LIMIT_FACET_DISPLAY[fld]) {
+                            limitValues = LIMIT_FACET_DISPLAY[fld];
+                            facetHasNoLimit = false;
+                            }
+                            var rbkey = fld;
+                            var element = $(rbkey + '_rbo');
+                            if(element && facetExpressions.get(fld) == undefined){
+                            element.update('');
+                            if(item.numbers != undefined){
+                            item.numbers.each(function(it2,idx2)
+                            {
+                                  if (facetHasNoLimit || limitValues.indexOf(it2.val) >= 0) {
+                                  
+                                  
+                                  it2.field = fld;
+                                  
+                                  it2.val=it2.val.replace(/\'/g, "&#34;");
+                                  it2.count = formatInteger(it2.count,THOUSAND_SEP);
+                                  //element.insert(Jaml.render('rbcriteria',it2));
+                                  if (fld!= "language")
+                                  element.insert(Jaml.render('rbcriteria',it2));
+                                  
+                                  else
+                                  // check first if langName[it2.val] exists already in rbList
+                                  {
+                                  checkLang(it2.val,it2.count);
+                                  
+                                  if (CHECK==0)
+                                  element.insert(Jaml.render('rbcriteria2',it2));
+                                  
+                                  } 
+                                  }
+						  });
+                      }
+                      }
+                      });
+                            
+                            
+                            facetSlide();
+                            
+                            selectedFacets.each(function(item,index){
+                                                $(item.id).addClassName('facet-selected');
+                                                
+                                                });
+                            }
+                            //webSnapr.init();
+                            //$('header').scrollTo();
+                            //loadTranslator();
+                            
+                            
+                            },
+                            onComplete: function(transport){
+                            // $('search_status').update('');
+                            },
+                            onLoading: function(){
+                            $('search_results').update('');
+                            $('search_terms').update('');
+                            $('search_results_index').update('');
+                            }
+                            });
+                             }
                              
-                                             
-                                             
-                                             }
-                                             
-                                             
+                             function checkLang(name,counter){
                              
-                                             
-                                             
-                                             
-                                             
-                                             
-                                             
-                                             
-                                             function addEndingDescription(data){
-                                             if(data.length ==  0 )
-                                             return "";
-                                             return (data.length<END_DESCRIPTION)?data:(data.substr(START_DESCRIPTION,END_DESCRIPTION)).concat(""," <span class='suspension-points'>...</span>");
-                                             }
-                                             
-                                             function removeHtmlTags(data) {
-                                             var strInputCode = data.replace(/&(lt|gt);/g, function (strMatch, p1){
-                                                                             return (p1 == "lt")? "<" : ">";
-                                                                             });
-                                             var strTagStrippedText = strInputCode.replace(/<\/?[^>]+(>|$)/g, " ");
-                                             return strTagStrippedText;
-                                             }
-                                             
-                                             function stripUrl(data) {
-                                             
-                                             var strTagStrippedText = data.replace(/<\/?[^>]:+(>|$)/g, "_");
-                                             return strTagStrippedText;
-                                             
-                                             
-                                             }
-                                             
-                                             
-                                             
-                                             
-                                             function initializeJamlTemplates(){
-                                             
-                                             Jaml.register('thumb_pres', function(data) {
-                                                           a({href: data.location,title: data.title , target: '_blank'}, img({src:data.format, height:"90", width:"80" }))
-                                                           });
-                                             
-                                             
-                                             Jaml.register('keyword', function(data) {
-                                                           a({href:'javascript:void(0);', onclick: "searchByKeyword('#{key}')".interpolate({key: data})}, data);
-                                                           });
+                             CHECK=0;
+                             $$('#language_rbo li').each(function(item) 
+                             {
+                                                         
+                                 //  alert(item.innerHTML);
+                                 
+                                 var pos = item.id.indexOf(':');
+                                 
+                                 var langValue = item.id.substring(pos+1);
+                                 
+                                 if (langName[langValue]== langName[name])
+                                 {
+	                                 //   pos = item.name.indexOf('/a');
+	                                 var count = item.innerHTML;
+	                                 pos = count.indexOf('/a');
+	                                 var length = count.length;
+	                                 count = item.innerHTML.substring(pos+5,length-1);
+	                                 
+	                                 count=count.replace("," ,"");
+	                                 var num = count*1;
+	                                 
+	                                 num = Number(num) + Number(counter);
+	                                 num = formatInteger(num,THOUSAND_SEP);
+	                                 
+	                                 item.update(item.innerHTML.substring(0,pos+4) + '(#{count})'.interpolate({count: num}));
+	                                 CHECK=1;
+	                                 
+	                                 return;
+                                 }
+                                                         
+                             });
+             
+                             
+                             
+                             }
+                             
+                             
+                             function addEndingDescription(data){
+                             if(data.length ==  0 )
+                             return "";
+                             return (data.length<END_DESCRIPTION)?data:(data.substr(START_DESCRIPTION,END_DESCRIPTION)).concat(""," <span class='suspension-points'>...</span>");
+                             }
+                             
+                             function removeHtmlTags(data) {
+                             var strInputCode = data.replace(/&(lt|gt);/g, function (strMatch, p1){
+                                                             return (p1 == "lt")? "<" : ">";
+                                                             });
+                             var strTagStrippedText = strInputCode.replace(/<\/?[^>]+(>|$)/g, " ");
+                             return strTagStrippedText;
+                             }
+                             
+                             function stripUrl(data) {
+                             
+                             var strTagStrippedText = data.replace(/<\/?[^>]:+(>|$)/g, "_");
+                             return strTagStrippedText;
+                             
+                             
+                             }
+                             
+                             
+                             
+/* Initialize Jaml Templates                           */
+function initializeJamlTemplates(){
+                             
+Jaml.register('thumb_pres', function(data) 
+{
+a({href: data.location,title: data.title , target: '_blank'}, img({src:data.format, height:"90", width:"80" }))
+});
+                             
+                             
+Jaml.register('keyword', function(data) 
+{
+a({href:'javascript:void(0);', onclick: "searchByKeyword('#{key}')".interpolate({key: data})}, data);
+});
                                              
                                                
 /*-----------------------------RENDER RESULT LISTING ITEMS--------------------------------*/
@@ -883,22 +880,20 @@ Jaml.register('resultwithoutkeywords', function(data){
                                              
 /*-----------------------------RENDER FACETS--------------------------------*/
 /* rest facets  */
-Jaml.register('rbcriteria', function(data){ 
-               
-               
-          
-               var label = data.val;
-               
-               a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick:"toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})}, span(label), span({cls:'total'}, data.count));
-               
-               
-               });
+Jaml.register('rbcriteria', function(data)
+{ 
+	var label = data.val;
+    
+    a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick:"toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})}, span(label), span({cls:'total'}, data.count));
+
+});
  
  /* language facet */
-Jaml.register('rbcriteria2', function(data){   
-               a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val, parent: data.field})}, span(langName[data.val]), span({cls:'total'}, data.count ));
-               
-               });
+Jaml.register('rbcriteria2', function(data)
+{ 
+	a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val, parent: data.field})}, span(langName[data.val]), span({cls:'total'}, data.count ));
+	            
+});
  
  
  /*------------------------------*/
