@@ -31,6 +31,7 @@
 		<![endif]-->
 		<script src="js/modernizr-1.7.min.js"></script>
         
+
         
         <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.8.1/build/yahoo-dom-event/yahoo-dom-event.js&2.8.1/build/container/container_core-min.js&2.8.1/build/datasource/datasource-min.js&2.8.1/build/element/element-min.js&2.8.1/build/paginator/paginator-min.js&2.8.1/build/datatable/datatable-min.js&2.8.1/build/json/json-min.js&2.8.1/build/selector/selector-min.js&2.8.1/build/layout/layout-min.js"></script>
         
@@ -44,6 +45,9 @@
         <SCRIPT type="text/javascript" src="js/finder-js/jaml-all.js"></SCRIPT>
         <SCRIPT type="text/javascript" src="js/finder-js/finder-nhmc.js"></SCRIPT>
 	
+	    <!--languages scripts -->
+        <script src="js/language.js"></script>
+        <!-- /languages scripts -->
 	</head>
 	
 	<body class="innerpage listingpage">
@@ -76,6 +80,13 @@
                 </ul>
             </nav>
             
+<!-- Language     -->
+				 <div>               
+					 <a href="#" onclick="changeLanguage('en')">English</a>
+					 <a href="#" onclick="changeLanguage('gr')">Greek</a>
+				 </div>
+<!-- / Language -->
+
             <section id="search">
             <div class="moduletable_mainsearch">
                 <div>
@@ -116,7 +127,7 @@
 					<div class="twocols clearfix">
                    <aside class="filter">
                        <div class="remove_filters" style="padding: 3px 0 3px 0;">
-                           <a href="" style="font-size:12px;" onclick="initialSearch();pagination_hide();">remove filters</a>
+                           <a href="" style="font-size:12px;" onclick="initialSearch();pagination_hide();" data_translation="remove_filters">remove filters</a>
                        </div>
                        
                        <div id="insert_facets" ></div>
@@ -125,68 +136,8 @@
 						<section class="listing">
                             <div id="insert_pagination_top" class="aligncenter"></div>
                             <div id="insert_results"></div> <!--results from AJAX call-->
-							
-							<!--<article class="item-intro odd">
-								<header>
-									<h2 class="video"><a href="#">"Closed canopy" organic gardening with a very big title a very big title a very big title a very big title</a></h2>
-									<p>This video is in English and 6 more languages</p>
-								</header>
-								<section>
-									<p class="item_intro_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra congue laoreet. Suspendisse turpis dui, lacinia non interdum sit amet, vestibulum eu nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla magna justo, sodales sed bibendum vel, malesuada nec tortor.</p>
-									<aside class="clearfix">
-										<div class="floatleft">
-											<div class="line">
-												<span>Typical age range context:</span>
-												<a class="secondary" href="#">16-U</a>
-											</div>
-											<div class="line keywords">
-												<span>Keywords:</span>
-												<a class="secondary" href="#">Digital Green</a>
-												<a class="secondary" href="#">Cattle</a>
-												<a class="secondary" href="#">Livestock</a>
-												<a class="secondary last" href="#">Vaccination</a>
-											</div>
-											
-											<div class="line">
-												<label class="stdselect">
-													<select id="lang_2">
-														<option value="1" class="human">English description (Human)</option>
-														<option value="2" class="human">Spanish description (Human)</option>
-														<option value="3" class="human">French description (Human)</option>
-														<option value="4" class="pc">English description (Human)</option>
-														<option value="5" class="pc">Spanish description (Human)</option>
-														<option value="6" class="pc">French description (Human)</option>
-														<option value="7" class="human">English description (Human)</option>
-														<option value="8" class="human">Spanish description (Human)</option>
-														<option value="9" class="human">French description (Human)</option>
-														<option value="10" class="pc">English description (Human)</option>
-														<option value="11" class="pc">Spanish description (Human)</option>
-														<option value="12" class="pc">French description (Human)</option>
-													</select>
-												</label>
-												<a class="secondary translation" href="#">Improve translation</a>
-											</div>
-										</div>
-										<div class="floatright">
-											<div class="line">
-												<span>Comments:</span>
-												<a class="secondary" href="#">(8)</a>
-											</div>
-											<div class="line">
-												<span>Rate:</span>
-												<div class="rate">{Joomla! rate}</div>
-											</div>
-											<div class="line alignright">
-												<a href="#" class="moreinfo">More Info</a>
-											</div>
-										</div>
-									</aside>
-								</section>
-							</article>-->
-							
-							
-							
-                            <div id="insert_pagination_bottom" class="aligncenter"></div>
+
+                         <div id="insert_pagination_bottom" class="aligncenter"></div>
 						</section>
 					</div>
 				</div>
@@ -239,93 +190,82 @@
             </script>
         
     	<script type="text/javascript">
-            
-			$(document).ready(function () {
-                              function format(state) {
-                              if (!state.id) return state.text; // optgroup
-                              return "<img class='flag' alt='flag' src='style/images/flag_" + state.id.toLowerCase() + ".jpg'/>" + state.text;
-                              }
-                              jQuery("#lang-selector").select2({
-                                                          minimumResultsForSearch:100,
-                                                          formatResult: format,
-                                                          formatSelection: format
-                                                          })
-                              jQuery(".withplaceholder").placeholder();
-                              jQuery("#ext_search").click(function (event) {
-                                                     event.preventDefault()
-                                                     $("div.moduletable_extendedsearch").slideToggle("slow");
-                                                     });
-                              jQuery('input:radio').screwDefaultButtons({
-                                                                   image: 'url("style/images/radio.png")',
-                                                                   width: 12,
-                                                                   height: 14
-                                                                   });
-                              
-                              jQuery(".selectline select").select2({
-                                                              minimumResultsForSearch:100,
-                                                              dropdownCssClass:"simple"
-                                                              })
-                              
-                              jQuery("#jMenu").jMenu();
-                              
-                              jQuery('#layerslider').layerSlider({
-                                                            navPrevNext : false,
-                                                            navStartStop : false,
-                                                            skin : 'lightskin',
-                                                            skinsPath : 'style/skins/'
-                                                            });
-                              
-                              jQuery('.is_slider').each(function() {
-                                                   var $navWrap = $('<div class="slider-navigation clearfix"></div>');
-                                                   var $navPrev = $('<a href="#" class="slider-prev">Prev</a>');
-                                                   $navWrap.append($navPrev);
-                                                   var $navPager = $('<div class="pager"></div>');
-                                                   $navWrap.append($navPager); 
-                                                   var $navNext = $('<a href="#" class="slider-next">Next</a>');
-                                                   $navWrap.append($navNext);
-                                                   $navWrap.insertBefore(this);
-                                                   $(this).cycle({
-                                                                 fx:'scrollLeft',
-                                                                 timeout:0,
-                                                                 prev:$navPrev,
-                                                                 next:$navNext,
-                                                                 pager:$navPager
-                                                                 });
-                                                   
+         
+        
+		$(document).ready(function () 
+		{
+              function format(state) 
+              {
+	              if (!state.id) return state.text; // optgroup
+	              return "<img class='flag' alt='flag' src='style/images/flag_" + state.id.toLowerCase() + ".jpg'/>" + state.text;
+              }
+              jQuery("#lang-selector").select2({
+                                          minimumResultsForSearch:100,
+                                          formatResult: format,
+                                          formatSelection: format
+                                          })
+              jQuery(".withplaceholder").placeholder();
+              jQuery("#ext_search").click(function (event) {
+                                     event.preventDefault()
+                                     $("div.moduletable_extendedsearch").slideToggle("slow");
+                                     });
+              jQuery('input:radio').screwDefaultButtons({
+                                                   image: 'url("style/images/radio.png")',
+                                                   width: 12,
+                                                   height: 14
                                                    });
-                              
-                              jQuery(".search_filter input[type=text]").placeholder();
-                              
-                              jQuery(".sorting select").select2({
-                                                           minimumResultsForSearch:100,
-                                                           dropdownCssClass:"simple"
-                                                           })
-                              
-//                              jQuery('.item-intro > h2').next().css("display","none");
-//                              jQuery('.item-intro > h2 > span').click(function(event){
-//                              	event.preventDefault();
-//                              jQuery(this).parent().next().slideToggle("slow");
-//                              });
-                              
-                              function setface(state) {
-                              var t = "human";
-                              if (!state.id) return state.text; // optgroup
-                              if (typeof state.element.attr === "function") { t = state.element.attr("class"); }
-                              else t = state.css;
-                              if (typeof t === "undefined") t = "human";
-                              
-                              return "<img class='face' alt='face' src='style/images/" + t + ".png'/>" + state.text;
-                              }
-                              jQuery(".item-intro select").select2({
-                                                              minimumResultsForSearch:3,
-                                                              dropdownCssClass:"simple font12",
-                                                              formatResult: setface,
-                                                              formatSelection: setface
-                                                              })
-                              
-                              jQuery(".hasscroll").jScrollPane();
-                              
-                              });
+              jQuery(".selectline select").select2({
+                                              minimumResultsForSearch:100,
+                                              dropdownCssClass:"simple"
+                                              })
+              jQuery("#jMenu").jMenu();
+              jQuery('#layerslider').layerSlider({
+                                            navPrevNext : false,
+                                            navStartStop : false,
+                                            skin : 'lightskin',
+                                            skinsPath : 'style/skins/'
+                                            });
+              jQuery('.is_slider').each(function() {
+                                   var $navWrap = $('<div class="slider-navigation clearfix"></div>');
+                                   var $navPrev = $('<a href="#" class="slider-prev">Prev</a>');
+                                   $navWrap.append($navPrev);
+                                   var $navPager = $('<div class="pager"></div>');
+                                   $navWrap.append($navPager); 
+                                   var $navNext = $('<a href="#" class="slider-next">Next</a>');
+                                   $navWrap.append($navNext);
+                                   $navWrap.insertBefore(this);
+                                   $(this).cycle({
+                                                 fx:'scrollLeft',
+                                                 timeout:0,
+                                                 prev:$navPrev,
+                                                 next:$navNext,
+                                                 pager:$navPager
+                                                 });
+                                   
+                                   });
+              jQuery(".search_filter input[type=text]").placeholder();
+              jQuery(".sorting select").select2({
+                                           minimumResultsForSearch:100,
+                                           dropdownCssClass:"simple"
+                                           });
+              function setface(state) {
+              var t = "human";
+              if (!state.id) return state.text; // optgroup
+              if (typeof state.element.attr === "function") { t = state.element.attr("class"); }
+              else t = state.css;
+              if (typeof t === "undefined") t = "human";
+              
+              return "<img class='face' alt='face' src='style/images/" + t + ".png'/>" + state.text;
+              }
+              jQuery(".item-intro select").select2({
+                                              minimumResultsForSearch:3,
+                                              dropdownCssClass:"simple font12",
+                                              formatResult: setface,
+                                              formatSelection: setface
+                                              });
+              jQuery(".hasscroll").jScrollPane();
+
+          }); /*end ready()*/
            
             /*
              * function customizeFinder() is called at initialisation time
@@ -334,7 +274,8 @@
              */
             
             $.noConflict();
-            function customizeFinder() {
+            function customizeFinder() 
+            {
                 return {
                     "selectedProviders":["EDUNHMC"],
                     "selectedLanguage":"en",
@@ -343,9 +284,8 @@
                     "facets": ["language","lrt", "context", "iur","tagr"], 
                     "maxLengthDescription":  300,
                     "pageSize": 6,
-                    "repositoryName": "Organic.Edunet",//find this in the ariadne.properties file inside your Ariadne folder  ex."repositoryName":"AriadneNext Repository"
-                    "serviceUrl":"http://83.212.96.219:8080/glnRepo/api/ariadne/restp"
-                    
+                    "repositoryName": "Organic.Edunet",
+                    "serviceUrl":"http://83.212.96.219:8080/glnRepo/api/ariadne/restp" 
                 }
             }
             

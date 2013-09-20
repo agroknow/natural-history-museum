@@ -22,6 +22,10 @@
         <link rel="stylesheet" href="style/layerslider.css" />
         <link rel="stylesheet" href="style/jquery.jscrollpane.css" />
         <link rel="stylesheet" href="style/style.css" />
+		
+		<!--languages scripts -->
+        	<script src="js/language.js"></script>
+        <!-- /languages scripts -->
 
 
         <!--[if !IE 7]>
@@ -37,13 +41,18 @@
         <script type="text/javascript">
             function getItem()
             {
-                getItemJSONP('http://83.212.96.219:8080/akifRetriever/getAKIF?ids='+location.search.split("=")[1]);
+            	var lang = "en" 
+            	if(getUrlVars()["lang"]!=undefined)
+            	{
+	            	lang=getUrlVars()["lang"];
+            	} 
+                getItemJSONP('http://83.212.96.219:8080/akifRetriever/getAKIF?ids='+location.search.split("=")[1], lang);
             }
         </script>
 
     </head>
 
-    <body class="innerpage listingpage" onload="getItem()" >
+    <body class="innerpage listingpage" onload="getItem() , language()" >
         <section id="wrap">
 
 			<header id="mainheader">
@@ -73,6 +82,15 @@
                 </ul>
             </nav>
             
+            
+<!-- Language     -->
+				 <div>               
+					 <a href="#" onclick="changeLanguage('en')">English</a>
+					 <a href="#" onclick="changeLanguage('gr')">Greek</a>
+				 </div>
+<!-- / Language -->
+
+
             <section id="search">
                 <div class="moduletable_mainsearch">
                     <div>
@@ -95,7 +113,7 @@
                             <div class="clearfix">
 
                                 <ul class="floatleft cleanList">
-                                    <h2>More Info</h2>
+                                    <h2 data_translation="more_info">More Info</h2>
 
                                     <li class="cleanRow">
                                         <span>Language:</span>
@@ -149,13 +167,14 @@
                            <!-- <a href="javascript:window.history.back();" class="backbutton secondary">Back</a>-->
                             <article class="item-main">
                                 <header>
+                                	<span>Title:</span>
                                     <h1 id="itemTitle"></h1>
                                     <!--<img src="style/images/copyright_sample.png" alt="image" />-->
                                 </header>
+                                <span>Description</span>
                                 <div class="item-content">
                                     <div>
                                         <p class="itemDescription" id="itemDescription"></p>
-                                        
                                     </div>
                                     <div id="itemThumb"></div>
 

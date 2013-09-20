@@ -142,14 +142,26 @@ function initializeFinder(){
 		if(typeof customizeFinder == 'function') {
 			var customParams = customizeFinder();
             var urlSelectedProviders = getUrlVars()["providers"];
+            var urlSelectedLanguage = getUrlVars()["lang"];
             
-			if(customParams) {
+			if(customParams) 
+			{
                 /*limit collection|providers*/
-                if(urlSelectedProviders){
+                if(urlSelectedProviders)
+                {
                     SELECTED_PROVIDERS = urlSelectedProviders;
                     //alert(urlSelectedProviders);
                 }
                 if (!urlSelectedProviders && customParams.selectedProviders) SELECTED_PROVIDERS = customParams.selectedProviders;
+                //alert(SELECTED_PROVIDERS);
+                /*---*/
+                
+                /*language selection*/
+                if(urlSelectedLanguage)
+                {
+                    SELECTED_LANGUAGE = urlSelectedLanguage;
+                }
+                if (!urlSelectedLanguage && customParams.selectedLanguage) SELECTED_LANGUAGE = customParams.selectedLanguage;
                 //alert(SELECTED_PROVIDERS);
                 /*---*/
                 
@@ -205,7 +217,7 @@ function initializeFinder(){
 		for (var i=0;i<FACET_TOKENS.length;i++)
         {
 			var fn = FACET_TOKENS[i];
-			div.push('<a href="#" id="'+fn+'" onclick="return false;" class="filter_parent"><span>'+FACET_LABELS[fn]+'</span></a><div id="'+fn+'_rbo" class="filter_child" style="display: none; overflow: hidden;height:auto;"></div>');
+			div.push('<a href="#"  id="'+fn+'" onclick="return false;" class="filter_parent"><span data_translation="'+fn+'">'+FACET_LABELS[fn]+'</span></a><div id="'+fn+'_rbo" class="filter_child" style="display: none; overflow: hidden;height:auto;"></div>');
 			
 		}
         
@@ -229,24 +241,7 @@ function initializeFinder(){
 		div.push('<div id="search_results"></div>');
 		div.push('</div>');
 		$('insert_results').update(div.join(''));
-        //		if (!$('insert_moreResults')) {
-        //			$('body').insert('<div id="insert_moreResults" style="display:none"></div>');
-        //		}
-        //		var div = [];
-        //		div.push('<div id="moreResults"><h3>More Results</h3>');
-        //		for (var i=0;i<EXT_SOURCES.length;i++){
-        //			var es = EXT_SOURCES[i];
-        //			var esn = AVAILABLE_ES[es]['name'];
-        //			div.push('<div id="'+es+'_search" class="ext-res-div">');
-        //			div.push('<a class="ext-res" onclick="getExternalSourceResult(\''+es+'\');" href="javascript:void(0)" title="'+esn+'">'+esn+'</a>');
-        //			div.push('<span id="'+es+'_indicator" style="display:none"><img src="'+ROOT_URL+'common/images/indicator.gif"></span>');
-        //			div.push('<span id="'+es+'_results"></span>');
-        //			div.push('</DIV>');
-        //		}
-        //		div.push('</DIV>');
-        // 		$('insert_moreResults').update(div.join(''));
-        
-        
+
         
         
 		initializeJamlTemplates();
@@ -549,7 +544,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                   oddCtr++;
                                   item.isOdd = oddCtr;
                                   
-                                //alert(JSON.stringify(item));
+                                 console.log(item);
                                   
                                   if(item.format!=undefined && item.format[0]!=undefined ){
                                   if (item.format[0].indexOf('pdf') != -1)
@@ -623,6 +618,9 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
 
 
                                   });
+                          
+                         
+                         language();
                          
                          $('search_results_index').show();
                          
@@ -697,10 +695,10 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                             //$('header').scrollTo();
                             //loadTranslator();
                             
-                            
                             },
                             onComplete: function(transport){
                             // $('search_status').update('');
+                            
                             },
                             onLoading: function(){
                             $('search_results').update('');
@@ -843,7 +841,7 @@ a({href:'javascript:void(0);', onclick: "searchByKeyword('#{key}')".interpolate(
                                             div({cls:'language'}, span("Rights:"), thisRights2),
 */
                                             div({cls:'floatright'},
-                                                div({cls:'line alignright'}, a({href:"item.html?id="+id, cls:'moreinfo'}, "More Info")))))))
+                                                div({cls:'line alignright'}, a({href:"item.html?id="+id, cls:'moreinfo', data_translation:"more_info"}, "More Info")))))))
                });
                                              
                                              
@@ -871,10 +869,8 @@ Jaml.register('resultwithoutkeywords', function(data){
                          a({href:data.location[0], title: data.thisTitle, target: '_blank'},data.thisTitle)),
                       section(p({cls:'item-intro-desc'}, data.thisDescription),
                               aside({cls:'clearfix'},
-//                                                                                        div({cls:'language'}, span("Creative commons licence:"), thisRights),
-//                                                                                        div({cls:'language'}, span("Rights:"), thisRights2),
                                     div({cls:'floatright'},
-                                        div({cls:'line alignright'}, a({href:"item.html?id="+id, cls:'moreinfo'}, "More Info")))))))});
+                                        div({cls:'line alignright'}, a({href:"item.html?id="+id, cls:'moreinfo', data_translation:"more_info"}, "More Info")))))))});
                                              
 
                                              
@@ -884,14 +880,14 @@ Jaml.register('rbcriteria', function(data)
 { 
 	var label = data.val;
     
-    a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick:"toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})}, span(label), span({cls:'total'}, data.count));
+    a({href:'#',id: data.field + ':' + data.val, title: data.val, onclick:"toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})}, span({data_translation:data.val}, label), span({cls:'total'}, data.count));
 
 });
  
  /* language facet */
 Jaml.register('rbcriteria2', function(data)
 { 
-	a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val, parent: data.field})}, span(langName[data.val]), span({cls:'total'}, data.count ));
+	a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val, parent: data.field})}, span({data_translation:data.val}, langName[data.val]), span({cls:'total'}, data.count ));
 	            
 });
  
