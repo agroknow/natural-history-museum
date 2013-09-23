@@ -41,7 +41,7 @@ function getItemJSONP(urlTemp, selectedLanguage)
 		        {
 		            if(arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url!==undefined)
 		        {
-		        jQuery('#itemAccess').append('<a target="_blank" href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" class="access  secondary">Access to the resource</a>');
+		        jQuery('#itemAccess').append('<a target="_blank" href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" class="access  secondary" data_translation="access_to_the_resource">Access to the resource</a>');
 		        if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter!==undefined)
 		        {
 		        if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/html'){
@@ -239,7 +239,7 @@ function getItemJSONP(urlTemp, selectedLanguage)
                 	
 	                if(arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url!==undefined)
 	                {
-	                jQuery('#itemAccess').append('<a target="_blank" href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" class="access  secondary">Access to the resource</a>');
+	                jQuery('#itemAccess').append('<a target="_blank" href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" class="access  secondary" data_translation="access_to_the_resource">Access to the resource</a>');
 	                if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter!==undefined)
 	                {
 	                if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/html'){

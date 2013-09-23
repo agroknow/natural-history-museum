@@ -70,25 +70,26 @@
 				<div class="main_search_block inner clearfix">
 					<a href="index.html" class="logo">Natural History Museum of Crete</a>
 				</div>
+								
+				<!-- Language     -->
+				 <div class="languages_block">               
+					 <a href="#" onclick="changeLanguage('en')"><img src="style/images/flag_en.jpg" ></a>
+					 <a href="#" onclick="changeLanguage('gr')"><img src="style/images/flag_gr.png" ></a>
+				 </div>
+				<!-- / Language -->
+				
             </header>
             <nav class="white">
                 <ul id="mega-menu-1" class="mega-menu">
-                    <li><a class="fNiv" href="index.html">Home</a></li>
-                    <li><a href="listing.html?query=*">Search</a></li>
-                    <li><a href="http://www.nhmc.uoc.gr/en/museum" target="_blank">The Museum</a></li>
-                    <li><a href="http://www.nhmc.uoc.gr/en/exhibition" target="_blank">Exhibition</a></li>
-                    <li><a href="http://www.nhmc.uoc.gr/en/research/" target="_blank">Research</a></li>
-                    <li><a href="http://www.nhmc.uoc.gr/en/news-main" target="_blank">News - Announcements</a></li>
+                    <li><a class="fNiv" href="index.html" data_translation="home">Home</a></li>
+                    <li><a href="listing.html?query=*" data_translation="search">Search</a></li>
+                    <li><a href="http://www.nhmc.uoc.gr/en/museum" target="_blank" data_translation="the_museum">The Museum</a></li>
+                    <li><a href="http://www.nhmc.uoc.gr/en/exhibition" target="_blank" data_translation="exhibition">Exhibition</a></li>
+                    <li><a href="http://www.nhmc.uoc.gr/en/research/" target="_blank" data_translation="research">Research</a></li>
+                    <li><a href="http://www.nhmc.uoc.gr/en/news-main" target="_blank" data_translation="news_announcements">News - Announcements</a></li>
                 </ul>
             </nav>
-            
-            
-<!-- Language     -->
-				 <div>               
-					 <a href="#" onclick="changeLanguage('en')">English</a>
-					 <a href="#" onclick="changeLanguage('gr')">Greek</a>
-				 </div>
-<!-- / Language -->
+
 
 
             <section id="search">
@@ -116,42 +117,42 @@
                                     <h2 data_translation="more_info">More Info</h2>
 
                                     <li class="cleanRow">
-                                        <span>Language:</span>
+                                        <span data_translation="language">Language:</span>
                                         <nav class="inline-nav" id="itemLanguage">
                                         </nav>
                                     </li>
                                     <li class="cleanRow">
-                                        <span>Educational Context:</span>
+                                        <span data_translation="educational_context">Educational Context:</span>
                                         <nav class="inline-nav" id="itemEducationalContext">
 
                                         </nav>
                                     </li>
                                     <li class="cleanRow">
-                                        <span>Resource Type:</span>
+                                        <span data_translation="resource_type">Resource Type:</span>
                                         <nav class="inline-nav" id="itemResourceType">
 
                                         </nav>
                                     </li>
                                     <li class="cleanRow">
-                                        <span>Intended Audience:</span>
+                                        <span data_translation="intended_audience">Intended Audience:</span>
                                         <nav class="inline-nav" id="itemIntendedAudience">
 
                                         </nav>
                                     </li>
                                     <li class="cleanRow">
-                                        <span>Typical Age Range:</span>
+                                        <span data_translation="typical_age_range">Typical Age Range:</span>
                                         <nav class="inline-nav" id="itemAgeRange">
 
                                         </nav>
                                     </li>
                                     <li class="cleanRow">
-                                        <span>Collection:</span>
+                                        <span data_translation="collection">Collection:</span>
                                         <nav class="inline-nav" id="itemCollection">
 
                                         </nav>
                                     </li>
                                     <li class="cleanRow">
-                                        <span>Media Format:</span>
+                                        <span data_translation="media_format">Media Format:</span>
                                         <nav class="inline-nav" id="itemMediaFormat">
 
                                         </nav>
@@ -167,11 +168,11 @@
                            <!-- <a href="javascript:window.history.back();" class="backbutton secondary">Back</a>-->
                             <article class="item-main">
                                 <header>
-                                	<span>Title:</span>
+                                	<span data_translation="title">Title:</span>
                                     <h1 id="itemTitle"></h1>
                                     <!--<img src="style/images/copyright_sample.png" alt="image" />-->
                                 </header>
-                                <span>Description</span>
+                                <span data_translation="description">Description:</span>
                                 <div class="item-content">
                                     <div>
                                         <p class="itemDescription" id="itemDescription"></p>
@@ -180,7 +181,7 @@
 
                                     <div class="clearfix">
                                         <!--<div id="keywords"></div>-->
-                                        <div><ul class="itemKeywords"><li><span>Keywords:</span><nav id="itemKeywords" class="inline-nav clearfix"> <!--auto-generated--></nav></li></ul></div>
+                                        <div><ul class="itemKeywords" ><li><span>Keywords:</span><nav id="itemKeywords" class="inline-nav clearfix"> <!--auto-generated--></nav></li></ul></div>
                                         <div style="position: relative; top: 7px;">
                                             <ul>
                                                 <li id="itemRights">
@@ -188,7 +189,7 @@
                                             </ul>
                                         </div>
                                         
-                                        <div class="floatright"><a href="mailto:info@agroknow.gr?Subject=Green%20Learning%20Network" class="reportaproblem  secondary">Report a problem</a></div>
+                                        <div class="floatright"><a href="mailto:info@agroknow.gr?Subject=Green%20Learning%20Network" class="reportaproblem  secondary" data_translation="report_a_problem">Report a problem</a></div>
                                         <div class="floatright" style="margin-right: 15px;" id="itemAccess"></div>
                                     </div>
 

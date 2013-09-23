@@ -802,17 +802,17 @@ a({href:'javascript:void(0);', onclick: "searchByKeyword('#{key}')".interpolate(
                keywordsToEmbed="";
                for(var i=0 , length=data.keywords.length; i<length;i++)
                {
-               if(data.keywords[i].lang=='en'){
-               if(i!==length-1)
-               {
-               keywordsToEmbed +="<a class=\"secondary\" href=\"listing.html?query="+data.keywords[i].value+"\">&nbsp"+data.keywords[i].value+"</a>"
-               }
-               else
-               {
-               keywordsToEmbed +="<a class=\"secondary last\" href=\"listing.html?query="+data.keywords[i].value.split(" ")[0]+"\">&nbsp"+data.keywords[i].value+"</a>"
-               }
-               }//end lang check
-               
+	               if(data.keywords[i].lang=='en'){
+	               if(i!==length-1)
+	               {
+	               keywordsToEmbed +="<a class=\"secondary\" href=\"listing.html?query="+data.keywords[i].value+"\">&nbsp"+data.keywords[i].value+"</a>"
+	               }
+	               else
+	               {
+	               keywordsToEmbed +="<a class=\"secondary last\" href=\"listing.html?query="+data.keywords[i].value.split(" ")[0]+"\">&nbsp"+data.keywords[i].value+"</a>"
+	               }
+	               }//end lang check
+	               
                }//end for
                }//end if
                
@@ -841,7 +841,7 @@ a({href:'javascript:void(0);', onclick: "searchByKeyword('#{key}')".interpolate(
                                             div({cls:'language'}, span("Rights:"), thisRights2),
 */
                                             div({cls:'floatright'},
-                                                div({cls:'line alignright'}, a({href:"item.html?id="+id, cls:'moreinfo', data_translation:"more_info"}, "More Info")))))))
+                                                div({cls:'line alignright'}, a({href:"item.html?id="+id+"&lang="+SELECTED_LANGUAGE, cls:'moreinfo', data_translation:"more_info"}, "More Info")))))))
                });
                                              
                                              
@@ -870,7 +870,7 @@ Jaml.register('resultwithoutkeywords', function(data){
                       section(p({cls:'item-intro-desc'}, data.thisDescription),
                               aside({cls:'clearfix'},
                                     div({cls:'floatright'},
-                                        div({cls:'line alignright'}, a({href:"item.html?id="+id, cls:'moreinfo', data_translation:"more_info"}, "More Info")))))))});
+                                        div({cls:'line alignright'}, a({href:"item.html?id="+id+"&lang="+SELECTED_LANGUAGE, cls:'moreinfo', data_translation:"more_info"}, "More Info")))))))});
                                              
 
                                              

@@ -27,6 +27,7 @@ function changeLanguage(lang)
 	        			var url = window.location.href.split("lang=")[0];
 	        			window.location.href = url + "lang="+lang;      			
 	        		}
+	        		
             	}
             	else
             	{
@@ -68,10 +69,7 @@ function language()
 						{
 							//$("#"+translation.id).text(translation.english_translation);
 							jQuery('*[data_translation="'+translation.id+'"]').text(translation.gr);
-						} else {
-							//$("#"+translation.id).text(translation.english_value);
-							jQuery('*[data_translation="'+translation.id+'"]').text(translation.eng);
-						}
+						} 
 					}				
 				});
 				
