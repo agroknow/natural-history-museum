@@ -141,6 +141,7 @@ function initializeFinder(){
 		if(typeof customizeFinder == 'function') {
 			var customParams = customizeFinder();
             var urlSelectedProviders = getUrlVars()["providers"];
+            var urlSelectedLanguage = getUrlVars()["lang"];
             
 			if(customParams) {
                 /*limit collection|providers*/
@@ -150,6 +151,14 @@ function initializeFinder(){
                 }
                 if (!urlSelectedProviders && customParams.selectedProviders) SELECTED_PROVIDERS = customParams.selectedProviders;
                 //alert(SELECTED_PROVIDERS);
+                /*---*/
+                
+                /* select language */
+                if(urlSelectedLanguage)
+                {
+                    SELECTED_LANGUAGE = urlSelectedLanguage;
+                }
+                if (!urlSelectedLanguage && customParams.selectedLanguage) SELECTED_LANGUAGE = customParams.selectedLanguage;
                 /*---*/
                 
 				if (customParams.serviceUrl) SERVICE_URL = customParams.serviceUrl;
@@ -204,7 +213,7 @@ function initializeFinder(){
 		for (var i=0;i<FACET_TOKENS.length;i++)
         {
 			var fn = FACET_TOKENS[i];
-			div.push('<a href="#" id="'+fn+'" onclick="return false;" class="filter_parent"><span>'+FACET_LABELS[fn]+'</span></a><div id="'+fn+'_rbo" class="filter_child" style="display: none; overflow: hidden;height:auto;"></div>');
+			div.push('<a href="#" id="'+fn+'"  onclick="return false;" class="filter_parent"><span data_translation="'+fn+'">'+FACET_LABELS[fn]+'</span></a><div id="'+fn+'_rbo" class="filter_child" style="display: none; overflow: hidden;height:auto;"></div>');
 			
 		}
         
@@ -228,24 +237,6 @@ function initializeFinder(){
 		div.push('<div id="search_results"></div>');
 		div.push('</div>');
 		$('insert_results').update(div.join(''));
-        //		if (!$('insert_moreResults')) {
-        //			$('body').insert('<div id="insert_moreResults" style="display:none"></div>');
-        //		}
-        //		var div = [];
-        //		div.push('<div id="moreResults"><h3>More Results</h3>');
-        //		for (var i=0;i<EXT_SOURCES.length;i++){
-        //			var es = EXT_SOURCES[i];
-        //			var esn = AVAILABLE_ES[es]['name'];
-        //			div.push('<div id="'+es+'_search" class="ext-res-div">');
-        //			div.push('<a class="ext-res" onclick="getExternalSourceResult(\''+es+'\');" href="javascript:void(0)" title="'+esn+'">'+esn+'</a>');
-        //			div.push('<span id="'+es+'_indicator" style="display:none"><img src="'+ROOT_URL+'common/images/indicator.gif"></span>');
-        //			div.push('<span id="'+es+'_results"></span>');
-        //			div.push('</DIV>');
-        //		}
-        //		div.push('</DIV>');
-        // 		$('insert_moreResults').update(div.join(''));
-        
-        
         
         
 		initializeJamlTemplates();
@@ -541,102 +532,104 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                          
              /*--------------------CREATE EVERY ITEM BEFORE CALL RENDERING WITH JAML-------------------------*/
              var oddCtr = 0; /*counter to add the odd style in listing*/
-             result.metadata.each(function(item,index){
-                                  
-                                  oddCtr++;
-                                  item.isOdd = oddCtr;
-                                  
-                                  console.log(JSON.stringify(item));
-                                  
-                                  if(item.format!=undefined && item.format[0]!=undefined)
-                                  {
-                                  if (item.format.indexOf('pdf') != -1)
-                                  item.format='images/icons/pdf.png';
-                                  else if (item.format.indexOf('powerpoint') != -1)
-                                  item.format='images/icons/ppt.png';
-                                  else if (item.format.indexOf('video') != -1)
-                                  item.format='images/icons/video.png';
-                                  else if (item.format.indexOf('zip') != -1)
-                                  item.format='images/icons/zip.png';
-                                  else if (item.format.indexOf('audio') != -1)
-                                  item.format='images/icons/audio.png';
-                                  else if ((item.format.indexOf('text') != -1) ||(item.format[0].indexOf('multipart') != -1) )
-                                  item.format='images/icons/text.png';
-                                  else if ((item.format.indexOf('xml') != -1) )
-                                  item.format='images/icons/xml.png';
-                                  else if (item.format.indexOf('image') != -1)
-                                  item.format='images/icons/image.png';
-                                  //item.format=item.thumbnailUri;
-                                  //item.format=item.location;
-                                  else if ((item.format.indexOf('word')!= -1) || (item.format[0].indexOf('wordprocessingml')!= -1))
-                                  item.format='images/icons/word.png';
-                                  else if ((item.format.indexOf('application')!= -1))
-                                  item.format='images/icons/application.png';
-                                  else
-                                  item.format='images/icons/application.png';
-                                  }
-                                  else{ //item.format == undefined
-                                   item.format='images/icons/application.png';
-                                  }
-                                  
-                                  
-                                  
-                                  for(i=0,tmpSize=item.description.length;i<tmpSize;i++)
-                                  {
-                                  if(item.description[i].lang==SELECTED_LANGUAGE)
-                                  item.thisDescription=item.description[i];
-                                  }
-                                  
-                                  if(item.thisDescription==undefined){item.thisDescription = " There is no defined description for this language";}
-                                  
-                                  
-                                  
-                                  for(i=0,tmpSize=item.title.length;i<tmpSize;i++)
-                                  {
-                                  if(item.title[i].lang==SELECTED_LANGUAGE)
-                                  item.thisTitle=item.title[i];
-                                  }
-                                  
-                                  if(item.thisTitle==undefined){item.thisTitle = " There is no defined title for this language";}
-                                  
-                                  
-                                  
-                                  if(item.keywords == undefined || item.keywords == '')
-                                  {
-                                  $('search_results').insert(Jaml.render('resultwithoutkeywords',item));
-                                  }
-                                  else
-                                  {
-                                  
-                                  try {item.keywords = item.keywords.split("&#044; ");} catch(e) {}
-                                  
-                                  var spt = item.title.split(",",1);
-                                  item.title = spt[0];
-                                  var length = spt[0].length;
-                                  
-                                  if (item.title[0] == '[')
-                                  item.title = item.title.substring(1,length);
-                                  else
-                                  item.title = item.title.substring(0,length);
-                                  
-                                  spt = item.description.split(",",1);
-                                  item.description=spt[0];
-                                  length = spt[0].length;
-                                  
-                                  if (item.description[0] == '[')
-                                  item.description = item.description.substring(1,length);
-                                  else
-                                  item.description =item.description.substring(0,length);
-                                  
-                                  item.isOdd = oddCtr;
-                                  
-                                  $('search_results').insert(Jaml.render('result',item));
-                                  // alert("metaid:" +item.metaMetadataId);
-                                  iter++;
-                                  }
-                                  
-                                  
-                                  });
+             result.metadata.each(function(item,index)
+			 {
+	              
+	              oddCtr++;
+	              item.isOdd = oddCtr;
+	              
+	              console.log(item);
+	              
+	              if(item.format!=undefined && item.format[0]!=undefined)
+	              {
+		              if (item.format.indexOf('pdf') != -1)
+		              item.format='images/icons/pdf.png';
+		              else if (item.format.indexOf('powerpoint') != -1)
+		              item.format='images/icons/ppt.png';
+		              else if (item.format.indexOf('video') != -1)
+		              item.format='images/icons/video.png';
+		              else if (item.format.indexOf('zip') != -1)
+		              item.format='images/icons/zip.png';
+		              else if (item.format.indexOf('audio') != -1)
+		              item.format='images/icons/audio.png';
+		              else if ((item.format.indexOf('text') != -1) ||(item.format.indexOf('multipart') != -1) )
+		              item.format='images/icons/text.png';
+		              else if ((item.format.indexOf('xml') != -1) )
+		              item.format='images/icons/xml.png';
+		              else if (item.format.indexOf('image') != -1)
+		              item.format='images/icons/image.png';
+		              else if ((item.format.indexOf('word')!= -1) || (item.format.indexOf('wordprocessingml')!= -1))
+		              item.format='images/icons/word.png';
+		              else if ((item.format.indexOf('application')!= -1))
+		              item.format='images/icons/application.png';
+		              else
+		              item.format='images/icons/application.png';
+	              }
+	              else
+	              { //item.format == undefined
+		              item.format='images/icons/application.png';
+	              }
+	              
+	              
+	              
+	              for(i=0,tmpSize=item.description.length;i<tmpSize;i++)
+	              {
+	              if(item.description[i].lang==SELECTED_LANGUAGE)
+	              item.thisDescription=item.description[i];
+	              }
+	              
+	              if(item.thisDescription==undefined){item.thisDescription = " There is no defined description for this language";}
+	              
+	              
+	              
+	              for(i=0,tmpSize=item.title.length;i<tmpSize;i++)
+	              {
+	              if(item.title[i].lang==SELECTED_LANGUAGE)
+	              item.thisTitle=item.title[i];
+	              }
+	              
+	              if(item.thisTitle==undefined){item.thisTitle = " There is no defined title for this language";}
+	              
+	              
+	              
+	              if(item.keywords == undefined || item.keywords == '')
+	              {
+	              $('search_results').insert(Jaml.render('resultwithoutkeywords',item));
+	              }
+	              else
+	              {
+	              
+	              try {item.keywords = item.keywords.split("&#044; ");} catch(e) {}
+	              
+	              var spt = item.title.split(",",1);
+	              item.title = spt[0];
+	              var length = spt[0].length;
+	              
+	              if (item.title[0] == '[')
+	              item.title = item.title.substring(1,length);
+	              else
+	              item.title = item.title.substring(0,length);
+	              
+	              spt = item.description.split(",",1);
+	              item.description=spt[0];
+	              length = spt[0].length;
+	              
+	              if (item.description[0] == '[')
+	              item.description = item.description.substring(1,length);
+	              else
+	              item.description =item.description.substring(0,length);
+	              
+	              item.isOdd = oddCtr;
+	              
+	              $('search_results').insert(Jaml.render('result',item));
+	              // alert("metaid:" +item.metaMetadataId);
+	              iter++;
+	              }
+	              
+	              
+	         });
+	         
+	         language();
              
              $('search_results_index').show();
              
@@ -811,16 +804,17 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                            if(data.subject!=undefined){
                            for(var i=0 , length=data.subject.length; i<length;i++)
                            {
-                           if(data.subject[i].lang=='en'){
-                           if(i!==length-1)
-                           {
-                           keywordsToEmbed +="<a class=\"secondary\" href=\"listing.html?query="+data.subject[i].value+"\">&nbsp"+data.subject[i].value+"</a>"
-                           }
-                           else
-                           {
-                           keywordsToEmbed +="<a class=\"secondary last\" href=\"listing.html?query="+data.subject[i].value.split(" ")[0]+"\">&nbsp"+data.subject[i].value+"</a>"
-                           }
-                           }//end lang check
+	                           if(data.subject[i].lang==SELECTED_LANGUAGE)
+	                           {
+		                           if(i!==length-1)
+		                           {
+		                           keywordsToEmbed +="<a class=\"secondary\" href=\"listing.html?query="+data.subject[i].value+"\">&nbsp"+data.subject[i].value+"</a>"
+		                           }
+		                           else
+		                           {
+		                           keywordsToEmbed +="<a class=\"secondary last\" href=\"listing.html?query="+data.subject[i].value.split(" ")[0]+"\">&nbsp"+data.subject[i].value+"</a>"
+		                           }
+	                           }//end lang check
                            
                            }//end for
                            }//end if
@@ -830,28 +824,30 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                            var thisTitle = "undefined"; 
                            if(data.title!=undefined)
                            {
-                           thisTitle=data.title[0].value;
-                           for(var i=0 , length=data.title.length; i<length;i++)
-                           {
-                           if(data.title[i].lang=='en'){
-                           thisTitle = data.title[i].value
-                           }//end lang check
-                           
-                           }//end for
+/*                            thisTitle=data.title[0].value; */
+	                           for(var i=0 , length=data.title.length; i<length;i++)
+	                           {
+	                           if(data.title[i].lang==SELECTED_LANGUAGE)
+	                           {
+		                           thisTitle = data.title[i].value
+	                           }//end lang check
+	                           
+	                           }//end for
                            }//end if
 
                            //description
                            var thisDescription = "undefined";
                            if(data.description!=undefined)
                            {
-                           thisDescription=data.description[0].value;
-                           for(var i=0 , length=data.description.length; i<length;i++)
-                           {
-                           if(data.description[i].lang=='en'){
-                           thisDescription = data.description[i].value
-                           }//end lang check
-                           
-                           }//end for
+/* 	                           thisDescription=data.description[0].value; */
+	                           for(var i=0 , length=data.description.length; i<length;i++)
+	                           {
+		                           if(data.description[i].lang==SELECTED_LANGUAGE)
+		                           {
+			                           thisDescription = data.description[i].value
+		                           }//end lang check
+	                           
+	                           }//end for
                            }//end if
 
                            
@@ -873,7 +869,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                                         div({cls:'language'}, span("Creative commons licence:"), thisRights),
                                                         div({cls:'language'}, span("Rights:"), thisRights2),
                                                         div({cls:'floatright'},
-                                                            div({cls:'line alignright'}, a({href:"item.html?id="+data.id, cls:'moreinfo'}, "More Info")))))))
+                                                            div({cls:'line alignright'}, a({href:"item.html?id="+data.id+"&lang="+SELECTED_LANGUAGE , data_translation:'more_info', cls:'moreinfo'}, "More Info")))))))
                            });
              
              
@@ -894,16 +890,17 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                            if(data.subject!=undefined){
                            for(var i=0 , length=data.subject.length; i<length;i++)
                            {
-                           if(data.subject[i].lang=='en'){
-                           if(i!==length-1)
-                           {
-                           keywordsToEmbed +="<a class=\"secondary\" href=\"listing.html?query="+data.subject[i].value+"\">&nbsp"+data.subject[i].value+"</a>"
-                           }
-                           else
-                           {
-                           keywordsToEmbed +="<a class=\"secondary last\" href=\"listing.html?query="+data.subject[i].value.split(" ")[0]+"\">&nbsp"+data.subject[i].value+"</a>"
-                           }
-                           }//end lang check
+	                           if(data.subject[i].lang==SELECTED_LANGUAGE)
+	                           {
+		                           if(i!==length-1)
+		                           {
+			                           keywordsToEmbed +="<a class=\"secondary\" href=\"listing.html?query="+data.subject[i].value+"\">&nbsp"+data.subject[i].value+"</a>"
+		                           }
+		                           else
+		                           {
+			                           keywordsToEmbed +="<a class=\"secondary last\" href=\"listing.html?query="+data.subject[i].value.split(" ")[0]+"\">&nbsp"+data.subject[i].value+"</a>"
+		                           }
+	                           }//end lang check
                            
                            }//end for
                            }//end if
@@ -912,12 +909,13 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                            var thisTitle = "undefined";
                            if(data.title!=undefined)
                            {
-                           thisTitle=data.title[0].value;
+/*                            thisTitle=data.title[0].value; */
                            for(var i=0 , length=data.title.length; i<length;i++)
                            {
-                           if(data.title[i].lang=='en'){
-                           thisTitle = data.title[i].value
-                           }//end lang check
+	                           if(data.title[i].lang==SELECTED_LANGUAGE)
+	                           {
+		                           thisTitle = data.title[i].value
+	                           }//end lang check
                            
                            }//end for
                            }//end if
@@ -926,13 +924,13 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                            var thisDescription = "undefined";
                            if(data.description!=undefined)
                            {
-                           thisDescription=data.description[0].value;
+/*                            thisDescription=data.description[0].value; */
                            for(var i=0 , length=data.description.length; i<length;i++)
                            {
-                           if(data.description[i].lang=='en'){
-                           thisDescription = data.description[i].value
-                           }//end lang check
-                           
+	                           if(data.description[i].lang==SELECTED_LANGUAGE)
+	                           {
+		                           thisDescription = data.description[i].value
+	                           }//end lang check
                            }//end for
                            }//end if
 
@@ -952,40 +950,26 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                                         //                                                                                        div({cls:'language'}, span("Creative commons licence:"), thisRights),
                                                         //                                                                                        div({cls:'language'}, span("Rights:"), thisRights2),
                                                         div({cls:'floatright'},
-                                                            div({cls:'line alignright'}, a({href:"item.html?id="+data.id, cls:'moreinfo'}, "More Info")))))))});
+                                                            div({cls:'line alignright'}, a({href:"item.html?id="+data.id+"&lang="+SELECTED_LANGUAGE , data_translation:'more_info', cls:'moreinfo'}, "More Info")))))))});
              
 /*-----------------------------RENDER FACETS--------------------------------*/
-             Jaml.register('rbcriteria', function(data) //rest facets
-                           {
-                           
-                           
-                           //###
-                           //alert(data.val);
-                           
-                           var label = data.val;
-                           if(data.val.indexOf("NHMC ")!=-1){
-                           label = data.val.split("NHMC ")[1];
-                           }
-                           
-                           a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick:"toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})}, span(label), span({cls:'total'}, data.count));
-                           
-                           
-                           });
-             
-             
-             Jaml.register('rbcriteria2', function(data) //language facet
-                           {
-                           
-                           
-                           
-                           
-                           
-                           a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val, parent: data.field})}, span(langName[data.val]), span({cls:'total'}, data.count ));
-                           
-                           //              li({id: data.field + ':' + data.val},
-                           //         a({href:'javascript:void(0);', title: data.val,onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field}),},
-                           //           span(langName[data.val]), span({cls:'total'}, data.count )));
-                           });
+Jaml.register('rbcriteria', function(data) //rest facets
+{
+   var label = data.val;
+   if(data.val.indexOf("NHMC ")!=-1)
+   {
+	   label = data.val.split("NHMC ")[1];
+   }
+   
+	   a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick:"toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})}, span({data_translation:data.val}, label), span({cls:'total'}, data.count)); 
+});
+
+
+Jaml.register('rbcriteria2', function(data) //language facet
+{
+	a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val, parent: data.field})}, span({data_translation:data.val}, langName[data.val]), span({cls:'total'}, data.count ));
+ 
+});
              
              
              /*------------------------------*/

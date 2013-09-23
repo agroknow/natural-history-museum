@@ -42,38 +42,42 @@
         <SCRIPT type="text/javascript" src="js/finder-js/sha1.js"></SCRIPT>
         <SCRIPT type="text/javascript" src="js/finder-js/jaml-all.js"></SCRIPT>
         <SCRIPT type="text/javascript" src="js/finder-js/finder.js"></SCRIPT>
+        
+        <!--         languages scripts -->
+        <script src="js/language.js"></script>
+        <!--end nhmc-->
 	
 	</head>
 	
-	<body class="innerpage listingpage">
+	<body onload="language()" class="innerpage listingpage">
 		<section id="wrap">
 
 			<header id="mainheader">
-				<div class="top-menu">
-					<div class="inner">
-						<div class="top-menu-body">
-							<!--<a href="#">Sign In</a> or <a href="#">Register</a>-->
-							<!--<select id="lang-selector">
-                             <option value="en">English</option>
-                             <option value="gr">Greek</option>
-                             </select>-->
-						</div>
-					</div>
-				</div>
+				<div class="top-menu"></div>
 				<div class="main_search_block inner clearfix">
-					<a href="index.html" class="logo">Natural History Museum of Crete</a>
+                    <div>
+					<a href="#" class="logo">Natural History Museum of Crete</a>
+                    </div>
 				</div>
-            </header>
-            <nav class="white">
-                <ul id="mega-menu-1" class="mega-menu">
-                    <li><a class="fNiv" href="index.html">Home</a></li>
-                    <li><a href="listing.html?query=*">Search</a></li>
-                    <li><a href="http://www.nhmc.uoc.gr/en/museum" target="_blank">The Museum</a></li>
-                    <li><a href="http://www.nhmc.uoc.gr/en/exhibition" target="_blank">Exhibition</a></li>
-                    <li><a href="http://www.nhmc.uoc.gr/en/research/" target="_blank">Research</a></li>
-                    <li><a href="http://www.nhmc.uoc.gr/en/news-main" target="_blank">News - Announcements</a></li>
-                </ul>
-            </nav>
+				
+				<!-- Language     -->
+				 <div class="languages_block">               
+					 <a href="#" onclick="changeLanguage('en')"><img src="style/images/flag_en.jpg" ></a>
+					 <a href="#" onclick="changeLanguage('gr')"><img src="style/images/flag_gr.png" ></a>
+				 </div>
+				<!-- / Language -->
+			</header>
+			
+                <nav class="white">
+                    <ul id="mega-menu-1" class="mega-menu">
+                        <li><a class="fNiv" href="index.html" data_translation="home">Home</a></li>
+                        <li><a href="listing.html?query=*" data_translation="search">Search</a></li>
+                        <li><a href="http://www.nhmc.uoc.gr/en/museum" target="_blank" data_translation="the_museum">The Museum</a></li>
+                        <li><a href="http://www.nhmc.uoc.gr/en/exhibition" target="_blank" data_translation="exhibition">Exhibition</a></li>
+                        <li><a href="http://www.nhmc.uoc.gr/en/research/" target="_blank" data_translation="research">Research</a></li>
+                        <li><a href="http://www.nhmc.uoc.gr/en/news-main" target="_blank" data_translation="news_announcements">News - Announcements</a></li>
+                    </ul>
+                </nav>
             
             <section id="search">
             <div class="moduletable_mainsearch">
@@ -116,8 +120,8 @@
                    <aside class="filter">
                        <div id="insert_summary" ></div><!-- Results : (1 - 12 of 216) from Ajax.JSONRequest() -->
                        <div id="search_status" ></div>
-                       <div class="remove_filters" style="padding: 3px 0 3px 0;">
-                           <a href="" style="font-size:12px;" onclick="initialSearch();pagination_hide();">remove filters</a>
+                       <div class="remove_filters"style="padding: 3px 0 3px 0;">
+                           <a href="" style="font-size:12px;"  data_translation="remove_filters"  onclick="initialSearch();pagination_hide();">remove filters</a>
                        </div>
                        
                        <div id="insert_facets" ></div>

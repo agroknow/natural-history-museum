@@ -36,24 +36,14 @@
 		<![endif]-->
 		<script src="js/modernizr-1.7.min.js"></script>
         
-        <!--from index_naked-->
-        <script type="text/javascript" src="http://yui.yahooapis.com/combo?2.8.1/build/yahoo-dom-event/yahoo-dom-event.js&2.8.1/build/container/container_core-min.js&2.8.1/build/datasource/datasource-min.js&2.8.1/build/element/element-min.js&2.8.1/build/paginator/paginator-min.js&2.8.1/build/datatable/datatable-min.js&2.8.1/build/json/json-min.js&2.8.1/build/selector/selector-min.js&2.8.1/build/layout/layout-min.js"></script>
         
-        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-        
-        <SCRIPT type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></SCRIPT>
-        
-        <SCRIPT type="text/javascript" src="js/finder-js/prototype.js"></SCRIPT>
-        <SCRIPT type="text/javascript" src="js/finder-js/jsonp.js"></SCRIPT>
-        <SCRIPT type="text/javascript" src="js/finder-js/jaml-all.js"></SCRIPT>
-        <SCRIPT type="text/javascript" src="js/finder-js/finder.js"></SCRIPT>
-        
-        <SCRIPT type="text/javascript" src="js/finder-js/sha1.js"></SCRIPT>
-        <script type="text/javascript" src="js/ariadne-json.js"></script>
+        <!--         languages scripts -->
+        <script src="js/language.js"></script>
+        <!--end nhmc-->
 	
 	</head>
 	
-	<body> <!--onload="getFeaturedItems(['9383', '14260', '3383','13013', '41432', '13260', '4118', '8013'], 'http://83.212.100.142:8081/ariadne_finder_jsons/' );"-->
+	<body onload="language()"> <!--onload="getFeaturedItems(['9383', '14260', '3383','13013', '41432', '13260', '4118', '8013'], 'http://83.212.100.142:8081/ariadne_finder_jsons/' );"-->
         
 		<section id="wrap">
 
@@ -64,18 +54,26 @@
 					<a href="#" class="logo">Natural History Museum of Crete</a>
                     </div>
 				</div>
+				
+				<!-- Language     -->
+				 <div class="languages_block">               
+					 <a href="#" onclick="changeLanguage('en')"><img src="style/images/flag_en.jpg" ></a>
+					 <a href="#" onclick="changeLanguage('gr')"><img src="style/images/flag_gr.png" ></a>
+				 </div>
+				<!-- / Language -->
 			</header>
   
                 <nav class="white">
                     <ul id="mega-menu-1" class="mega-menu">
-                        <li><a class="fNiv" href="index.html">Home</a></li>
-                        <li><a href="listing.html?query=*">Search</a></li>
-                        <li><a href="http://www.nhmc.uoc.gr/en/museum" target="_blank">The Museum</a></li>
-                        <li><a href="http://www.nhmc.uoc.gr/en/exhibition" target="_blank">Exhibition</a></li>
-                        <li><a href="http://www.nhmc.uoc.gr/en/research/" target="_blank">Research</a></li>
-                        <li><a href="http://www.nhmc.uoc.gr/en/news-main" target="_blank">News - Announcements</a></li>
+                        <li><a class="fNiv" href="index.html" data_translation="home">Home</a></li>
+                        <li><a href="listing.html?query=*" data_translation="search">Search</a></li>
+                        <li><a href="http://www.nhmc.uoc.gr/en/museum" target="_blank" data_translation="the_museum">The Museum</a></li>
+                        <li><a href="http://www.nhmc.uoc.gr/en/exhibition" target="_blank" data_translation="exhibition">Exhibition</a></li>
+                        <li><a href="http://www.nhmc.uoc.gr/en/research/" target="_blank" data_translation="research">Research</a></li>
+                        <li><a href="http://www.nhmc.uoc.gr/en/news-main" target="_blank" data_translation="news_announcements">News - Announcements</a></li>
                     </ul>
                 </nav>
+
                 
 
 
@@ -102,7 +100,7 @@
 						
 						<div class="width400">
 							<div class="moduletable slidermodule">
-								<h3>Highlighted specimens  from other European Museums</h3>
+								<h3  data_translation="highlighted_speciments_from_other_european_museums">Highlighted specimens  from other European Museums</h3>
 								<div class="articles_mod_list is_slider">
 									<!-- page 1 -->
 									<div class="slider_page">
@@ -144,11 +142,11 @@
 						</div>
 						
                         
-                                                                <!--LATEST PATHWAYS-->
+                                                                <!--FEATURED SPECIES-->
                         
                         <div class="width500">
 							<div class="moduletable slidermodule">
-								<h3>Featured Species</h3>
+								<h3 data_translation="featured_species">Featured Species</h3>
 								<div class="articles_mod_list is_slider">
 									<!-- page 1 -->
 									<div class="slider_page">
