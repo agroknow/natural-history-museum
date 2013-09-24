@@ -495,8 +495,6 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                         resultSortkey:''
                         };
                         
-                        //alert(JSON.stringify(request));
-                        
                         
                         if(!$F('query').blank())
                         $('search_terms').update($F('query'));
@@ -504,31 +502,31 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                         $('search_status').update('Searching...');
                         $('noResults').hide();
                         
-                        new Ajax.JSONRequest(SERVICE_URL, {
-                                             callbackParamName: "callback",
-                                             method: 'get',
-                                             parameters: {
-                                             json: Object.toJSON(request),
-                                             engine: 'InMemory'
-                                             },
-                                             onSuccess: function(transport) {
-                                             var result = transport.responseText.evalJSON(true).result;
-                                             
-                                             // alert(JSON.stringify(result));
-                                             
-                                             $('search_results').update('');
-                                             $('noResults').hide();
-                                             
-                                             $('search_status').update('Processing time: ' + (result.processingTime/1000).toFixed(3) + ' seconds');
-                                             
-                                             if(initUpdate) {
-                                             $('searchMessage').insert('<h3 align="center">Available: '+formatInteger(result.nrOfResults,',')+' learning resources</h3>');
-                                             } else {
-                                             $('search_terms').update('Results: ');
-                                             $('searchMessage').update('');
-                                             if(result.metadata.size() == 0){
-                                             $('noResults').show();
-                                             }
+                        new Ajax.JSONRequest(SERVICE_URL, 
+	    				{
+	                         callbackParamName: "callback",
+	                         method: 'get',
+	                         parameters: {
+	                         json: Object.toJSON(request),
+	                         engine: 'InMemory'
+	                         },
+	                         onSuccess: function(transport) {
+	                         var result = transport.responseText.evalJSON(true).result;
+	                         
+	                        
+	                         $('search_results').update('');
+	                         $('noResults').hide();
+	                         
+	                         $('search_status').update('Processing time: ' + (result.processingTime/1000).toFixed(3) + ' seconds');
+	                         
+	                         if(initUpdate) {
+	                         $('searchMessage').insert('<h3 align="center">Available: '+formatInteger(result.nrOfResults,',')+' learning resources</h3>');
+	                         } else {
+	                         $('search_terms').update('Results: ');
+	                         $('searchMessage').update('');
+	                         if(result.metadata.size() == 0){
+	                         $('noResults').show();
+	                     }
                          
              /*--------------------CREATE EVERY ITEM BEFORE CALL RENDERING WITH JAML-------------------------*/
              var oddCtr = 0; /*counter to add the odd style in listing*/
@@ -664,32 +662,30 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                 if(element && facetExpressions.get(fld) == undefined){
                                 element.update('');
                                 if(item.numbers != undefined){
-                                item.numbers.each(function(it2,idx2){
-                                                  if (facetHasNoLimit || limitValues.indexOf(it2.val) >= 0) {
-                                                  
-                                                  
-                                                  it2.field = fld;
-                                                  
-                                                  it2.val=it2.val.replace(/\'/g, "&#34;");
-                                                                          it2.count = formatInteger(it2.count,THOUSAND_SEP);
-                                                                          //element.insert(Jaml.render('rbcriteria',it2));
-                                                                          if (fld!= "language")
-                                                                          element.insert(Jaml.render('rbcriteria',it2));
-                                                                          
-                                                                          else
-                                                                          // check first if langName[it2.val] exists already in rbList
-                                                                          {
-                                                                          checkLang(it2.val,it2.count);
-                                                                          
-                                                                          if (CHECK==0)
-                                                                          element.insert(Jaml.render('rbcriteria2',it2));
-                                                                          
-                                                                          }
-                                                                          }
-                                                                          });
-                                                  }
-                                                  }
-                                                  });
+                                item.numbers.each(function(it2,idx2)
+                                {
+                                      if (facetHasNoLimit || limitValues.indexOf(it2.val) >= 0) {
+                                                                            it2.field = fld;
+                                      it2.val=it2.val.replace(/\'/g, "&#34;");
+                                      it2.count = formatInteger(it2.count,THOUSAND_SEP);
+                                      //element.insert(Jaml.render('rbcriteria',it2));
+                                      if (fld!= "language")
+                                      element.insert(Jaml.render('rbcriteria',it2));
+                                      
+                                      else
+                                      // check first if langName[it2.val] exists already in rbList
+                                      {
+                                      checkLang(it2.val,it2.count);
+                                      
+                                      if (CHECK==0)
+                                      element.insert(Jaml.render('rbcriteria2',it2));
+                                      
+                                      }
+                                      }
+                                      });
+                                      }
+                                      }
+                                  });
                                 
                                 
                                 facetSlide();

@@ -46,7 +46,9 @@ function language()
 
 	var lang = getUrlVars()["lang"];
 	console.log("l@ng:"+lang);
-	            	
+	if(lang=="el") {lang="gr";}
+    console.log("lang:"+lang);	
+                	
 	if(lang!=undefined)
 	{
 		jQuery.ajax({
@@ -58,6 +60,9 @@ function language()
 		{
 			/* console.log(item); */
 			// fixed translations
+			
+
+            
 			var translations = item.elements;
 			if (translations instanceof Array) 
 			{	

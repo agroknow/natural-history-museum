@@ -1,6 +1,6 @@
 //JSONP version
 //we get a json array and manipulate it.
-function getItemJSONP(itemID)
+function getItemJSONP(itemID, selectedLanguage)
 {
     
     urlTemp = "http://collections.natural-europe.eu/repository/api/ariadne/restp?json=%7B%22clause%22%3A%20%5B%7B%22language%22%3A%20%22VSQL%22%2C%20%22expression%22%3A%20%22"+itemID+"%22%7D%5D%2C%20%22resultInfo%22%3A%20%22display%22%2C%20%22resultListOffset%22%3A%200%2C%20%22resultListSize%22%3A%206%2C%20%22idListOffset%22%3A%200%2C%20%22uiLanguage%22%3A%20%22en%22%2C%20%22facets%22%3A%20%5B%22provider%22%2C%20%22language%22%2C%20%22format%22%2C%20%22classification%22%5D%2C%20%22idListSize%22%3A%206%2C%20%22resultFormat%22%3A%20%22json%22%2C%20%22resultSortkey%22%3A%20%22%22%7D&engine=InMemory";
@@ -20,7 +20,8 @@ function getItemJSONP(itemID)
                 var tmp = JSON.parse(thisJson);
                 var record = tmp.result.metadata[0];
                 
-                //console.log(thisJson);
+                console.log("language:"+selectedLanguage);
+                console.log(tmp);
                 
                 //left_sidebar
                 
@@ -126,9 +127,10 @@ function getItemJSONP(itemID)
                 var tempTitle = Object.keys(record.title);
                 for(var i=0; i<tempTitle.length;i++)
                 {
-                if(record.title[tempTitle[i]].lang =='en'){
-                jQuery('#item_title').append('<a class="item_title_link" href=\"'+record.objectUri+'\" target=\"_blank\">'+record.title[tempTitle[i]].value+'</a>');
-                }
+	                if(record.title[tempTitle[i]].lang == selectedLanguage)
+	                {
+		                jQuery('#item_title').append('<a class="item_title_link" href=\"'+record.objectUri+'\" target=\"_blank\">'+record.title[tempTitle[i]].value+'</a>');
+	                }
                 }
                 }
                 
@@ -137,7 +139,7 @@ function getItemJSONP(itemID)
                 var tempDesc = Object.keys(record.description);
                 for(var i=0; i<tempTitle.length;i++)
                 {
-                if(record.description[tempDesc[i]].lang =='en'){
+                if(record.description[tempDesc[i]].lang == selectedLanguage){
                 jQuery('#item_description').append(record.description[tempDesc[i]].value);
                 }
                 }
@@ -150,9 +152,9 @@ function getItemJSONP(itemID)
                 for(var i=0; i <tempCreator.length; i++)
                 {
                 if(record.creator[i].value!=undefined){
-                if(record.creator[i].lang='en'){
-                jQuery('#item_creator').append(record.creator[i].value);
-                if(i!=tempCreator.length-1){ jQuery('#item_creator').append(", "); }
+                if(record.creator[i].lang=selectedLanguage){
+	                jQuery('#item_creator').append(record.creator[i].value);
+	                if(i!=tempCreator.length-1){ jQuery('#item_creator').append(", "); }
                 }
                 }
                 }
@@ -165,9 +167,9 @@ function getItemJSONP(itemID)
                 for(var i=0; i <record.subject.length; i++)
                 {
                 if(record.subject[i].value!=undefined){
-                if(record.subject[i].lang='en'){
-                jQuery('#item_keywords').append(record.subject[i].value);
-                if(i!=record.subject.length-1){ jQuery('#item_keywords').append(", "); }
+                if(record.subject[i].lang=selectedLanguage){
+	                jQuery('#item_keywords').append(record.subject[i].value);
+	                if(i!=record.subject.length-1){ jQuery('#item_keywords').append(", "); }
                 }
                 }
                 }
@@ -223,10 +225,10 @@ function getItemJSONP(itemID)
                 
                 if(record.objectUri!==undefined)
                 {
-                jQuery('#itemAccess').append('<a target="_blank" href="'+record.objectUri+'" class="access  secondary">Access to the resource</a>');
+                	jQuery('#itemAccess').append('<a target="_blank" href="'+record.objectUri+'" data_translation="access_to_the_resource" class="access  secondary">Access to the resource</a>');
                 }
                 
-                
+                language();
                 
                 //end of -success- of getItemJSONP
                 }})}

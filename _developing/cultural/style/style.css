@@ -613,7 +613,15 @@ nav #jMenu li ul li a:hover {
 }
 
 #search_terms
-{color:#666666;}
+{
+	color:#124E62;
+}
+
+#search_status
+{
+	color:#124E62;
+	margin:15px;
+}
 
 #search_results_index
 {
@@ -819,6 +827,9 @@ li.slider_page_listitem > div .info > a {
 }
 
 /* INNERPARE LISTINGPAGE */
+search_title
+
+
 body.innerpage #main {
 	padding-top:20px;
 }
@@ -1352,21 +1363,28 @@ a.grflag {
 	background:url(images/flag_en.jpg) 0 0 no-repeat;
 }
 
-.addtofavorite, .reportaproblem {
-	padding:35px 0 0 0;
-	margin:22px 0 0 28px;
-	background-position:center top;
-	background-repeat:no-repeat;
-	display:inline-block;
-	font-size:12px;
-}
 .addtofavorite {
 	background-image:url(images/add_to_favorite.png);
+	
 }
 .reportaproblem {
 	background-image:url(images/reportaproblem.png);
 }
 
+#itemThumb img
+{
+	width:160px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-o-border-radius: 4px;
+	-ms-border-radius: 4px;
+	border-radius: 4px;
+	-webkit-box-shadow: 1px 1px 3px #000000;
+	-moz-box-shadow: 1px 1px 3px #000000;
+	-o-box-shadow: 1px 1px 3px #000000;
+	-ms-box-shadow: 1px 1px 3px #000000;
+	box-shadow: 1px 1px 3px #000000;
+}
 /* rating */
 .rating {
 	display:inline-block;
@@ -1579,10 +1597,16 @@ a.disabled {
 
 
 /*VIEW ITEM PAGE*/
+.item_label{
+	font-size: 1.1em;
+}
 
+.item_value{
+	font-size: 1em;
+}
 .access, .reportaproblem {
 	padding:35px 0 0 0;
-	margin:22px 0 0 0px;
+	margin:22px 10px 0 0px;
 	background-position:center top;
 	background-repeat:no-repeat;
 	display:inline-block;
@@ -1606,8 +1630,12 @@ a.disabled {
 	width:230px;
 	background:none;
     font-size:13px;
-    border-right:1px solid #ccc;
-    
+    border-right:1px solid #ccc;  
+}
+
+.leftSidebarInfo li
+{
+	margin: 8px 0px;
 }
 
 .cleanList
@@ -1634,6 +1662,11 @@ a.disabled {
     width:550px;
     min-height: 200px;
     margin-top: 5px;
+}
+
+.itemDescription li
+{
+	margin:8px 0px;
 }
 
 .itemKeywords
