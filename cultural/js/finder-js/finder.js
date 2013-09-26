@@ -546,37 +546,38 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                   oddCtr++;
                                   item.isOdd = oddCtr;
                                   
-                                  console.log(JSON.stringify(item));
+                                  console.log(item);
                                   
                                   if(item.format!=undefined && item.format[0]!=undefined)
                                   {
-                                  if (item.format.indexOf('pdf') != -1)
-                                  item.format='images/icons/pdf.png';
-                                  else if (item.format.indexOf('powerpoint') != -1)
-                                  item.format='images/icons/ppt.png';
-                                  else if (item.format.indexOf('video') != -1)
-                                  item.format='images/icons/video.png';
-                                  else if (item.format.indexOf('zip') != -1)
-                                  item.format='images/icons/zip.png';
-                                  else if (item.format.indexOf('audio') != -1)
-                                  item.format='images/icons/audio.png';
-                                  else if ((item.format.indexOf('text') != -1) ||(item.format[0].indexOf('multipart') != -1) )
-                                  item.format='images/icons/text.png';
-                                  else if ((item.format.indexOf('xml') != -1) )
-                                  item.format='images/icons/xml.png';
-                                  else if (item.format.indexOf('image') != -1)
-                                  item.format='images/icons/image.png';
-                                  //item.format=item.thumbnailUri;
-                                  //item.format=item.location;
-                                  else if ((item.format.indexOf('word')!= -1) || (item.format[0].indexOf('wordprocessingml')!= -1))
-                                  item.format='images/icons/word.png';
-                                  else if ((item.format.indexOf('application')!= -1))
-                                  item.format='images/icons/application.png';
-                                  else
-                                  item.format='images/icons/application.png';
+	                                  if (item.format.indexOf('pdf') != -1)
+	                                  item.format='images/icons/pdf.png';
+	                                  else if (item.format.indexOf('powerpoint') != -1)
+	                                  item.format='images/icons/ppt.png';
+	                                  else if (item.format.indexOf('video') != -1)
+	                                  item.format='images/icons/video.png';
+	                                  else if (item.format.indexOf('zip') != -1)
+	                                  item.format='images/icons/zip.png';
+	                                  else if (item.format.indexOf('audio') != -1)
+	                                  item.format='images/icons/audio.png';
+	                                  else if ((item.format.indexOf('text') != -1) ||(item.format.indexOf('multipart') != -1) )
+	                                  item.format='images/icons/text.png';
+	                                  else if ((item.format.indexOf('xml') != -1) )
+	                                  item.format='images/icons/xml.png';
+	                                  else if (item.format.indexOf('image') != -1)
+	                                  item.format='images/icons/image.png';
+	                                  //item.format=item.thumbnailUri;
+	                                  //item.format=item.location;
+	                                  else if ((item.format.indexOf('word')!= -1) || (item.format.indexOf('wordprocessingml')!= -1))
+	                                  item.format='images/icons/word.png';
+	                                  else if ((item.format.indexOf('application')!= -1))
+	                                  item.format='images/icons/application.png';
+	                                  else
+	                                  item.format='images/icons/application.png';
                                   }
-                                  else{ //item.format == undefined
-                                   item.format='images/icons/application.png';
+                                  else
+                                  { //item.format == undefined
+	                                   item.format='images/icons/application.png';
                                   }
                                   
                                   
