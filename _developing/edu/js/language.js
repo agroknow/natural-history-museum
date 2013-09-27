@@ -45,7 +45,9 @@ function language()
 {            	
 
 	var lang = getUrlVars()["lang"];
-	var lang_file = lang.replace("#", "");
+	if(lang!=undefined)
+	{var lang_file = lang.replace("#", "");}
+	
 	if(lang=="el"){	
 		var lang_file = "gr";
 	}
