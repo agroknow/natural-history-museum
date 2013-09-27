@@ -45,15 +45,16 @@ function language()
 {            	
 
 	var lang = getUrlVars()["lang"];
-	if(lang=="el"){
-		lang="gr";
+	var lang_file = lang.replace("#", "");
+	if(lang=="el"){	
+		var lang_file = "gr";
 	}
 	console.log("l@ng:"+lang);
 	            	
 	if(lang!=undefined)
 	{
 		jQuery.ajax({
-		url: "http://greenlearningnetwork.com/finders_files/nhmc_translations/"+lang.replace("#", "")+".json",
+		url: "http://greenlearningnetwork.com/finders_files/nhmc_translations/"+lang_file.replace("#", "")+".json",
 		dataType: 'json',
 		/* jsonp: 'callback', */
 		/* jsonpCallback: 'jsonCallback', */
