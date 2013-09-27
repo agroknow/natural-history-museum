@@ -79,7 +79,6 @@ Jaml.Node.prototype = {
     for (var key in attrs) {
       //convert cls to class
       var mappedKey = key == 'cls' ? 'class' : key;
-      
       this.attributes[mappedKey] = attrs[key];
     }
   },

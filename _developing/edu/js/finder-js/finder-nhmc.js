@@ -398,6 +398,7 @@ function parseQueryString(initUpdate){
         var context = getUrlVars()["context"];
         var urlSelectedProviders = getUrlVars()["providers"];
         var urlSelectedCollections = getUrlVars()["collection"];
+        var urlSelectedAudience = getUrlVars()["audience"]; //iur:intented user role
         
         if (lrt) {
             lrt = lrt.replace("#","").replace("%20", " ");
@@ -418,6 +419,10 @@ function parseQueryString(initUpdate){
         if (urlSelectedCollections) {
             urlSelectedCollections = urlSelectedCollections.replace("#","").replace("%20", " ");
             clauses.push({language:'anyOf',expression:'collection:'+ urlSelectedCollections});
+        }
+        if (urlSelectedAudience) {
+            urlSelectedAudience = urlSelectedAudience.replace("#","").replace("%20", " ");
+            clauses.push({language:'anyOf',expression:'iur:'+ urlSelectedAudience});
         }
         
         //clauses.push({language:'anyOf',expression:'keyword:' + key});

@@ -112,6 +112,7 @@ langName['sv']= 'Swedish';
 langName['ell']= 'Greek';
 langName ['lat'] = 'Latin';
 langName['rus'] = 'Russian';
+langName['none'] = 'None';
 
 
 google.load("language", "1");
@@ -141,14 +142,26 @@ function initializeFinder(){
 		if(typeof customizeFinder == 'function') {
 			var customParams = customizeFinder();
             var urlSelectedProviders = getUrlVars()["providers"];
+            var urlSelectedLanguage = getUrlVars()["lang"];
             
-			if(customParams) {
+			if(customParams) 
+			{
                 /*limit collection|providers*/
-                if(urlSelectedProviders){
+                if(urlSelectedProviders)
+                {
                     SELECTED_PROVIDERS = urlSelectedProviders;
                     //alert(urlSelectedProviders);
                 }
                 if (!urlSelectedProviders && customParams.selectedProviders) SELECTED_PROVIDERS = customParams.selectedProviders;
+                //alert(SELECTED_PROVIDERS);
+                /*---*/
+                
+                /*language selection*/
+                if(urlSelectedLanguage)
+                {
+                    SELECTED_LANGUAGE = urlSelectedLanguage;
+                }
+                if (!urlSelectedLanguage && customParams.selectedLanguage) SELECTED_LANGUAGE = customParams.selectedLanguage;
                 //alert(SELECTED_PROVIDERS);
                 /*---*/
                 
@@ -204,7 +217,7 @@ function initializeFinder(){
 		for (var i=0;i<FACET_TOKENS.length;i++)
         {
 			var fn = FACET_TOKENS[i];
-			div.push('<a href="#" id="'+fn+'" onclick="return false;" class="filter_parent"><span>'+FACET_LABELS[fn]+'</span></a><div id="'+fn+'_rbo" class="filter_child" style="display: none; overflow: hidden;height:auto;"></div>');
+			div.push('<a href="#"  id="'+fn+'" onclick="return false;" class="filter_parent"><span data_translation="'+fn+'">'+FACET_LABELS[fn]+'</span></a><div id="'+fn+'_rbo" class="filter_child" style="display: none; overflow: hidden;height:auto;"></div>');
 			
 		}
         
@@ -228,24 +241,7 @@ function initializeFinder(){
 		div.push('<div id="search_results"></div>');
 		div.push('</div>');
 		$('insert_results').update(div.join(''));
-        //		if (!$('insert_moreResults')) {
-        //			$('body').insert('<div id="insert_moreResults" style="display:none"></div>');
-        //		}
-        //		var div = [];
-        //		div.push('<div id="moreResults"><h3>More Results</h3>');
-        //		for (var i=0;i<EXT_SOURCES.length;i++){
-        //			var es = EXT_SOURCES[i];
-        //			var esn = AVAILABLE_ES[es]['name'];
-        //			div.push('<div id="'+es+'_search" class="ext-res-div">');
-        //			div.push('<a class="ext-res" onclick="getExternalSourceResult(\''+es+'\');" href="javascript:void(0)" title="'+esn+'">'+esn+'</a>');
-        //			div.push('<span id="'+es+'_indicator" style="display:none"><img src="'+ROOT_URL+'common/images/indicator.gif"></span>');
-        //			div.push('<span id="'+es+'_results"></span>');
-        //			div.push('</DIV>');
-        //		}
-        //		div.push('</DIV>');
-        // 		$('insert_moreResults').update(div.join(''));
-        
-        
+
         
         
 		initializeJamlTemplates();
@@ -402,6 +398,7 @@ function parseQueryString(initUpdate){
         var context = getUrlVars()["context"];
         var urlSelectedProviders = getUrlVars()["providers"];
         var urlSelectedCollections = getUrlVars()["collection"];
+        var urlSelectedAudience = getUrlVars()["audience"]; //iur:intented user role
         
         if (lrt) {
             lrt = lrt.replace("#","").replace("%20", " ");
@@ -422,6 +419,10 @@ function parseQueryString(initUpdate){
         if (urlSelectedCollections) {
             urlSelectedCollections = urlSelectedCollections.replace("#","").replace("%20", " ");
             clauses.push({language:'anyOf',expression:'collection:'+ urlSelectedCollections});
+        }
+        if (urlSelectedAudience) {
+            urlSelectedAudience = urlSelectedAudience.replace("#","").replace("%20", " ");
+            clauses.push({language:'anyOf',expression:'iur:'+ urlSelectedAudience});
         }
         
         //clauses.push({language:'anyOf',expression:'keyword:' + key});
@@ -548,7 +549,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                   oddCtr++;
                                   item.isOdd = oddCtr;
                                   
-                                //alert(JSON.stringify(item));
+                                 console.log(item);
                                   
                                   if(item.format!=undefined && item.format[0]!=undefined ){
                                   if (item.format[0].indexOf('pdf') != -1)
@@ -622,6 +623,9 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
 
 
                                   });
+                          
+                         
+                         language();
                          
                          $('search_results_index').show();
                          
@@ -643,152 +647,148 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                          if(needsUpdate){
                          updatePaginator(result.nrOfResults);
                          result.facets.each(function(item,index){
-                                            var fld = item.field;
-                                            //rbkey = facetKeys[fld];
-                                            var facetHasNoLimit = true;
-                                            var limitValues = [];
-                                            if (LIMIT_FACET_DISPLAY[fld]) {
-                                            limitValues = LIMIT_FACET_DISPLAY[fld];
-                                            facetHasNoLimit = false;
-                                            }
-                                            var rbkey = fld;
-                                            var element = $(rbkey + '_rbo');
-                                            if(element && facetExpressions.get(fld) == undefined){
-                                            element.update('');
-                                            if(item.numbers != undefined){
-                                            item.numbers.each(function(it2,idx2){
-                                                              if (facetHasNoLimit || limitValues.indexOf(it2.val) >= 0) {
-                                                              
-                                                              
-                                                              it2.field = fld;
-                                                              
-                                                              it2.val=it2.val.replace(/\'/g, "&#34;");
-                                                                                      it2.count = formatInteger(it2.count,THOUSAND_SEP);
-                                                                                      //element.insert(Jaml.render('rbcriteria',it2));
-                                                                                      if (fld!= "language")
-                                                                                      element.insert(Jaml.render('rbcriteria',it2));
-                                                                                      
-                                                                                      else
-                                                                                      // check first if langName[it2.val] exists already in rbList
-                                                                                      {
-                                                                                      checkLang(it2.val,it2.count);
-                                                                                      
-                                                                                      if (CHECK==0)
-                                                                                      element.insert(Jaml.render('rbcriteria2',it2));
-                                                                                      
-                                                                                      } 
-                                                                                      }
-                                                                                      });
-                                                              }
-                                                              }
-                                                              });
-                                            
-                                            
-                                            facetSlide();
-                                            
-                                            selectedFacets.each(function(item,index){
-                                                                $(item.id).addClassName('facet-selected');
-                                                                
-                                                                });
-                                            }
-                                            //webSnapr.init();
-                                            //$('header').scrollTo();
-                                            //loadTranslator();
-                                            
-                                            
-                                            },
-                                            onComplete: function(transport){
-                                            // $('search_status').update('');
-                                            },
-                                            onLoading: function(){
-                                            $('search_results').update('');
-                                            $('search_terms').update('');
-                                            $('search_results_index').update('');
-                                            }
-                                            });
-                                             }
-                                             
-                                             function checkLang(name,counter){
-                                             
-                                             CHECK=0;
-                                             $$('#language_rbo li').each(function(item) {
-                                                                         
-                                                                         //  alert(item.innerHTML);
-                                                                         
-                                                                         var pos = item.id.indexOf(':');
-                                                                         
-                                                                         var langValue = item.id.substring(pos+1);
-                                                                         
-                                                                         if (langName[langValue]== langName[name])
-                                                                         {
-                                                                         //   pos = item.name.indexOf('/a');
-                                                                         var count = item.innerHTML;
-                                                                         pos = count.indexOf('/a');
-                                                                         var length = count.length;
-                                                                         count = item.innerHTML.substring(pos+5,length-1);
-                                                                         
-                                                                         count=count.replace("," ,"");
-                                                                         var num = count*1;
-                                                                         
-                                                                         num = Number(num) + Number(counter);
-                                                                         num = formatInteger(num,THOUSAND_SEP);
-                                                                         
-                                                                         item.update(item.innerHTML.substring(0,pos+4) + '(#{count})'.interpolate({count: num}));
-                                                                         CHECK=1;
-                                                                         
-                                                                         return;
-                                                                         }
-                                                                         
-                                                                         });
+                            var fld = item.field;
+                            //rbkey = facetKeys[fld];
+                            var facetHasNoLimit = true;
+                            var limitValues = [];
+                            if (LIMIT_FACET_DISPLAY[fld]) {
+                            limitValues = LIMIT_FACET_DISPLAY[fld];
+                            facetHasNoLimit = false;
+                            }
+                            var rbkey = fld;
+                            var element = $(rbkey + '_rbo');
+                            if(element && facetExpressions.get(fld) == undefined){
+                            element.update('');
+                            if(item.numbers != undefined){
+                            item.numbers.each(function(it2,idx2)
+                            {
+                                  if (facetHasNoLimit || limitValues.indexOf(it2.val) >= 0) {
+                                  
+                                  
+                                  it2.field = fld;
+                                  
+                                  it2.val=it2.val.replace(/\'/g, "&#34;");
+                                  it2.count = formatInteger(it2.count,THOUSAND_SEP);
+                                  //element.insert(Jaml.render('rbcriteria',it2));
+                                  if (fld!= "language")
+                                  element.insert(Jaml.render('rbcriteria',it2));
+                                  
+                                  else
+                                  // check first if langName[it2.val] exists already in rbList
+                                  {
+                                  checkLang(it2.val,it2.count);
+                                  
+                                  if (CHECK==0)
+                                  element.insert(Jaml.render('rbcriteria2',it2));
+                                  
+                                  } 
+                                  }
+						  });
+                      }
+                      }
+                      });
+                            
+                            
+                            facetSlide();
+                            
+                            selectedFacets.each(function(item,index){
+                                                $(item.id).addClassName('facet-selected');
+                                                
+                                                });
+                            }
+                            //webSnapr.init();
+                            //$('header').scrollTo();
+                            //loadTranslator();
+                            
+                            },
+                            onComplete: function(transport){
+                            // $('search_status').update('');
+                            
+                            },
+                            onLoading: function(){
+                            $('search_results').update('');
+                            $('search_terms').update('');
+                            $('search_results_index').update('');
+                            }
+                            });
+                             }
                              
-                                             
-                                             
-                                             }
-                                             
-                                             
+                             function checkLang(name,counter){
                              
-                                             
-                                             
-                                             
-                                             
-                                             
-                                             
-                                             
-                                             function addEndingDescription(data){
-                                             if(data.length ==  0 )
-                                             return "";
-                                             return (data.length<END_DESCRIPTION)?data:(data.substr(START_DESCRIPTION,END_DESCRIPTION)).concat(""," <span class='suspension-points'>...</span>");
-                                             }
-                                             
-                                             function removeHtmlTags(data) {
-                                             var strInputCode = data.replace(/&(lt|gt);/g, function (strMatch, p1){
-                                                                             return (p1 == "lt")? "<" : ">";
-                                                                             });
-                                             var strTagStrippedText = strInputCode.replace(/<\/?[^>]+(>|$)/g, " ");
-                                             return strTagStrippedText;
-                                             }
-                                             
-                                             function stripUrl(data) {
-                                             
-                                             var strTagStrippedText = data.replace(/<\/?[^>]:+(>|$)/g, "_");
-                                             return strTagStrippedText;
-                                             
-                                             
-                                             }
-                                             
-                                             
-                                             
-                                             
-                                             function initializeJamlTemplates(){
-                                             
-                                             Jaml.register('thumb_pres', function(data) {
-                                                           a({href: data.location,title: data.title , target: '_blank'}, img({src:data.format, height:"90", width:"80" }))
-                                                           });
-                                             
-                                             
-                                             Jaml.register('keyword', function(data) {
-                                                           a({href:'javascript:void(0);', onclick: "searchByKeyword('#{key}')".interpolate({key: data})}, data);
-                                                           });
+                             CHECK=0;
+                             $$('#language_rbo li').each(function(item) 
+                             {
+                                                         
+                                 //  alert(item.innerHTML);
+                                 
+                                 var pos = item.id.indexOf(':');
+                                 
+                                 var langValue = item.id.substring(pos+1);
+                                 
+                                 if (langName[langValue]== langName[name])
+                                 {
+	                                 //   pos = item.name.indexOf('/a');
+	                                 var count = item.innerHTML;
+	                                 pos = count.indexOf('/a');
+	                                 var length = count.length;
+	                                 count = item.innerHTML.substring(pos+5,length-1);
+	                                 
+	                                 count=count.replace("," ,"");
+	                                 var num = count*1;
+	                                 
+	                                 num = Number(num) + Number(counter);
+	                                 num = formatInteger(num,THOUSAND_SEP);
+	                                 
+	                                 item.update(item.innerHTML.substring(0,pos+4) + '(#{count})'.interpolate({count: num}));
+	                                 CHECK=1;
+	                                 
+	                                 return;
+                                 }
+                                                         
+                             });
+             
+                             
+                             
+                             }
+                             
+                             
+                             function addEndingDescription(data){
+                             if(data.length ==  0 )
+                             return "";
+                             return (data.length<END_DESCRIPTION)?data:(data.substr(START_DESCRIPTION,END_DESCRIPTION)).concat(""," <span class='suspension-points'>...</span>");
+                             }
+                             
+                             function removeHtmlTags(data) {
+                             var strInputCode = data.replace(/&(lt|gt);/g, function (strMatch, p1){
+                                                             return (p1 == "lt")? "<" : ">";
+                                                             });
+                             var strTagStrippedText = strInputCode.replace(/<\/?[^>]+(>|$)/g, " ");
+                             return strTagStrippedText;
+                             }
+                             
+                             function stripUrl(data) {
+                             
+                             var strTagStrippedText = data.replace(/<\/?[^>]:+(>|$)/g, "_");
+                             return strTagStrippedText;
+                             
+                             
+                             }
+                             
+                             
+                             
+/* Initialize Jaml Templates                           */
+function initializeJamlTemplates(){
+                             
+Jaml.register('thumb_pres', function(data) 
+{
+a({href: data.location,title: data.title , target: '_blank'}, img({src:data.format, height:"90", width:"80" }))
+});
+                             
+                             
+Jaml.register('keyword', function(data) 
+{
+a({href:'javascript:void(0);', onclick: "searchByKeyword('#{key}')".interpolate({key: data})}, data);
+});
                                              
                                                
 /*-----------------------------RENDER RESULT LISTING ITEMS--------------------------------*/
@@ -807,17 +807,17 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                keywordsToEmbed="";
                for(var i=0 , length=data.keywords.length; i<length;i++)
                {
-               if(data.keywords[i].lang=='en'){
-               if(i!==length-1)
-               {
-               keywordsToEmbed +="<a class=\"secondary\" href=\"listing.html?query="+data.keywords[i].value+"\">&nbsp"+data.keywords[i].value+"</a>"
-               }
-               else
-               {
-               keywordsToEmbed +="<a class=\"secondary last\" href=\"listing.html?query="+data.keywords[i].value.split(" ")[0]+"\">&nbsp"+data.keywords[i].value+"</a>"
-               }
-               }//end lang check
-               
+	               if(data.keywords[i].lang=='en'){
+	               if(i!==length-1)
+	               {
+	               keywordsToEmbed +="<a class=\"secondary\" href=\"listing.html?query="+data.keywords[i].value+"\">&nbsp"+data.keywords[i].value+"</a>"
+	               }
+	               else
+	               {
+	               keywordsToEmbed +="<a class=\"secondary last\" href=\"listing.html?query="+data.keywords[i].value.split(" ")[0]+"\">&nbsp"+data.keywords[i].value+"</a>"
+	               }
+	               }//end lang check
+	               
                }//end for
                }//end if
                
@@ -846,7 +846,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                             div({cls:'language'}, span("Rights:"), thisRights2),
 */
                                             div({cls:'floatright'},
-                                                div({cls:'line alignright'}, a({href:"item.html?id="+id, cls:'moreinfo'}, "More Info")))))))
+                                                div({cls:'line alignright'}, a({href:"item.html?id="+id+"&lang="+SELECTED_LANGUAGE, cls:'moreinfo', data_translation:"more_info"}, "More Info")))))))
                });
                                              
                                              
@@ -874,31 +874,27 @@ Jaml.register('resultwithoutkeywords', function(data){
                          a({href:data.location[0], title: data.thisTitle, target: '_blank'},data.thisTitle)),
                       section(p({cls:'item-intro-desc'}, data.thisDescription),
                               aside({cls:'clearfix'},
-//                                                                                        div({cls:'language'}, span("Creative commons licence:"), thisRights),
-//                                                                                        div({cls:'language'}, span("Rights:"), thisRights2),
                                     div({cls:'floatright'},
-                                        div({cls:'line alignright'}, a({href:"item.html?id="+id, cls:'moreinfo'}, "More Info")))))))});
+                                        div({cls:'line alignright'}, a({href:"item.html?id="+id+"&lang="+SELECTED_LANGUAGE, cls:'moreinfo', data_translation:"more_info"}, "More Info")))))))});
                                              
 
                                              
 /*-----------------------------RENDER FACETS--------------------------------*/
 /* rest facets  */
-Jaml.register('rbcriteria', function(data){ 
-               
-               
-          
-               var label = data.val;
-               
-               a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick:"toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})}, span(label), span({cls:'total'}, data.count));
-               
-               
-               });
+Jaml.register('rbcriteria', function(data)
+{ 
+	var label = data.val;
+    
+    a({href:'#',id: data.field + ':' + data.val, title: data.val, onclick:"toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})}, span({data_translation:data.val}, label), span({cls:'total'}, data.count));
+
+});
  
  /* language facet */
-Jaml.register('rbcriteria2', function(data){   
-               a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val, parent: data.field})}, span(langName[data.val]), span({cls:'total'}, data.count ));
-               
-               });
+Jaml.register('rbcriteria2', function(data)
+{ 
+	a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val, parent: data.field})}, span({data_translation:data.val}, langName[data.val]), span({cls:'total'}, data.count ));
+	            
+});
  
  
  /*------------------------------*/
