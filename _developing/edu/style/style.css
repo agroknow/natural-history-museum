@@ -1098,6 +1098,10 @@ color:#8b390f;
 }
 
 /* PAGINATION */
+yui-pg-container
+{
+	padding-bottom:10px;
+}
 .yui-pg-page
 {
     margin:30px 5px 0px 5px;

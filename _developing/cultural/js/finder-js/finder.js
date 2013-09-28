@@ -203,7 +203,7 @@ function initializeFinder(){
 		if (!$('insert_summary')) {
 			$('body').insert('<div id="insert_summary" style="display:none"></div>');
 		}
-		$('insert_summary').update('<div id="summary"><div id="search_title" ><span id="search_terms"></span> <span id="search_results_index"></span></div></div>');
+		$('insert_summary').update('<div id="summary"><div id="search_title" ><span data_translation="results" id="search_terms"></span> <span id="search_results_index"></span></div></div>');
         
 		if (!$('insert_facets')) {
 			$('body').insert('<div id="insert_facets" style="display:none"></div>');
@@ -414,18 +414,9 @@ function parseQueryString(initUpdate){
             urlSelectedCollections = urlSelectedCollections.replace("#","").replace("%20", " ");
             clauses.push({language:'anyOf',expression:'collection:'+ urlSelectedCollections});
         }
-        
-        //clauses.push({language:'anyOf',expression:'keyword:' + key});
-        //clauses.push({language:'anyOf',expression:'lrt:image'});
-        // add the below to code @ github. It is to limit the results only for OE collection //
-        
+  
     }
-    //previous one
-    //    {
-    //        clauses.push({language:'VSQL',expression:plainText});
-    //    }
-    
-    
+  
     
     
     if(spq.length > 1){
@@ -517,7 +508,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
 	                         $('search_results').update('');
 	                         $('noResults').hide();
 	                         
-	                         $('search_status').update('Processing time: ' + (result.processingTime/1000).toFixed(3) + ' seconds');
+	                         $('search_status').update('<span data_translation="processing_time">Processing time:</span> ' + (result.processingTime/1000).toFixed(3) + ' seconds');
 	                         
 	                         if(initUpdate) {
 	                         $('searchMessage').insert('<h3 align="center">Available: '+formatInteger(result.nrOfResults,',')+' learning resources</h3>');
@@ -627,7 +618,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
 	              
 	         });
 	         
-	         language();
+	         
              
              $('search_results_index').show();
              
@@ -695,11 +686,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                                     
                                                     });
                                 }
-                                //webSnapr.init();
-                                //$('header').scrollTo();
-                                //loadTranslator();
-                                
-                                
+                                language();
                                 },
                                 onComplete: function(transport){
                                 // $('search_status').update('');
