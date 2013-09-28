@@ -159,7 +159,7 @@ function initializeFinder(){
                 /*language selection*/
                 if(urlSelectedLanguage)
                 {
-                    SELECTED_LANGUAGE = urlSelectedLanguage;
+                    SELECTED_LANGUAGE = urlSelectedLanguage.replace("#", "");
                 }
                 if (!urlSelectedLanguage && customParams.selectedLanguage) SELECTED_LANGUAGE = customParams.selectedLanguage;
                 //alert(SELECTED_PROVIDERS);
@@ -524,7 +524,6 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                          onSuccess: function(transport) {
                          var result = transport.responseText.evalJSON(true).result;
                          
-                         // alert(JSON.stringify(result));
                          
                          $('search_results').update('');
                          $('noResults').hide();
@@ -536,12 +535,13 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                          } else {
                          $('search_terms').update('Results: ');
                          $('searchMessage').update('');
-                         if(result.metadata.size() == 0){
-                         $('noResults').show();
+                         if(result.metadata.size() == 0)
+                         {
+	                         $('noResults').show();
                          }
                          
                          /*----------------------------------------------------------------------------------------------*/
-                         /*--------------------CREATE EVERY ITEM BEFORE CALL RENDERING WITH JAML-------------------------*/
+/*--------------------CREATE EVERY ITEM BEFORE CALL RENDERING WITH JAML-------------------------*/
                          var oddCtr = 0; /*counter to add the odd style in listing*/
 		             result.metadata.each(function(item,index)
 		             {
@@ -885,14 +885,14 @@ Jaml.register('rbcriteria', function(data)
 { 
 	var label = data.val;
     
-    a({href:'#',id: data.field + ':' + data.val, title: data.val, onclick:"toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})}, span({data_translation:data.val}, label), span({cls:'total'}, data.count));
+    a({href:'javascript:;',id: data.field + ':' + data.val, title: data.val, onclick:"toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})}, span({data_translation:data.val}, label), span({cls:'total'}, data.count));
 
 });
  
  /* language facet */
 Jaml.register('rbcriteria2', function(data)
 { 
-	a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val, parent: data.field})}, span({data_translation:data.val}, langName[data.val]), span({cls:'total'}, data.count ));
+	a({href:'javascript:;', id: data.field + ':' + data.val, title: data.val, onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val, parent: data.field})}, span({data_translation:data.val}, langName[data.val]), span({cls:'total'}, data.count ));
 	            
 });
  

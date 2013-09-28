@@ -47,11 +47,12 @@ function language()
 	var lang = getUrlVars()["lang"];
 	if(lang!=undefined)
 	{var lang_file = lang.replace("#", "");}
+
 	
-	if(lang=="el"){	
+	if(lang_file=="el"){	
 		var lang_file = "gr";
 	}
-	console.log("l@ng:"+lang);
+	//console.log("l@ng:"+lang);
 	            	
 	if(lang!=undefined)
 	{
@@ -93,6 +94,10 @@ function language()
 				   return h;
 			   }
 		   });
+		   
+		   //changes in search box
+		   $("#lang").attr('value',lang); 
+		   $("#query").attr('placeholder', 'Αναζήτηση...'); 
 		  
 		   
 		  }});

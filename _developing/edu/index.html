@@ -54,8 +54,8 @@
 				
 				<!-- Language     -->
 				 <div class="languages_block">               
-					 <a href="#" onclick="changeLanguage('en')"><img src="style/images/flag_en.jpg" ></a>
-					 <a href="#" onclick="changeLanguage('el')"><img src="style/images/flag_gr.png" ></a>
+					 <a href="javascript:;" onclick="changeLanguage('en')"><img src="style/images/flag_en.jpg" ></a>
+					 <a href="javascript:;" onclick="changeLanguage('el')"><img src="style/images/flag_gr.png" ></a>
 				 </div>
 				<!-- / Language -->
 				
@@ -105,7 +105,8 @@
                     <div>
                         <form action="listing.html" method="get">
                             <div>
-                                <input type="text" name="query" class="withplaceholder" placeholder="Search..." />
+                                <input type="text" name="query" id="query" class="withplaceholder" placeholder="Search..." />
+                                <input type="hidden" id="lang" name="lang" value="en">
                             </div>
                             <input type="submit" value="submit" />
                         </form>

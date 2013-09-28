@@ -44,15 +44,21 @@ function changeLanguage(lang)
 function language()
 {            	
 
+
 	var lang = getUrlVars()["lang"];
-	console.log("l@ng:"+lang);
-	if(lang=="el") {lang="gr";}
-    console.log("lang:"+lang);	
+	if(lang!=undefined)
+	{var lang_file = lang.replace("#", "");}
+
+	
+	if(lang_file=="el"){	
+		var lang_file = "gr";
+	}
+    //console.log("lang:"+lang);	
                 	
 	if(lang!=undefined)
 	{
 		jQuery.ajax({
-		url: "http://greenlearningnetwork.com/finders_files/nhmc_translations/"+lang.replace("#", "")+".json",
+		url: "http://greenlearningnetwork.com/finders_files/nhmc_translations/"+lang_file.replace("#", "")+".json",
 		dataType: 'json',
 		/* jsonp: 'callback', */
 		/* jsonpCallback: 'jsonCallback', */
@@ -92,6 +98,11 @@ function language()
 				   return h;
 			   }
 		   });
+		   
+		   //changes in search box
+		   $("#lang").attr('value',lang); 
+		   $("#query").attr('placeholder', 'Αναζήτηση...'); 
+		  
 		  
 		   
 		  }});

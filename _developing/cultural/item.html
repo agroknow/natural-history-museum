@@ -46,14 +46,14 @@
 				<div class="top-menu"></div>
 				<div class="main_search_block inner clearfix">
                     <div>
-					<a href="#" class="logo">Natural History Museum of Crete</a>
+					<a href="javascript:;" class="logo">Natural History Museum of Crete</a>
                     </div>
 				</div>
 				
 				<!-- Language     -->
 				 <div class="languages_block">               
-					 <a href="#" onclick="changeLanguage('en')"><img src="style/images/flag_en.jpg" ></a>
-					 <a href="#" onclick="changeLanguage('el')"><img src="style/images/flag_gr.png" ></a>
+					 <a href="javascript:;" onclick="changeLanguage('en')"><img src="style/images/flag_en.jpg" ></a>
+					 <a href="javascript:;" onclick="changeLanguage('el')"><img src="style/images/flag_gr.png" ></a>
 				 </div>
 				<!-- / Language -->
 			</header>
@@ -74,7 +74,8 @@
                     <div>
                         <form action="listing.html" method="get">
                             <div>
-                                <input type="text" name="query" class="withplaceholder" placeholder="Search..." />
+                                <input type="text" name="query" id="query" class="withplaceholder" placeholder="Search..." />
+                                <input type="hidden" id="lang" name="lang" value="en">
                             </div>
                             <input type="submit" value="submit" />
                         </form>
@@ -95,8 +96,9 @@
                                     <span class="item_label" data_translation="collection_item">Collection:</span>
                                     <span class="item_value" id="collection"></span>
                                 </li>
-                                <li  >
-                                    <span class ="titlesOnLeft" data_translation="speciment">Speciment</span>
+                                <li >
+                                    <span class="item_label" data_translation="specimen">Specimen:</span>
+                                    <span  class="item_value" id="specimen"></span>
                                 </li>
                                 <li >
                                     <span class="item_label" data_translation="classification">Classification:</span>

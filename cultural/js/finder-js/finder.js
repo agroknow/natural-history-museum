@@ -156,7 +156,7 @@ function initializeFinder(){
                 /* select language */
                 if(urlSelectedLanguage)
                 {
-                    SELECTED_LANGUAGE = urlSelectedLanguage;
+                    SELECTED_LANGUAGE = urlSelectedLanguage.replace("#", "");
                 }
                 if (!urlSelectedLanguage && customParams.selectedLanguage) SELECTED_LANGUAGE = customParams.selectedLanguage;
                 /*---*/
@@ -957,13 +957,13 @@ Jaml.register('rbcriteria', function(data) //rest facets
 	   label = data.val.split("NHMC ")[1];
    }
    
-	   a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick:"toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})}, span({data_translation:data.val}, label), span({cls:'total'}, data.count)); 
+	   a({href:'javascript:;', id: data.field + ':' + data.val, title: data.val, onclick:"toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})}, span({data_translation:data.val}, label), span({cls:'total'}, data.count)); 
 });
 
 
 Jaml.register('rbcriteria2', function(data) //language facet
 {
-	a({href:'#', id: data.field + ':' + data.val, title: data.val, onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val, parent: data.field})}, span({data_translation:data.val}, langName[data.val]), span({cls:'total'}, data.count ));
+	a({href:'javascript:;', id: data.field + ':' + data.val, title: data.val, onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val, parent: data.field})}, span({data_translation:data.val}, langName[data.val]), span({cls:'total'}, data.count ));
  
 });
              

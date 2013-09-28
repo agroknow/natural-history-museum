@@ -1091,7 +1091,7 @@ color:#8b390f;
 	height:15px;
 	line-height:15px;
 	padding-right:20px;
-	background:url(images/item_intro_sprite.png) 64px -63px no-repeat;
+/* 	background:url(images/item_intro_sprite.png) 64px -63px no-repeat; */
 	display:inline-block;
 	margin-top:9px;
 	font-size:14px;
