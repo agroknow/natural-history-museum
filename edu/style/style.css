@@ -1,4 +1,4 @@
-body { background:#f2f3e9; font-family: 'Signika',Tahoma, sans-serif; font-size: 14px; color: #757575; }
+body { background-color:#263433; font-family: 'Signika',Tahoma, sans-serif; font-size: 14px; color: #757575; }
 
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
@@ -50,14 +50,38 @@ h3 {
 .clearfix:after{  clear: both; content: "."; display: block; height: 0; visibility: hidden; font-size: 0;}
 
 /* STICK FOOTER */
-html, body {height: 100%;}
-#wrap {width:100%;min-height: 100%;}
+html, body {height: 100%; }
+#wrap 
+{
+	width:970px; 
+	background:#f2f3e9; 
+	min-height: 100%; 
+	margin:12px auto; 
+	border:solid white 4px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	-ms-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-box-shadow: 2px 2px 20px #000000;
+	-moz-box-shadow: 2px 2px 20px #000000;
+	-o-box-shadow: 2px 2px 20px #000000;
+	-ms-box-shadow: 2px 2px 20px #000000;
+	box-shadow: 2px 2px 20px #000000;
+}
+
 #main {overflow:auto; padding-bottom: 170px; /*background:url(images/tragos-single.png) 0 137px no-repeat;*/}  /* must be same height as the footer */
 footer#mainfooter {
 	position: relative;
 	margin-top: -170px; /* negative value of footer height */
-	height: 170px;
 	clear:both;
+}
+
+#address_footer
+{
+	width:900px;
+	margin:2px auto;
+	color:white;
 }
 /*Opera Fix*/
 body:before {
@@ -151,10 +175,7 @@ nav.credits a.redpanda {
 
 header#mainheader {
 	min-height:100px;
-	border-bottom:5px solid #8b3a0f;
     background-color:#e1e5cc;
-	/*background:#ececec url(images/header_bg.png) center bottom no-repeat;*/
-	/*position:relative;*/
 }
 .top-menu { 
 	height:2px;
@@ -1098,6 +1119,10 @@ color:#8b390f;
 }
 
 /* PAGINATION */
+yui-pg-container
+{
+	padding-bottom:10px;
+}
 .yui-pg-page
 {
     margin:30px 5px 0px 5px;
@@ -1286,6 +1311,23 @@ a.setrightbottom {
 .review-line {
 	font-size:12px;
 }
+
+#approved
+{
+	padding:10px 0px;
+}
+#approved img
+{
+	width:70px;
+	float:left;	
+}
+#approved p
+{
+	padding-top: 20px;
+	float:left;	
+}
+
+
 /* flags */
 span.flag {
 	text-indent:-9999px;
@@ -1308,6 +1350,10 @@ span.itflag {
         text-indent:-9999px;
 }
 span.grflag {
+	background:url(images/flag_gr.png) 0 0 no-repeat;
+        text-indent:-9999px;
+}
+span.elflag {
 	background:url(images/flag_gr.png) 0 0 no-repeat;
         text-indent:-9999px;
 }
@@ -1710,7 +1756,7 @@ a.disabled {
 .white{font:normal 13px Arial,sans-serif;line-height:16px;}
 .white ul.mega-menu,.white ul.mega-menu,.white ul.mega-menu li{padding:0;border:none;}
 .white ul.mega-menu{background:#ccc url(images/nhmc-menu/bg_white.png) repeat-x 0 -80px;width:100%;height:40px;border-right:0px solid #afafaf;border-left:0px solid #afafaf;position:relative; }
-.white ul.mega-menu li{margin:auto; width:830px; padding:0;font-size:13px;font-weight:bold;}
+.white ul.mega-menu li{width:830px; padding:0;font-size:13px;font-weight:bold;}
 .white ul.mega-menu li a{float:left;display:block;color:#000;padding:12px 38px 12px 25px;background:url(images/nhmc-menu/bg_white.png) repeat-x 100% 0;text-shadow:1px 1px 1px #fff;text-decoration:none;}
 .white ul.mega-menu li.mega-hover a,.white ul.mega-menu li a:hover{background-position:100% -40px;color:#000;text-shadow:none;}
 /*.white ul.mega-menu li a.dc-mega{position:relative;}*/

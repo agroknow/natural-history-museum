@@ -187,9 +187,26 @@ function getItemJSONP(urlTemp, selectedLanguage)
 		        }
 		        }
 		        
-	        
+		        
         }
         
+        
+		/*QUALITY VALIDATOR */
+        if(arrayWithJSONS[0].contributors != undefined)
+        {
+	        if(arrayWithJSONS[0].contributors.length!=undefined)
+	        {
+		        for(var i=0; i<arrayWithJSONS[0].contributors.length;i++)
+		        {
+		        	
+			        if(arrayWithJSONS[0].contributors[i].role=='educational validator')
+			        {
+			            document.getElementById('approved').style.visibility="visible";
+				        jQuery('#validator').append(arrayWithJSONS[0].contributors[i].organization)
+			        }
+		        }
+	        }
+        }
         
         
         
