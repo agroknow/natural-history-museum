@@ -39,7 +39,7 @@ function getItemJSONP(urlTemp, selectedLanguage)
 		        
 		        
 		        //IF PATHWAY USE THIS ICON ELSE CHOOSE BY TYPE
-		        if(arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
+		        if(arrayWithJSONS[0].tokenBlock.learningResourceTypes!=undefined &&  arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
 		        {
 	                for(var j=0; j<arrayWithJSONS[0].tokenBlock.learningResourceTypes.length;j++)//*ARRAY of keywords in current version
 	                {
@@ -108,10 +108,20 @@ function getItemJSONP(urlTemp, selectedLanguage)
 		        
 		        
 		        
-		        if(arrayWithJSONS[0].tokenBlock.ageRange!==undefined){
-		        jQuery('#ageRange').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.ageRange+'</span>');
-		        jQuery('#itemAgeRange').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.ageRange+'</span>');
+		        if(arrayWithJSONS[0].tokenBlock.ageRange!==undefined)
+		        {
+			        jQuery('#ageRange').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.ageRange+'</span>');
+			        jQuery('#itemAgeRange').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.ageRange+'</span>');
 		        }
+		        else
+		        {
+			        jQuery('#ageRange').append('<span>-</span>');
+		        }
+		        
+		        
+		        
+		        
+		        
 		        if(arrayWithJSONS[0].rights.url!==undefined){
 		        if(arrayWithJSONS[0].rights.url.search("licenses/by-nc-sa")>=0){
 		        jQuery('#itemRights').append('<span style="position:relative;top:-10px;">Rights: </span><nav  class="itemRights"><a href="'+arrayWithJSONS[0].rights.url+'" class="secondary" target="_blank"><img style="display:inline;" src="images/cc/cc-by-nc-sa.png"></a></nav>');
@@ -157,6 +167,10 @@ function getItemJSONP(urlTemp, selectedLanguage)
 		                }
 	                }
                 }
+                else
+                {
+	                jQuery('#itemIntendedAudience').append('<span>-<span>');
+                }
 		        
 		        if(arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
 		        {
@@ -174,20 +188,28 @@ function getItemJSONP(urlTemp, selectedLanguage)
 		                }
 	                }
                 }
+                else
+		        {
+			        jQuery('#itemResourceType').append('<span>-<span>');
+		        }
 		        
 		        if(arrayWithJSONS[0].tokenBlock.contexts.length!==undefined)
 		        {
-		        for(var j=0; j<arrayWithJSONS[0].tokenBlock.contexts.length;j++)//*ARRAY of keywords in current version
+			        for(var j=0; j<arrayWithJSONS[0].tokenBlock.contexts.length;j++)//*ARRAY of keywords in current version
+			        {
+			        if(j==arrayWithJSONS[0].tokenBlock.contexts.length-1){
+			        jQuery('#itemEducationalContext').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
+			        
+			        }else{
+			        jQuery('#itemEducationalContext').append('<span class="forKomma">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
+			        
+			        }
+			        
+			        }
+		        }
+		        else
 		        {
-		        if(j==arrayWithJSONS[0].tokenBlock.contexts.length-1){
-		        jQuery('#itemEducationalContext').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
-		        
-		        }else{
-		        jQuery('#itemEducationalContext').append('<span class="forKomma">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
-		        
-		        }
-		        
-		        }
+			        jQuery('#itemEducationalContext').append('<span>-<span>');
 		        }
 		        
 		        
@@ -271,7 +293,7 @@ function getItemJSONP(urlTemp, selectedLanguage)
 	        	        
 	       
    		//IF PATHWAY USE THIS ICON ELSE CHOOSE BY TYPE
-        if(arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
+        if(arrayWithJSONS[0].tokenBlock.learningResourceTypes!=undefined && arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
         {
             for(var j=0; j<arrayWithJSONS[0].tokenBlock.learningResourceTypes.length;j++)//*ARRAY of keywords in current version
             {
@@ -341,10 +363,15 @@ function getItemJSONP(urlTemp, selectedLanguage)
 	       
 	       /* TOKEN BLOCK */
 	       if(arrayWithJSONS[0].tokenBlock!=undefined){
-	        if(arrayWithJSONS[0].tokenBlock.ageRange!==undefined){
+	        if(arrayWithJSONS[0].tokenBlock.ageRange!==undefined)
+	        {
 	            jQuery('#ageRange').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.ageRange+'</span>');
 	            jQuery('#itemAgeRange').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.ageRange+'</span>');
-	        }  
+	        } 
+	        else
+	        {
+		        jQuery('#itemAgeRange').append('<span>-</span>');
+	        } 
 	        
 	        /* end user role */
 	        if(arrayWithJSONS[0].tokenBlock.endUserRoles!=undefined && arrayWithJSONS[0].tokenBlock.endUserRoles.length!=undefined)
@@ -361,36 +388,50 @@ function getItemJSONP(urlTemp, selectedLanguage)
 	                }
 	            }
 	            }
+	            else
+                {
+	                jQuery('#itemIntendedAudience').append('<span>-<span>');
+                }
+	            
 	        /* learningResourceTypes */
 	        if(arrayWithJSONS[0].tokenBlock.learningResourceTypes!=undefined && arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
 	            {
-	            for(var j=0; j<arrayWithJSONS[0].tokenBlock.learningResourceTypes.length;j++)//*ARRAY of keywords in current version
+		            for(var j=0; j<arrayWithJSONS[0].tokenBlock.learningResourceTypes.length;j++)//*ARRAY of keywords in current version
+		            {
+		            if(j==arrayWithJSONS[0].tokenBlock.learningResourceTypes.length-1){
+		            jQuery('#itemResourceType').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]+'<span>');
+		            
+		            }else{
+		            jQuery('#itemResourceType').append('<span class="forKomma">'+arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]+'<span>');
+		            
+		            }
+		            
+		            }
+	            }
+	            else
 	            {
-	            if(j==arrayWithJSONS[0].tokenBlock.learningResourceTypes.length-1){
-	            jQuery('#itemResourceType').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]+'<span>');
-	            
-	            }else{
-	            jQuery('#itemResourceType').append('<span class="forKomma">'+arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]+'<span>');
-	            
+		           jQuery('#itemResourceType').append('<span>-<span>'); 
 	            }
 	            
-	            }
-	            }
 	         /* contexts */
 	        if(arrayWithJSONS[0].tokenBlock.contexts!=undefined && arrayWithJSONS[0].tokenBlock.contexts.length!==undefined)
 	            {
-	            for(var j=0; j<arrayWithJSONS[0].tokenBlock.contexts.length;j++)//*ARRAY of keywords in current version
-	            {
-	            if(j==arrayWithJSONS[0].tokenBlock.contexts.length-1){
-	            jQuery('#itemEducationalContext').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
-	            
-	            }else{
-	            jQuery('#itemEducationalContext').append('<span class="forKomma">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
-	            
+		            for(var j=0; j<arrayWithJSONS[0].tokenBlock.contexts.length;j++)//*ARRAY of keywords in current version
+		            {
+		            if(j==arrayWithJSONS[0].tokenBlock.contexts.length-1){
+		            jQuery('#itemEducationalContext').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
+		            
+		            }else{
+		            jQuery('#itemEducationalContext').append('<span class="forKomma">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
+		            
+		            }
+		            
+		            }
 	            }
-	            
-	            }
-	            }
+	            else
+		        {
+			        jQuery('#itemEducationalContext').append('<span>-<span>');
+		        }
 	        
 	       }
 	       

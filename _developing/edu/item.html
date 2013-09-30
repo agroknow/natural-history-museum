@@ -46,8 +46,8 @@
             	{
 	            	lang=getUrlVars()["lang"];
             	} 
-            	/* getItemJSONP('http://83.212.96.219:8080/akifRetriever/getAKIF?ids='+location.search.split("=")[1], lang); */
-                getItemJSONP('http://54.228.180.124:8080/akifRetriever/getAKIF?ids='+location.search.split("=")[1], lang);
+            	getItemJSONP('http://83.212.96.219:8080/akifRetriever/getAKIF?ids='+location.search.split("=")[1], lang);
+                /* getItemJSONP('http://54.228.180.124:8080/akifRetriever/getAKIF?ids='+location.search.split("=")[1], lang); */
             }
         </script>
 
@@ -108,6 +108,9 @@
             </section>
 
             <section id="main">
+            <div id="breadcrumb">
+				<a href="index.html" data_translation="home" >Home</a> > <a href="listing.html" data_translation="search" >Search</a> > <a href="javascript:;" data_translation="view_item" class="active" >View Item</a>
+			</div>
                 <div class="inner">
 
                     <div class="twocols clearfix">

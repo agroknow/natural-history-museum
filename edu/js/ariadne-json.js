@@ -37,60 +37,91 @@ function getItemJSONP(urlTemp, selectedLanguage)
 		        document.getElementById('itemDescription').innerHTML = languageBlock.description;
 		        }
 		        
-		        if(arrayWithJSONS[0].expressions[0].manifestations!=undefined && arrayWithJSONS[0].expressions[0].manifestations[0]!=undefined)
+		        
+		        //IF PATHWAY USE THIS ICON ELSE CHOOSE BY TYPE
+		        if(arrayWithJSONS[0].tokenBlock.learningResourceTypes!=undefined &&  arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
 		        {
-		            if(arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url!==undefined)
+	                for(var j=0; j<arrayWithJSONS[0].tokenBlock.learningResourceTypes.length;j++)//*ARRAY of keywords in current version
+	                {
+		                if(arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]=="pathway")
+		                {
+			                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="images/pathway.jpg" /> </a>');
+		                }
+	                }
+                }
+                else if(arrayWithJSONS[0].expressions[0]!=undefined)
+                {
+	                if(arrayWithJSONS[0].expressions[0].manifestations!=undefined && arrayWithJSONS[0].expressions[0].manifestations[0]!=undefined)
+			        {
+			            if(arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url!==undefined)
+				        {
+					        jQuery('#itemAccess').append('<a target="_blank" href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" class="access  secondary" data_translation="access_to_the_resource">Access to the resource</a>');
+				        
+				       
+				        if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter!==undefined)
+					        {
+					        if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/html'){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
+					        
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/xml'){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/xml.png" /> </a>');
+					        
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("/pdf")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/pdf.png" /> </a>');
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("excel")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/x-applix-spreadsheet.png" /> </a>');
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("word")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/word.png" /> </a>');
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("ppt")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/ppt.png" /> </a>');
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("application")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/application.png" /> </a>');
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("audio")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/audio.png" /> </a>');
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("video")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/video.png" /> </a>');
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("image")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
+					        
+					        
+					        }else{
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
+					        
+					        }
+					        
+				        }else{
+				        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
+				        
+				        }
+				        }
+			        
+			        if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter!==undefined)
+			        {
+			        jQuery('#itemMediaFormat').append('<span class="forKomma last">'+arrayWithJSONS[0].expressions[0].manifestations[0].parameter+'</span>');
+			        
+			        }
+			        }
+                }
+		        
+		        
+		        
+		        
+		        
+		        
+		        if(arrayWithJSONS[0].tokenBlock.ageRange!==undefined)
 		        {
-		        jQuery('#itemAccess').append('<a target="_blank" href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" class="access  secondary" data_translation="access_to_the_resource">Access to the resource</a>');
-		        if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter!==undefined)
+			        jQuery('#ageRange').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.ageRange+'</span>');
+			        jQuery('#itemAgeRange').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.ageRange+'</span>');
+		        }
+		        else
 		        {
-		        if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/html'){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
-		        
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/xml'){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/xml.png" /> </a>');
-		        
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("/pdf")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/pdf.png" /> </a>');
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("excel")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/x-applix-spreadsheet.png" /> </a>');
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("word")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/word.png" /> </a>');
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("ppt")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/ppt.png" /> </a>');
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("application")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/application.png" /> </a>');
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("audio")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/audio.png" /> </a>');
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("video")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/video.png" /> </a>');
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("image")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
-		        
-		        
-		        }else{
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
-		        
-		        }
-		        
-		        }else{
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
-		        
-		        }
-		        }
-		        
-		        if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter!==undefined)
-		        {
-		        jQuery('#itemMediaFormat').append('<span class="forKomma last">'+arrayWithJSONS[0].expressions[0].manifestations[0].parameter+'</span>');
-		        
-		        }
+			        jQuery('#ageRange').append('<span>-</span>');
 		        }
 		        
 		        
-		        if(arrayWithJSONS[0].tokenBlock.ageRange!==undefined){
-		        jQuery('#ageRange').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.ageRange+'</span>');
-		        jQuery('#itemAgeRange').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.ageRange+'</span>');
-		        }
+		        
+		        
+		        
 		        if(arrayWithJSONS[0].rights.url!==undefined){
 		        if(arrayWithJSONS[0].rights.url.search("licenses/by-nc-sa")>=0){
 		        jQuery('#itemRights').append('<span style="position:relative;top:-10px;">Rights: </span><nav  class="itemRights"><a href="'+arrayWithJSONS[0].rights.url+'" class="secondary" target="_blank"><img style="display:inline;" src="images/cc/cc-by-nc-sa.png"></a></nav>');
@@ -136,6 +167,10 @@ function getItemJSONP(urlTemp, selectedLanguage)
 		                }
 	                }
                 }
+                else
+                {
+	                jQuery('#itemIntendedAudience').append('<span>-<span>');
+                }
 		        
 		        if(arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
 		        {
@@ -153,20 +188,28 @@ function getItemJSONP(urlTemp, selectedLanguage)
 		                }
 	                }
                 }
+                else
+		        {
+			        jQuery('#itemResourceType').append('<span>-<span>');
+		        }
 		        
 		        if(arrayWithJSONS[0].tokenBlock.contexts.length!==undefined)
 		        {
-		        for(var j=0; j<arrayWithJSONS[0].tokenBlock.contexts.length;j++)//*ARRAY of keywords in current version
+			        for(var j=0; j<arrayWithJSONS[0].tokenBlock.contexts.length;j++)//*ARRAY of keywords in current version
+			        {
+			        if(j==arrayWithJSONS[0].tokenBlock.contexts.length-1){
+			        jQuery('#itemEducationalContext').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
+			        
+			        }else{
+			        jQuery('#itemEducationalContext').append('<span class="forKomma">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
+			        
+			        }
+			        
+			        }
+		        }
+		        else
 		        {
-		        if(j==arrayWithJSONS[0].tokenBlock.contexts.length-1){
-		        jQuery('#itemEducationalContext').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
-		        
-		        }else{
-		        jQuery('#itemEducationalContext').append('<span class="forKomma">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
-		        
-		        }
-		        
-		        }
+			        jQuery('#itemEducationalContext').append('<span>-<span>');
 		        }
 		        
 		        
@@ -191,22 +234,22 @@ function getItemJSONP(urlTemp, selectedLanguage)
         }
         
         
-/*QUALITY VALIDATOR */
-if(arrayWithJSONS[0].contributors != undefined)
-{
-    if(arrayWithJSONS[0].contributors.length!=undefined)
-    {
-        for(var i=0; i<arrayWithJSONS[0].contributors.length;i++)
+		/*QUALITY VALIDATOR */
+        if(arrayWithJSONS[0].contributors != undefined)
         {
-        	
-	        if(arrayWithJSONS[0].contributors[i].role=='educational validator')
+	        if(arrayWithJSONS[0].contributors.length!=undefined)
 	        {
-	            document.getElementById('approved').style.visibility="visible";
-		        jQuery('#validator').append(arrayWithJSONS[0].contributors[i].organization)
+		        for(var i=0; i<arrayWithJSONS[0].contributors.length;i++)
+		        {
+		        	
+			        if(arrayWithJSONS[0].contributors[i].role=='educational validator')
+			        {
+			            document.getElementById('approved').style.visibility="visible";
+				        jQuery('#validator').append(arrayWithJSONS[0].contributors[i].organization)
+			        }
+		        }
 	        }
         }
-    }
-}
         
         
         
@@ -249,8 +292,19 @@ if(arrayWithJSONS[0].contributors != undefined)
 	        }
 	        	        
 	       
-	       if(arrayWithJSONS[0].expressions[0]!=undefined)
-	       {
+   		//IF PATHWAY USE THIS ICON ELSE CHOOSE BY TYPE
+        if(arrayWithJSONS[0].tokenBlock.learningResourceTypes!=undefined && arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
+        {
+            for(var j=0; j<arrayWithJSONS[0].tokenBlock.learningResourceTypes.length;j++)//*ARRAY of keywords in current version
+            {
+                if(arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]=="pathway")
+                {
+	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="images/pathway.jpg" /> </a>');
+                }
+            }
+        }
+        else if(arrayWithJSONS[0].expressions[0]!=undefined)
+        {
 	        if(arrayWithJSONS[0].expressions[0].manifestations!=undefined && arrayWithJSONS[0].expressions[0].manifestations[0]!=undefined)
 	        {
                 	
@@ -259,35 +313,35 @@ if(arrayWithJSONS[0].contributors != undefined)
 	                jQuery('#itemAccess').append('<a target="_blank" href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" class="access  secondary" data_translation="access_to_the_resource">Access to the resource</a>');
 	                if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter!==undefined)
 	                {
-	                if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/html'){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
-	                
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/xml'){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/xml.png" /> </a>');
-	                
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("/pdf")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/pdf.png" /> </a>');
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("excel")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/x-applix-spreadsheet.png" /> </a>');
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("word")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/word.png" /> </a>');
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("ppt")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/ppt.png" /> </a>');
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("application")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/application.png" /> </a>');
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("audio")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/audio.png" /> </a>');
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("video")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/video.png" /> </a>');
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("image")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
-	                
-	                
-	                }else{
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
-	                
-	                }
-	                
+		                if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/html'){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
+		                
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/xml'){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/xml.png" /> </a>');
+		                
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("/pdf")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/pdf.png" /> </a>');
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("excel")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/x-applix-spreadsheet.png" /> </a>');
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("word")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/word.png" /> </a>');
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("ppt")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/ppt.png" /> </a>');
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("application")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/application.png" /> </a>');
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("audio")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/audio.png" /> </a>');
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("video")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/video.png" /> </a>');
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("image")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
+		                
+		                
+		                }else{
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
+		                
+		                }
+		                
 	                }else{
 	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
 	                
@@ -309,10 +363,15 @@ if(arrayWithJSONS[0].contributors != undefined)
 	       
 	       /* TOKEN BLOCK */
 	       if(arrayWithJSONS[0].tokenBlock!=undefined){
-	        if(arrayWithJSONS[0].tokenBlock.ageRange!==undefined){
+	        if(arrayWithJSONS[0].tokenBlock.ageRange!==undefined)
+	        {
 	            jQuery('#ageRange').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.ageRange+'</span>');
 	            jQuery('#itemAgeRange').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.ageRange+'</span>');
-	        }  
+	        } 
+	        else
+	        {
+		        jQuery('#itemAgeRange').append('<span>-</span>');
+	        } 
 	        
 	        /* end user role */
 	        if(arrayWithJSONS[0].tokenBlock.endUserRoles!=undefined && arrayWithJSONS[0].tokenBlock.endUserRoles.length!=undefined)
@@ -329,36 +388,50 @@ if(arrayWithJSONS[0].contributors != undefined)
 	                }
 	            }
 	            }
+	            else
+                {
+	                jQuery('#itemIntendedAudience').append('<span>-<span>');
+                }
+	            
 	        /* learningResourceTypes */
 	        if(arrayWithJSONS[0].tokenBlock.learningResourceTypes!=undefined && arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
 	            {
-	            for(var j=0; j<arrayWithJSONS[0].tokenBlock.learningResourceTypes.length;j++)//*ARRAY of keywords in current version
+		            for(var j=0; j<arrayWithJSONS[0].tokenBlock.learningResourceTypes.length;j++)//*ARRAY of keywords in current version
+		            {
+		            if(j==arrayWithJSONS[0].tokenBlock.learningResourceTypes.length-1){
+		            jQuery('#itemResourceType').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]+'<span>');
+		            
+		            }else{
+		            jQuery('#itemResourceType').append('<span class="forKomma">'+arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]+'<span>');
+		            
+		            }
+		            
+		            }
+	            }
+	            else
 	            {
-	            if(j==arrayWithJSONS[0].tokenBlock.learningResourceTypes.length-1){
-	            jQuery('#itemResourceType').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]+'<span>');
-	            
-	            }else{
-	            jQuery('#itemResourceType').append('<span class="forKomma">'+arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]+'<span>');
-	            
+		           jQuery('#itemResourceType').append('<span>-<span>'); 
 	            }
 	            
-	            }
-	            }
 	         /* contexts */
 	        if(arrayWithJSONS[0].tokenBlock.contexts!=undefined && arrayWithJSONS[0].tokenBlock.contexts.length!==undefined)
 	            {
-	            for(var j=0; j<arrayWithJSONS[0].tokenBlock.contexts.length;j++)//*ARRAY of keywords in current version
-	            {
-	            if(j==arrayWithJSONS[0].tokenBlock.contexts.length-1){
-	            jQuery('#itemEducationalContext').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
-	            
-	            }else{
-	            jQuery('#itemEducationalContext').append('<span class="forKomma">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
-	            
+		            for(var j=0; j<arrayWithJSONS[0].tokenBlock.contexts.length;j++)//*ARRAY of keywords in current version
+		            {
+		            if(j==arrayWithJSONS[0].tokenBlock.contexts.length-1){
+		            jQuery('#itemEducationalContext').append('<span class="forKomma last">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
+		            
+		            }else{
+		            jQuery('#itemEducationalContext').append('<span class="forKomma">'+arrayWithJSONS[0].tokenBlock.contexts[j]+'<span>');
+		            
+		            }
+		            
+		            }
 	            }
-	            
-	            }
-	            }
+	            else
+		        {
+			        jQuery('#itemEducationalContext').append('<span>-<span>');
+		        }
 	        
 	       }
 	       
