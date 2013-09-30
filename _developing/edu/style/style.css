@@ -1703,6 +1703,11 @@ a.disabled {
     /*float:right;*/
     width:160px;
     height:160px;
+    -webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-o-border-radius: 4px;
+	-ms-border-radius: 4px;
+	border-radius: 4px;
 }
 .itemDescription
 {

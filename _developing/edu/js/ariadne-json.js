@@ -37,54 +37,75 @@ function getItemJSONP(urlTemp, selectedLanguage)
 		        document.getElementById('itemDescription').innerHTML = languageBlock.description;
 		        }
 		        
-		        if(arrayWithJSONS[0].expressions[0].manifestations!=undefined && arrayWithJSONS[0].expressions[0].manifestations[0]!=undefined)
+		        
+		        //IF PATHWAY USE THIS ICON ELSE CHOOSE BY TYPE
+		        if(arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
 		        {
-		            if(arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url!==undefined)
-		        {
-		        jQuery('#itemAccess').append('<a target="_blank" href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" class="access  secondary" data_translation="access_to_the_resource">Access to the resource</a>');
-		        if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter!==undefined)
-		        {
-		        if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/html'){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
+	                for(var j=0; j<arrayWithJSONS[0].tokenBlock.learningResourceTypes.length;j++)//*ARRAY of keywords in current version
+	                {
+		                if(arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]=="pathway")
+		                {
+			                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="images/pathway.jpg" /> </a>');
+		                }
+	                }
+                }
+                else if(arrayWithJSONS[0].expressions[0]!=undefined)
+                {
+	                if(arrayWithJSONS[0].expressions[0].manifestations!=undefined && arrayWithJSONS[0].expressions[0].manifestations[0]!=undefined)
+			        {
+			            if(arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url!==undefined)
+				        {
+					        jQuery('#itemAccess').append('<a target="_blank" href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" class="access  secondary" data_translation="access_to_the_resource">Access to the resource</a>');
+				        
+				       
+				        if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter!==undefined)
+					        {
+					        if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/html'){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
+					        
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/xml'){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/xml.png" /> </a>');
+					        
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("/pdf")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/pdf.png" /> </a>');
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("excel")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/x-applix-spreadsheet.png" /> </a>');
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("word")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/word.png" /> </a>');
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("ppt")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/ppt.png" /> </a>');
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("application")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/application.png" /> </a>');
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("audio")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/audio.png" /> </a>');
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("video")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/video.png" /> </a>');
+					        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("image")>=0){
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
+					        
+					        
+					        }else{
+					        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
+					        
+					        }
+					        
+				        }else{
+				        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
+				        
+				        }
+				        }
+			        
+			        if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter!==undefined)
+			        {
+			        jQuery('#itemMediaFormat').append('<span class="forKomma last">'+arrayWithJSONS[0].expressions[0].manifestations[0].parameter+'</span>');
+			        
+			        }
+			        }
+                }
 		        
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/xml'){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/xml.png" /> </a>');
-		        
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("/pdf")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/pdf.png" /> </a>');
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("excel")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/x-applix-spreadsheet.png" /> </a>');
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("word")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/word.png" /> </a>');
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("ppt")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/ppt.png" /> </a>');
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("application")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/application.png" /> </a>');
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("audio")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/audio.png" /> </a>');
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("video")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/video.png" /> </a>');
-		        }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("image")>=0){
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
 		        
 		        
-		        }else{
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
 		        
-		        }
-		        
-		        }else{
-		        jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
-		        
-		        }
-		        }
-		        
-		        if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter!==undefined)
-		        {
-		        jQuery('#itemMediaFormat').append('<span class="forKomma last">'+arrayWithJSONS[0].expressions[0].manifestations[0].parameter+'</span>');
-		        
-		        }
-		        }
 		        
 		        
 		        if(arrayWithJSONS[0].tokenBlock.ageRange!==undefined){
@@ -249,8 +270,19 @@ function getItemJSONP(urlTemp, selectedLanguage)
 	        }
 	        	        
 	       
-	       if(arrayWithJSONS[0].expressions[0]!=undefined)
-	       {
+   		//IF PATHWAY USE THIS ICON ELSE CHOOSE BY TYPE
+        if(arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
+        {
+            for(var j=0; j<arrayWithJSONS[0].tokenBlock.learningResourceTypes.length;j++)//*ARRAY of keywords in current version
+            {
+                if(arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]=="pathway")
+                {
+	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="images/pathway.jpg" /> </a>');
+                }
+            }
+        }
+        else if(arrayWithJSONS[0].expressions[0]!=undefined)
+        {
 	        if(arrayWithJSONS[0].expressions[0].manifestations!=undefined && arrayWithJSONS[0].expressions[0].manifestations[0]!=undefined)
 	        {
                 	
@@ -259,35 +291,35 @@ function getItemJSONP(urlTemp, selectedLanguage)
 	                jQuery('#itemAccess').append('<a target="_blank" href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" class="access  secondary" data_translation="access_to_the_resource">Access to the resource</a>');
 	                if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter!==undefined)
 	                {
-	                if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/html'){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
-	                
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/xml'){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/xml.png" /> </a>');
-	                
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("/pdf")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/pdf.png" /> </a>');
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("excel")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/x-applix-spreadsheet.png" /> </a>');
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("word")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/word.png" /> </a>');
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("ppt")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/ppt.png" /> </a>');
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("application")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/application.png" /> </a>');
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("audio")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/audio.png" /> </a>');
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("video")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/video.png" /> </a>');
-	                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("image")>=0){
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
-	                
-	                
-	                }else{
-	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
-	                
-	                }
-	                
+		                if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/html'){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
+		                
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter=='text/xml'){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/xml.png" /> </a>');
+		                
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("/pdf")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/pdf.png" /> </a>');
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("excel")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/x-applix-spreadsheet.png" /> </a>');
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("word")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/word.png" /> </a>');
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("ppt")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/ppt.png" /> </a>');
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("application")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/application.png" /> </a>');
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("audio")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/audio.png" /> </a>');
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("video")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img  src="images/icons/video.png" /> </a>');
+		                }else if(arrayWithJSONS[0].expressions[0].manifestations[0].parameter.search("image")>=0){
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
+		                
+		                
+		                }else{
+		                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
+		                
+		                }
+		                
 	                }else{
 	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="http://open.thumbshots.org/image.aspx?url='+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'" /> </a>');
 	                
