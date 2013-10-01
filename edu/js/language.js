@@ -54,7 +54,7 @@ function language()
 	}
 	//console.log("l@ng:"+lang);
 	            	
-	if(lang!=undefined)
+	if(lang=="el" || lang=="gr")
 	{
 		jQuery.ajax({
 		url: "http://greenlearningnetwork.org/finders_files/nhmc_translations/"+lang_file.replace("#", "")+".json",

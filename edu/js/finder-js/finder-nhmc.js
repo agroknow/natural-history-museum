@@ -112,7 +112,19 @@ langName['sv']= 'Swedish';
 langName['ell']= 'Greek';
 langName ['lat'] = 'Latin';
 langName['rus'] = 'Russian';
-langName['none'] = 'None';
+langName['none'] = 'Other';
+langName['it'] = 'Italian';
+langName['da'] = 'Danish';
+langName['sk'] = 'Slovakian';
+langName['hu'] = 'Hungarian';
+langName['mt'] = 'Maltese';
+langName['fi'] = 'Finnish';
+langName['sl'] = 'Slovenian';
+langName['pl'] = 'Polish';
+langName['is'] = 'Island';
+langName['no'] = 'Norwegian';
+langName['cs'] = 'Czech';
+langName['lv'] = 'Latvian';
 
 
 google.load("language", "1");
