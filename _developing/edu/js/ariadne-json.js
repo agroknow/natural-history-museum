@@ -41,10 +41,12 @@ function getItemJSONP(urlTemp, selectedLanguage)
 		        //IF PATHWAY USE THIS ICON ELSE CHOOSE BY TYPE
 		        if(arrayWithJSONS[0].tokenBlock.learningResourceTypes!=undefined &&  arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
 		        {
-	                for(var j=0; j<arrayWithJSONS[0].tokenBlock.learningResourceTypes.length;j++)//*ARRAY of keywords in current version
+		        	var ctr=0;//counts if already has append the icon
+	                for(var j=0; j<arrayWithJSONS[0].tokenBlock.learningResourceTypes.length;j++)
 	                {
-		                if(arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]=="pathway")
+		                if(arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]=="pathway" && ctr<1)
 		                {
+		                	ctr=2;
 			                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="images/pathway.jpg" /> </a>');
 		                }
 	                }
@@ -295,10 +297,12 @@ function getItemJSONP(urlTemp, selectedLanguage)
    		//IF PATHWAY USE THIS ICON ELSE CHOOSE BY TYPE
         if(arrayWithJSONS[0].tokenBlock.learningResourceTypes!=undefined && arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
         {
+        	var ctr=0;//counts if already has append the icon
             for(var j=0; j<arrayWithJSONS[0].tokenBlock.learningResourceTypes.length;j++)//*ARRAY of keywords in current version
             {
-                if(arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]=="pathway")
+                if(arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]=="pathway" && ctr<1)
                 {
+                	ctr=2;
 	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="images/pathway.jpg" /> </a>');
                 }
             }

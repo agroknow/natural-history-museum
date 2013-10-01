@@ -20,14 +20,9 @@ function getItemJSONP(urlTemp, selectedLanguage)
         if(arrayWithJSONS[0].languageBlocks.length!==undefined && arrayWithJSONS[0].languageBlocks!==undefined )
         {
 
-		        //var language = Object.keys(arrayWithJSONS[0].languageBlocks[i]); 
-		        //keys for different language versions of this item. (i.e en, gr, no,)
-		        
 		        languageBlock = arrayWithJSONS[0].languageBlocks[i][selectedLanguage]; // We always get language[0] as key
 		        
-		        //jQuery('#stage').append('<p> languageBlocks.title: ' + language[0] + '</p>'); // language code
-		        //document.getElementById('itemTitle').innerHTML = languageBlock.title ;
-		        //document.getElementById('itemDescription').innerHTML = languageBlock.description;
+
 		        if(languageBlock.title!==undefined)
 		        {
 		        document.getElementById('itemTitle').innerHTML = languageBlock.title ;
@@ -41,10 +36,12 @@ function getItemJSONP(urlTemp, selectedLanguage)
 		        //IF PATHWAY USE THIS ICON ELSE CHOOSE BY TYPE
 		        if(arrayWithJSONS[0].tokenBlock.learningResourceTypes!=undefined &&  arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
 		        {
+		        	var ctr=0;//counts if already has append the icon
 	                for(var j=0; j<arrayWithJSONS[0].tokenBlock.learningResourceTypes.length;j++)//*ARRAY of keywords in current version
 	                {
-		                if(arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]=="pathway")
+		                if(arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]=="pathway" && ctr<1)
 		                {
+		                	ctr=2;
 			                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="images/pathway.jpg" /> </a>');
 		                }
 	                }
@@ -295,10 +292,12 @@ function getItemJSONP(urlTemp, selectedLanguage)
    		//IF PATHWAY USE THIS ICON ELSE CHOOSE BY TYPE
         if(arrayWithJSONS[0].tokenBlock.learningResourceTypes!=undefined && arrayWithJSONS[0].tokenBlock.learningResourceTypes.length!==undefined)
         {
+        	var ctr=0;//counts if already has append the icon
             for(var j=0; j<arrayWithJSONS[0].tokenBlock.learningResourceTypes.length;j++)//*ARRAY of keywords in current version
             {
-                if(arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]=="pathway")
+                if(arrayWithJSONS[0].tokenBlock.learningResourceTypes[j]=="pathway" && ctr<1)
                 {
+                	ctr=2;
 	                jQuery('#itemThumb').append('<a href="'+arrayWithJSONS[0].expressions[0].manifestations[0].items[0].url+'"><img class="itemsMedia" src="images/pathway.jpg" /> </a>');
                 }
             }
