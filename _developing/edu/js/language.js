@@ -57,7 +57,7 @@ function language()
 	if(lang=="el" || lang=="gr")
 	{
 		jQuery.ajax({
-		url: "http://83.212.100.142/finders_files/nhmc_translations/"+lang_file.replace("#", "")+".json",
+		url: "http://greenlearningnetwork.org/finders_files/nhmc_translations/"+lang_file.replace("#", "")+".json",
 		dataType: 'json',
 		/* jsonp: 'callback', */
 		/* jsonpCallback: 'jsonCallback', */

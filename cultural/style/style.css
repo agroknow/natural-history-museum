@@ -116,6 +116,29 @@ body:before {
 	font-size: 1.1em;
 }
 
+/*LINK TO GENERAL CULTURAL*/
+.link_to_general_finder
+{
+	border-bottom:2px solid #8A9658;
+	text-align:center;
+	width:65%;
+	margin:30px auto;
+	font-size: 1.2em;
+}
+
+.link_to_general_finder a
+{
+	font-size: 1.2em;
+	text-decoration: none;
+	color:#8A9658;
+}
+
+.link_to_general_finder a:hover
+{
+	color:#8B390F;
+}
+
+
 
 /* FOOTER */
 footer#mainfooter
