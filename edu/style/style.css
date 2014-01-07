@@ -4,7 +4,7 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
-	
+
 a { color:#124e62; text-decoration:none; outline:none; }
 a:hover  { text-decoration:none; color:#8a9658; }
 a.secondary { color:#8a9658; }
@@ -51,12 +51,12 @@ h3 {
 
 /* STICK FOOTER */
 html, body {height: 100%; }
-#wrap 
+#wrap
 {
-	width:970px; 
-	background:#f2f3e9; 
-	min-height: 100%; 
-	margin:12px auto; 
+	width:970px;
+	background:#f2f3e9;
+	min-height: 100%;
+	margin:12px auto;
 	border:solid white 4px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -117,7 +117,7 @@ body:before {
 }
 
 /*LINK TO GENERAL CULTURAL*/
- 
+
 .link_to_general_finder
 {
 	text-align:center;
@@ -185,8 +185,13 @@ nav.credits a.naturalEurope
 nav.credits a.curated {
 	background:url(images/combo.png) 50% 133% no-repeat;
 }
+/*
 nav.credits a.redpanda {
 	background:url(images/redpanda_logo.png) 50% 113% no-repeat;
+}
+*/
+nav.credits a.powered {
+	background:url(images/powered_by_gln.png) 50% 113% no-repeat;
 }
 
 
@@ -220,7 +225,7 @@ header#mainheader {
 	min-height:100px;
     background-color:#e1e5cc;
 }
-.top-menu { 
+.top-menu {
 	height:2px;
 	line-height:49px;
 	background:none;
@@ -241,7 +246,7 @@ header#mainheader {
 	font-size:10px;
 	font-weight:bold;
 	text-transform:uppercase;
-	
+
 }
 .top-menu .select2-container .select2-choice {
 	color:#fff;
@@ -346,9 +351,9 @@ header#mainheader {
 .moduletable_mainsearch
 {
     padding-top:50px;
-    
 
-    
+
+
 }
 .moduletable_mainsearch form {
 	/*position:relative;*/
@@ -402,7 +407,7 @@ header#mainheader {
 .moduletable_extendedsearch .radioline label {
 	float:left;
 	margin-right:15px;
-	
+
 }
 .moduletable_extendedsearch .radioline label .styledRadio {
 	float:left;
@@ -673,7 +678,7 @@ nav #jMenu li ul li a:hover {
 	color:#666666;
 	padding:0 9px 0 21px;
     /*border-bottom:2px solid #8b390f;*/
-    
+
 }
 
 #search_terms
@@ -750,7 +755,7 @@ li.slider_page_listitem > a {
 	float:left;
 	display:block;
 	border:2px solid #fff;
-    
+
 }
 
 li.slider_page_listitem > div {
@@ -795,7 +800,7 @@ li.slider_page_listitem > div .info > a {
 	border:4px solid #fff;
 	margin-bottom:23px;
     color:#8c9a45;
-    
+
 
 }
 .slider_page_singleitem h2 {
@@ -933,9 +938,9 @@ body.innerpage #main {
 .filter_parent {
 	line-height:35px;
 	border-top:2px solid #cad4a4;
-    
 
-    
+
+
 }
 .filter_parent:hover {
 	background-color:#cad0a9;
@@ -944,7 +949,7 @@ body.innerpage #main {
 	background-color:#cad0a9;
 	background-position:93% -22px;
     background: url(images/arrow_right_red.png) left center no-repeat;
-    
+
 }
 .filter_parent span {
 	margin-left:20px;
@@ -1026,14 +1031,14 @@ color:#8b390f;
 
 	background-color:#8b390f;
     border:1px solid #6a2908;
-   
+
 }
 
 .remove_filters {
 	text-align:right;
 	height:18px;
 	text-transform:uppercase;
-   
+
 }
 .remove_filters a {
 	margin-right:9px;
@@ -1362,12 +1367,12 @@ a.setrightbottom {
 #approved img
 {
 	width:70px;
-	float:left;	
+	float:left;
 }
 #approved p
 {
 	padding-top: 20px;
-	float:left;	
+	float:left;
 }
 
 
@@ -1491,7 +1496,7 @@ a.grflag {
     padding: 0px;
     margin:0px 20px;
     height:120px;
-    
+
     border: solid 1px #CCC;
 	-moz-box-shadow: 2px 2px 0px #999;
 	-webkit-box-shadow: 2px 2px 0px #999;
@@ -1530,7 +1535,7 @@ h2.centerheader{
 {
     padding:0px;
     margin:0px;
-    background-color:#e4e6d4;    
+    background-color:#e4e6d4;
 }
 
 h2.centerheader span {
@@ -1596,8 +1601,8 @@ h2.centerheader span {
 	color:#8c9a45;
 	font-weight:100;
 	margin:0px 37px;
-    white-space:wrap; 
-    
+    white-space:wrap;
+
 }
 
 .items div a:hover{color:#8b390f;}
@@ -1726,7 +1731,7 @@ a.disabled {
 	background:none;
     font-size:13px;
     border-right:1px solid #ccc;
-    
+
 }
 
 .cleanList

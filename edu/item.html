@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="style/layerslider.css" />
         <link rel="stylesheet" href="style/jquery.jscrollpane.css" />
         <link rel="stylesheet" href="style/style.css" />
-		
+
 		<!--languages scripts -->
         	<script src="js/language.js"></script>
         <!-- /languages scripts -->
@@ -41,11 +41,11 @@
         <script type="text/javascript">
             function getItem()
             {
-            	var lang = "en"; 
+            	var lang = "en";
             	if(getUrlVars()["lang"]!=undefined)
             	{
 	            	lang=getUrlVars()["lang"];
-            	} 
+            	}
 /*             	getItemJSONP('http://83.212.96.219:8080/akifRetriever/getAKIF?ids='+location.search.split("=")[1], lang); */
                 getItemJSONP('http://54.228.180.124:8080/akifRetriever/getAKIF?ids='+location.search.split("=")[1], lang);
             }
@@ -71,14 +71,14 @@
 				<div class="main_search_block inner clearfix">
 					<a href="index.html" class="logo">Natural History Museum of Crete</a>
 				</div>
-								
+
 				<!-- Language     -->
-				 <div class="languages_block">               
+				 <div class="languages_block">
 					 <a href="javascript:;" onclick="changeLanguage('en')"><img src="style/images/flag_en.jpg" ></a>
 					 <a href="javascript:;" onclick="changeLanguage('el')"><img src="style/images/flag_gr.png" ></a>
 				 </div>
 				<!-- / Language -->
-				
+
             </header>
             <nav class="white">
                 <ul id="mega-menu-1" class="mega-menu">
@@ -197,8 +197,8 @@
                                             <img src="images/approved.png"/>
                                             <p id="validator"></p>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="floatright"><a href="mailto:info@agroknow.gr?Subject=Green%20Learning%20Network" class="reportaproblem  secondary" data_translation="report_a_problem">Report a problem</a></div>
                                         <div class="floatright" style="margin-right: 15px;" id="itemAccess"></div>
                                     </div>
@@ -210,15 +210,15 @@
                     </div>
                 </div>
             </section>
-            
+
             <footer id="mainfooter">
 				<div class="inner">
 					<nav class="clearfix credits">
 						<a href="http://www.nhmc.uoc.gr" target="_blank" class="curated">A data pool curated and maintained by</a>
-						<a href="http://www.redpanda.gr" target="_blank" class="redpanda">Designed by</a>
+						<a href="http://www.greenlearningnetwork.com" target="_blank" class="powered">Powered by</a>
 	                    <a href="http://www.natural-europe.eu" target="_blank" class="naturalEurope">with partial EU funding support from</a>
 					</nav>
-					
+
 				</div>
 			</footer>
 
@@ -238,7 +238,7 @@
              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
              })();
             </script>
-        
+
         <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
         <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
         <!-- include Select2 plugin -->
@@ -278,27 +278,27 @@
                     width: 12,
                     height: 14
                 });
-				
+
                 $(".selectline select").select2({
                     minimumResultsForSearch:100,
                     dropdownCssClass:"simple"
                 })
-				
+
                 $("#jMenu").jMenu();
-				
+
                 $('#layerslider').layerSlider({
                     navPrevNext : false,
                     navStartStop : false,
                     skin : 'lightskin',
                     skinsPath : 'style/skins/'
                 });
-				
+
                 $('.is_slider').each(function() {
                     var $navWrap = $('<div class="slider-navigation clearfix"></div>');
                     var $navPrev = $('<a href="#" class="slider-prev">Prev</a>');
                     $navWrap.append($navPrev);
                     var $navPager = $('<div class="pager"></div>');
-                    $navWrap.append($navPager); 
+                    $navWrap.append($navPager);
                     var $navNext = $('<a href="#" class="slider-next">Next</a>');
                     $navWrap.append($navNext);
                     $navWrap.insertBefore(this);
@@ -309,9 +309,9 @@
                         next:$navNext,
                         pager:$navPager
                     });
-					
+
                 });
-				
+
                 $(".search_filter input[type=text]").placeholder();
                 $('.filter_parent').each(function() {
                     if($(this).hasClass("opened")) $(this).next().css("display","block");
@@ -321,25 +321,25 @@
                     $(this).toggleClass("opened");
                     $(this).next().slideToggle("slow");
                 });
-				
+
                 $(".sorting select").select2({
                     minimumResultsForSearch:100,
                     dropdownCssClass:"simple"
                 })
-				
+
                 //$('.item-intro > h2').next().css("display","none");
                 //$('.item-intro > h2 > span').click(function(event){
                 //	event.preventDefault();
                 //	$(this).parent().next().slideToggle("slow");
                 //});
-				
+
                 function setface(state) {
                     var t = "human";
                     if (!state.id) return state.text; // optgroup
                     if (typeof state.element.attr === "function") { t = state.element.attr("class"); }
                     else t = state.css;
                     if (typeof t === "undefined") t = "human";
-					
+
                     return "<img class='face' alt='face' src='style/images/" + t + ".png'/>" + state.text;
                 }
                 $(".item-intro select").select2({
@@ -348,10 +348,10 @@
                     formatResult: setface,
                     formatSelection: setface
                 })
-				
+
                 $(".hasscroll").jScrollPane();
-				
-                
+
+
             });
         </script>
 
