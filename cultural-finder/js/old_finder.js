@@ -1,10 +1,10 @@
 /*
  * Copyright ARIADNE Foundation
- * 
+ *
  * The Finder can be customised by providing a javascript function 'customizeFinder()'
  * that returns an object with parameters. See example below.
  * The parameters that can be specifies are:
- * 
+ *
  * externalSources: an Array. Default is ["eur","wp","scr","ss","gb"]
  * 		eur: Europeana
  * 		wp: Wikipedia
@@ -24,8 +24,8 @@
  * pageSize: Default is 10
  * repositoryName: Default is "ARIADNE"
  * serviceUrl: the URL of the repository services. Default is "http://ariadne.cs.kuleuven.be/GlobeFinderF1/servlet/search"
- * 
- * 
+ *
+ *
 function customizeFinder() {
 	return {
 		"repositoryName": "AgLR",
@@ -33,7 +33,7 @@ function customizeFinder() {
 		"facets":["provider","lrt","language","context"]
 	}
 }
- * All global variables are now capitalised. 
+ * All global variables are now capitalised.
  * All local variables should be declared with a 'var' in the respective function, and should not be capitalised.
  */
 var SERVICE_URL = 'http://ariadne.cs.kuleuven.be/GlobeFinderF1/servlet/search';
@@ -94,7 +94,7 @@ langName['de']= 'German';
 langName['tr']= 'Turkish';
 
 
-google.load("language", "1"); 
+google.load("language", "1");
 
 Event.observe(window, 'load', function() {
 	initialSearch();
@@ -106,18 +106,18 @@ function initialSearch(){
 	var parms = qs.toQueryParams();
 	if(parms.query != undefined && parms.query != ''){
 		$('query').value = parms.query;
-	} 
+	}
 	if($F('query').blank()){
 		resetFacets();
 		findMaterials(0,PAGE_SIZE,true,true);
 	} else {
 		doSearch();
-	}	
+	}
 }
 
 function initializeFinder(){
 	if (!FINDER_INITIALIZED) {
-		if(typeof customizeFinder == 'function') { 
+		if(typeof customizeFinder == 'function') {
 			var customParams = customizeFinder();
 			if(customParams) {
 				if (customParams.serviceUrl) SERVICE_URL = customParams.serviceUrl;
@@ -140,7 +140,7 @@ function initializeFinder(){
 					}
 				}
 				if (customParams.externalSources) EXT_SOURCES = customParams.externalSources;
-			}		
+			}
 		}
 		if (PAGE_CONTAINERS.indexOf('pagination_top')>=0) {
 			if (!$('insert_pagination_top')) {
@@ -166,8 +166,8 @@ function initializeFinder(){
 		div.push('<DIV id="facets">');
 		for (var i=0;i<FACET_TOKENS.length;i++){
 			var fn = FACET_TOKENS[i];
-			
-                        
+
+
                         div.push('<DIV id="rb_'+fn+'" class="rbSection">');
 			div.push('<DIV class="rbHeader"><SPAN id="'+fn+'" class="ws_label" onclick="toggleFacet(\'rb_'+fn+'\'); return false;"><SPAN class="ico"></SPAN>'+FACET_LABELS[fn]+'</SPAN></DIV>');
 			div.push('<DIV class="rbsrbo"><ul id="'+fn+'_rbo" class="rbList"></ul>');
@@ -217,9 +217,9 @@ function initializeFinder(){
 		PAGE.render();
 		PAGE.subscribe('changeRequest',handlePagination);
 		pagination_hide();
-              
+
 		FINDER_INITIALIZED = true;
-	}	
+	}
 }
 
 function toggleFacet(el){
@@ -274,7 +274,7 @@ function searchExternalSource(prefix){
 	var request = {clause: clauses,
 	    resultFormat:'json'
 	};
-	
+
 	new Ajax.JSONRequest(EXT_SOURCE_URL, {
 		callbackParamName: "callback",
 		method: 'get',
@@ -300,7 +300,7 @@ function doSearch(){
 	 return;
   }
   $('searchMessage').hide();
-  
+
   //showFacets();
   resetFacets();
   findMaterials(0,PAGE_SIZE,true,false);
@@ -363,7 +363,7 @@ function formatInteger(number, com) {
 
 function findMaterials(start,numberResults,needsUpdate,initUpdate){
 	var selectedFacets = $('facets').select('li.facet-selected');
-	
+
 	var facetExpressions = $H();
 	selectedFacets.each(function(item,index){
 		var pos = item.id.indexOf(':');
@@ -372,20 +372,20 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
 		facetValue = facetValue.replace(/\"/g,"'");
 		facetExpressions.set(facet,(facetExpressions.get(facet) == undefined) ? facetValue : facetExpressions.get(facet) + "," + facetValue);
 	});
-	
+
 	var clauses = parseQueryString(initUpdate);
-	
+
 	facetExpressions.each(function(pair) {
 		clauses.push({language:'anyOfFacet',expression:pair.key + ":" + pair.value});
-		
+
 	});
 	FACET_INCLUDES.each(function(exp) {
 		clauses.push({language:'anyOfFacet',expression:exp});
-		
+
 	});
 
        // alert(JSON.stringify(clauses));
-        
+
 	var request = {
 		clause: clauses,
 	    resultInfo:'display',
@@ -398,16 +398,16 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
 		resultFormat:'json',
 		resultSortkey:''
 	};
-	
+
       //  alert(JSON.stringify(request));
 
 
 	if(!$F('query').blank())
 		$('search_terms').update($F('query'));
-	
+
 	$('search_status').update('Searching...');
 	$('noResults').hide();
-	
+
 	new Ajax.JSONRequest(SERVICE_URL, {
 		callbackParamName: "callback",
 		method: 'get',
@@ -419,12 +419,12 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
 			var result = transport.responseText.evalJSON(true).result;
 
                         //alert(JSON.stringify(result));
-			
+
                         $('search_results').update('');
 			$('noResults').hide();
-			
+
 			$('search_status').update('Processing time: ' + (result.processingTime/1000).toFixed(3) + ' seconds');
-			
+
 			if(initUpdate) {
 				$('searchMessage').insert('<h3 align="center">Available: '+formatInteger(result.nrOfResults,',')+' learning resources</h3>');
 			} else {
@@ -438,13 +438,13 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
 				  if(item.keywords == undefined || item.keywords == '')
 					$('search_results').insert(Jaml.render('resultwithoutkeywords',item));
 				  else {
-                                      
+
 					  try {item.keywords = item.keywords.split("&#044; ");} catch(e) {}
-                                        
+
                                                 var spt = item.title.split(",",1);
                                                  item.title = spt[0];
                                                 var length = spt[0].length;
-                                                
+
                                                 if (item.title[0] == '[')
                                                       item.title = item.title.substring(1,length);
                                                else
@@ -459,7 +459,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                                else
                                                     item.description =item.description.substring(0,length);
 
-                                     
+
                                     /*
                                         spt = item.metaMetadataId.split(",");
                                         item.metaMetadataId=spt[1];
@@ -470,7 +470,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                         //length = spt[1].length;
                                         //item.metaMetadataId = item.metaMetadataId.substring(1,length);
                                         //alert(item.metaMetadataId);
-                                    
+
 
                                        if (item.format.indexOf('pdf') != -1)
                                         item.format='pdf';
@@ -504,9 +504,9 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
                                                 iter++;
 				  }
 				});
-				
+
 				$('search_results_index').show();
-				
+
 				var finalNumberResults = ((start + numberResults) < result.nrOfResults)?(start + numberResults):result.nrOfResults;
 				if(result.nrOfResults > 0) {
 					$('search_results_index').update(' (#{start} - #{end} of #{total})'.interpolate({start: formatInteger(start + 1,THOUSAND_SEP), end: formatInteger(finalNumberResults,THOUSAND_SEP), total: formatInteger(result.nrOfResults,THOUSAND_SEP)}));
@@ -526,10 +526,10 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
 
                                  });
 */
-				
+
 			}
-			
-			
+
+
 			/*if(!keyword.blank()){
 			 $('keywords_filter').show();
              $('kwv').update(keyword);
@@ -537,7 +537,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
 			else{
 			 $('keywords_filter').hide();
 			}*/
-			
+
 			if(needsUpdate){
 			 updatePaginator(result.nrOfResults);
 			 result.facets.each(function(item,index){
@@ -557,7 +557,7 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
 			      item.numbers.each(function(it2,idx2){
 			    	  if (facetHasNoLimit || limitValues.indexOf(it2.val) >= 0) {
 
-                                                        
+
                                                             it2.field = fld;
 
 							it2.val=it2.val.replace(/\'/g, "&#34;");
@@ -565,28 +565,28 @@ function findMaterials(start,numberResults,needsUpdate,initUpdate){
 //element.insert(Jaml.render('rbcriteria',it2));
                                          if (fld!= "language")
                                                         element.insert(Jaml.render('rbcriteria',it2));
-                                                        
+
                                                     else
                                          // check first if langName[it2.val] exists already in rbList
-                                                   { 
+                                                   {
                                                    checkLang(it2.val,it2.count);
 
                                                    if (CHECK==0)
                                                       element.insert(Jaml.render('rbcriteria2',it2));
-                                                             
-                                                    } 
+
+                                                    }
 			    	  }
 			      });
 			    }
 			  }
 			 });
 
-                         
+
 
 
 			 selectedFacets.each(function(item,index){
 			    $(item.id).addClassName('facet-selected');
-			  
+
 			  });
 			}
 			 //webSnapr.init();
@@ -608,7 +608,7 @@ function checkLang(name,counter){
 
 CHECK=0;
 $$('#language_rbo li').each(function(item) {
-    
+
    //  alert(item.innerHTML);
 
  var pos = item.id.indexOf(':');
@@ -625,25 +625,25 @@ $$('#language_rbo li').each(function(item) {
 
          count=count.replace("," ,"");
          var num = count*1;
-        
+
         num = Number(num) + Number(counter);
         num = formatInteger(num,THOUSAND_SEP);
-                     
+
                      item.update(item.innerHTML.substring(0,pos+4) + '(#{count})'.interpolate({count: num}));
                         CHECK=1;
-                        
+
                         return;
      }
-             
+
 });
 
 
 
 
 /*var names = $('language_rbo').select('ul.rbList');
-               
+
                names.each(function(item){
-                
+
                 //var pos = item.id.indexOf(':');
 		var facet = item.id;
                 //.substring(0,pos);
@@ -668,7 +668,7 @@ function loadTranslator() {
 
   $('script-translator').childElements().each(function(el){el.remove();});
   $('script-translator').appendChild(script);
-  
+
   if(google.translate) {
 	new google.translate.SectionalElement({
 	sectionalNodeClassName: 'lodescription',
@@ -676,7 +676,7 @@ function loadTranslator() {
 	background: '#ffffcc'
 	}, 'google_sectional_element');
   }
-  
+
   $$('.lodescription').each(function(data){
 	var toTranslate = data.innerHTML.stripScripts().unescapeHTML().replace(/[\n\r\s]+/g, ' ').replace('Translate','');
 	google.language.detect(toTranslate,function(result){
@@ -684,12 +684,12 @@ function loadTranslator() {
 			if(result.language == 'en') {
 				data.descendants()[0].hide();
 			}
-			
+
 		}
 	});
   });
-  
-  
+
+
 }
 
 
@@ -740,17 +740,17 @@ function initializeJamlTemplates(){
 Jaml.render('first_title',function(data){
     a({href:data.location,title: data.title, target: '_blank'},data.title)
 }); */
-  
+
  Jaml.register('result', function(data){
     div({cls:'row'},
-	           
+
           div({cls:'lotitle'},
 	    a({href:data.location,title: data.title, target: '_blank'},data.title)
            // Jaml.render('first_title',data.title)
         )   ,
 
           div({cls:'thumb'},
-           
+
          //  Jaml.render('thumb_pres',data),
             div({cls:'lodescription'},
 			div({cls:'control'}),
@@ -760,7 +760,7 @@ Jaml.render('first_title',function(data){
 	  )
 
               ,
-              
+
         div({cls:'moremeta'}, p(),span({cls:'heading'},'more info'),
             div({cls:'metacontent'},
             'Identifier: ', a({href:data.identifier,title: data.identifier, target: '_blank'},data.identifier), br(),
@@ -770,13 +770,13 @@ Jaml.render('first_title',function(data){
                       span({cls:'bold'},'Keywords: '),
                       Jaml.render('keyword',data.keywords)
                     ), br()
-              //,a({href:"http://83.212.96.169:8080/repository2/services/oai?verb=GetRecord&metadataPrefix=oai_lom&identifier="+data.metaMetadataId, title: "View all meta", target: '_blank'},"View all meta"), br()
+              //,a({href:"http://54.228.180.124:8080/repository2/services/oai?verb=GetRecord&metadataPrefix=oai_lom&identifier="+data.metaMetadataId, title: "View all meta", target: '_blank'},"View all meta"), br()
 
         )
     )
-	);           
+	);
   });
-  
+
   Jaml.register('resultwithoutkeywords', function(data) {
     div({cls:'row'},
 	  div({cls:'lotitle'},
@@ -784,12 +784,12 @@ Jaml.render('first_title',function(data){
 	  div({cls:'snip'},
 	    div({cls:'lodescription'},
 			div({cls:'control'}),
-			removeHtmlTags(addEndingDescription(data.description)))		
+			removeHtmlTags(addEndingDescription(data.description)))
 	  )
 	);
   });
 
- 
+
  Jaml.register('rbcriteria', function(data)
  {
 
@@ -798,7 +798,7 @@ Jaml.render('first_title',function(data){
 a({href:'javascript:void(0);',title: data.val,onclick: "toggleFacetValue('#{id}','#{parent}')".interpolate({id: data.field + ':' + data.val,parent: data.field})},
 		  data.val),
 	  '(#{count})'.interpolate({count: data.count})
-		 ); 
+		 );
   });
 
 
@@ -813,7 +813,7 @@ a({href:'javascript:void(0);',title: data.val,onclick: "toggleFacetValue('#{id}'
 
 
   for (var i=0;i<EXT_SOURCES.length;i++){
-	  
+
 	  Jaml.register(EXT_SOURCES[i]+'_field', function(data) {
 	      a({href: data.apiurl, title: data.title, target: '_blank'},
 		   "<br>(" + formatInteger(data.nrOfResults,THOUSAND_SEP) + " results)"
@@ -826,11 +826,11 @@ a({href:'javascript:void(0);',title: data.val,onclick: "toggleFacetValue('#{id}'
 function expand(){
 
   jQuery(document).ready(function() {
- 
+
  jQuery('.metacontent').hide();
  jQuery('.heading').click(function()
 // jQuery('#'+id).click(function()
-  {   
+  {
    jQuery(this).next('.metacontent').slideToggle(500);
   //  jQuery(this).next("#"+id).slideToggle(500);
   exit();
@@ -856,7 +856,7 @@ function handlePagination(newState){
       findMaterials(newState.recordOffset,newState.rowsPerPage,false,false);
 	  // Update the Paginator's state
       PAGE.setState(newState);
-	  
+
 }
 
 function selectParent(parent){
@@ -868,7 +868,7 @@ function selectParent(parent){
 			childSelected = true;
 		}
 	});
-	
+
 	if(!childSelected)
 		$(parent).removeClassName('parent-selected');
 }
@@ -889,7 +889,7 @@ function html_entity_decode(str) {
 
 function fullLangName(iso)
 {
-   
+
    var fullName = "";
 
     if (iso == "en")
